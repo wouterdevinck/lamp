@@ -1,0 +1,12 @@
+version: '3'
+services:
+  mcu:
+    build:
+      context: .
+      dockerfile: Dockerfile-mcu
+    image: wouterdevinck/lamp-buildenv-mcu
+  fpga:
+    build:
+      context: .
+      dockerfile: Dockerfile-fpga
+    image: wouterdevinck/lamp-buildenv-fpga

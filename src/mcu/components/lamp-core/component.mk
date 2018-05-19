@@ -1,0 +1,2 @@
+COMPONENT_ADD_INCLUDEDIRS := ../../core
+COMPONENT_SRCDIRS := ../../core

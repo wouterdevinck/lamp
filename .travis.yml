@@ -1,0 +1,19 @@
+sudo: false
+language: bash
+services:
+  - docker
+os:
+  - linux
+script:
+  - make
+deploy:
+  provider: releases
+  api_key:
+    secure: GZ0x6DvKDX89P/U7d3OQbvm0ZTU7SjgsY8gLyh6idr60hz+R1qxgo8jn2kGuvKMYdq5OBtNz5fygEM7jjJIxbXGXbD+KFz7ynj8anXKIUi+LINUhIP7vtx0dm8ETKVwi+AUVTyAijlbbzYM0YbuM4na0D2wDPB2Am53R/bOccOJn4H1DEhHHXEX8NmrwP9ke7yikkdnCGG6+E/9R5X7YBt5xEueUd57na3ioM5N20r7f4kIePF/o5OmGcADUYvvig8H55oNZEYtKrnO+/+R6pBAzYCRrIF8dsm2m8QH/fihlryHJexdGtyw1UtvKD8V5d6+gllcR09uSoGZp/eyC25gX/bGP7uruqn/cWOm0l5hRXSb4q+M8zDFJPDvYLYRlTidBfKvwRAO206ExeWFvBzTtvxKvpQozt1nUv04Rg6EKalJNfCQqPryKMdrN4RDa/5z5MuVL5eisrIA9g31q++nj49Kf4SNxxYMaILZQxuYly5uR3SzDOWzONpOn9Pl8nGdF4/qOnxYRI+vD11nPc/bcVwdji/xO0hfWRO+46J9+QVC722+QvgWeeKQ/pwLU9UjuzYvlK1mA5dkcTcN1h4r+LPKs7ADlGX0F6f5Q3qU2qQsh933mcaFFyfxzLleta02vDXk2ge7FdnSQVXSDtzjBAf1/3QUvE0xfZ5PoNP0=
+  file:
+    - "out/factory/bootloader.bin"
+    - "out/factory/partitions.bin"
+    - "out/factory/lamp.bin"
+  skip_cleanup: true
+  on:
+    tags: true

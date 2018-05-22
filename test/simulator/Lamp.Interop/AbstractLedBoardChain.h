@@ -28,13 +28,32 @@ namespace LampInterop {
 
 	};
 
+	public ref struct KeyFrameWrapper {
+
+		KeyFrameWrapper(KeyFrame value) {
+			Duration = TimeSpan::FromMilliseconds((Double)value.duration.count());
+			Type = value.type;
+			vector<LedValue>::iterator itr;
+			Frame = gcnew List<LedValueWrapper^>();
+			for (itr = value.frame.begin(); itr != value.frame.end(); itr++) {
+				auto wrapper = gcnew LedValueWrapper(*itr);
+				Frame->Add(wrapper);
+			}
+		}
+
+		property TimeSpan^ Duration;
+		property AnimationType Type;
+		property List<LedValueWrapper^>^ Frame;
+
+	};
+
 	public class NativeLedBoardChain : public ILedBoardChain {
 
 	public:
 		NativeLedBoardChain(AbstractLedBoardChain ^owner) : m_owner(owner) {}
 
 	protected:
-		void addKeyframe(milliseconds duration, vector<LedValue> keyframe) override;
+		void addKeyframe(KeyFrame keyframe) override;
 
 	private:
 		gcroot<AbstractLedBoardChain^> m_owner;
@@ -58,18 +77,13 @@ namespace LampInterop {
 		ILedBoardChain* Native() { return pUnmanaged; }
 
 	protected:
-		virtual void AddKeyframe(Int64 milliseconds, List<LedValueWrapper^>^ keyframe) = 0;
+		virtual void AddKeyframe(KeyFrameWrapper^ keyframe) = 0;
 
 	internal:
-		void CallAddKeyframe(milliseconds duration, vector<LedValue> keyframe) {
-			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractRgbLedChain");
-			vector<LedValue>::iterator itr;
-			List<LedValueWrapper^>^ list = gcnew List<LedValueWrapper^>();
-			for (itr = keyframe.begin(); itr != keyframe.end(); itr++) {
-				auto wrapper = gcnew LedValueWrapper(*itr);
-				list->Add(wrapper);
-			}
-			AddKeyframe(duration.count(), list);
+		void CallAddKeyframe(KeyFrame keyframe) {
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
+			auto wrapper = gcnew KeyFrameWrapper(keyframe);
+			AddKeyframe(wrapper);
 		}
 
 	};

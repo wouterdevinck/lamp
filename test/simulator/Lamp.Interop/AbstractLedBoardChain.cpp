@@ -5,6 +5,6 @@ using namespace LampInterop;
 using namespace lamp;
 using namespace std;
 
-void NativeLedBoardChain::addKeyframe(milliseconds duration, vector<LedValue> keyframe) {
-	return m_owner->CallAddKeyframe(duration, keyframe);
+void NativeLedBoardChain::addKeyframe(KeyFrame keyframe) {
+	return m_owner->CallAddKeyframe(keyframe);
 }

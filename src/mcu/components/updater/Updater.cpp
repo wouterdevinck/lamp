@@ -1,5 +1,5 @@
 #include "Updater.h"
-#include "fpga_version.h"
+#include "version.h"
 #include "esp_log.h"
 #include <iomanip>
 #include <sstream>
@@ -13,6 +13,7 @@ Updater::Updater() {
 
   // TEMP TEST
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
+  ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);
   ostringstream dbg;
   dbg << endl;
   for (int i = 0; i < fpga_image_end - fpga_image_start; ++i) {

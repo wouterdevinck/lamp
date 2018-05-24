@@ -1,20 +1,47 @@
 #!/bin/bash
-
-# TODO get from arguments and check
-TOKEN=xx
-VERSION=0.1.0-5-g9675350
+set -e
 
 BASEURL=https://ci.appveyor.com/api
 PROJECT=wouterdevinck/lamp
 ARTIFACTSRC=test%2Fsimulator%2FLamp.Simulator%2Fbin%2Fsimulator.zip
-ARTIFACT=simulator.zip
+ARTIFACTDIR=out/simulator
+ARTIFACT=$ARTIFACTDIR/simulator.zip
 
-# TODO: while null (with timeout?), then check for success or fail 
+if [ "$#" -ne 2 ]; then
+    echo "Usage: ./get-simulator-from-appveyor.sh <token> <version>"
+    exit 2
+fi
 
-RESPONSE=`curl -H "Authorization: Bearer $TOKEN" -H "Accept: application/json" -X GET $BASEURL/projects/$PROJECT/build/$VERSION`
+TOKEN=$1
+VERSION=$2
 
-echo $RESPONSE | jq -r .build.status
+i="0"
+STATUS="null"
 
-echo $RESPONSE | jq -r .build.jobs[0].jobId`
+while [[ $i -lt 300 && "$STATUS" = "null" ]]
+do
+  echo "[INFO] AppVeyor: checking build status"
+  RESPONSE=`curl -s -H "Authorization: Bearer $TOKEN" \
+   -H "Accept: application/json" \
+   -X GET $BASEURL/projects/$PROJECT/build/$VERSION`
+  STATUS=`echo $RESPONSE | jq -r .build.status`
+  i=$[$i+1]
+  sleep 1s
+done
 
-wget $BASEURL/buildjobs/$JOBID/artifacts/$ARTIFACTSRC -O $ARTIFACT
+if [ "$STATUS" = "null" ]
+then
+  echo "[ERROR] AppVeyor: timeout!"
+  exit 2
+fi
+
+if [ "$STATUS" = "success" ]
+then
+  JOBID=`echo $RESPONSE | jq -r .build.jobs[0].jobId`
+  echo "[INFO] AppVeyor: downloading artifacts"
+  mkdir -p $ARTIFACTDIR
+  wget $BASEURL/buildjobs/$JOBID/artifacts/$ARTIFACTSRC -O $ARTIFACT
+else
+  echo "[ERROR] AppVeyor: build failed"
+  exit 2
+fi

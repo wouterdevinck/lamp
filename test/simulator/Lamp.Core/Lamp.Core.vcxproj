@@ -112,15 +112,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\mcu\core\ILedBoardChain.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\HttpHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IHttpHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IHttpServer.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\IHttpClient.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IRgbLed.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IUpdater.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\HttpHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\UpgradeManager.h" />
     <ClInclude Include="..\..\..\src\mcu\core\Lamp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\mcu\core\HttpHandler.cpp" />
+    <ClCompile Include="..\..\..\src\mcu\core\UpgradeManager.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\Lamp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

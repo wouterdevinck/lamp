@@ -59,7 +59,7 @@ namespace LampInterop {
 
 	internal:
 		void CallSetLedColor(RgbLedColor color) {
-			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractRgbLedChain");
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractRgbLed");
 			auto wrapper = gcnew RgbLedColorWrapper(color);
 			SetLedColor(wrapper);
 		}

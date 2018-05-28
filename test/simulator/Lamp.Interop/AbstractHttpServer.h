@@ -46,9 +46,10 @@ namespace LampInterop {
 		virtual void Stop() = 0;
 
 	internal:
-		void CallStart(int port, HttpHandlerWrapper^ handler) {
+		void CallStart(int port, IHttpHandler* handler) {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractHttpServer");
-			Start(port, handler);
+			auto h = gcnew HttpHandlerWrapper(handler);
+			Start(port, h);
 		}
 		void CallStop() {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractHttpServer");

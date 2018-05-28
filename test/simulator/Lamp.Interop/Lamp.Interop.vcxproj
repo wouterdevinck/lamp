@@ -138,16 +138,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractHttpClient.h" />
     <ClInclude Include="AbstractLedBoardChain.h" />
     <ClInclude Include="AbstractUpdater.h" />
     <ClInclude Include="HttpHandlerWrapper.h" />
     <ClInclude Include="AbstractHttpServer.h" />
     <ClInclude Include="AbstractRgbLed.h" />
     <ClInclude Include="LampWrapper.h" />
+    <ClInclude Include="MarshalHelper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractHttpClient.cpp" />
     <ClCompile Include="AbstractLedBoardChain.cpp" />
     <ClCompile Include="AbstractUpdater.cpp" />
     <ClCompile Include="HttpHandlerWrapper.cpp" />
@@ -155,6 +158,7 @@
     <ClCompile Include="AbstractRgbLed.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="LampWrapper.cpp" />
+    <ClCompile Include="MarshalHelper.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

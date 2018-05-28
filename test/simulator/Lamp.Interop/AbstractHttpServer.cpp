@@ -4,8 +4,7 @@
 using namespace LampInterop;
 
 void NativeHttpServer::start(int port, IHttpHandler* handler) {
-	auto h = gcnew HttpHandlerWrapper(handler);
-	return m_owner->CallStart(port, h);
+	return m_owner->CallStart(port, handler);
 }
 
 void NativeHttpServer::stop() {

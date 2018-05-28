@@ -1,12 +1,10 @@
 #pragma once
 
-#include <gcroot.h>
-#include <msclr\marshal_cppstd.h>
 #include "IHttpHandler.h"
+#include "MarshalHelper.h"
 
 using namespace System;
 using namespace lamp;
-using namespace msclr::interop;
 
 namespace LampInterop {
 
@@ -28,9 +26,10 @@ namespace LampInterop {
 
 		String^ HandleHttpRequest(String^ method, String^ path) {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("HttpHandlerWrapper");
-			string m = marshal_as<string>(method);
-			string p = marshal_as<string>(path);
-			return gcnew String(pUnmanaged->handleHttpRequest(m, p).c_str());
+			string m = MarshalHelper::Convert(method);
+			string p = MarshalHelper::Convert(path);
+			string r = pUnmanaged->handleHttpRequest(m, p);
+			return MarshalHelper::Convert(r);
 		} 
 
 	};

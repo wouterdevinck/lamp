@@ -33,10 +33,9 @@ namespace LampInterop {
 		KeyFrameWrapper(KeyFrame value) {
 			Duration = TimeSpan::FromMilliseconds((Double)value.duration.count());
 			Type = value.type;
-			vector<LedValue>::iterator itr;
 			Frame = gcnew List<LedValueWrapper^>();
-			for (itr = value.frame.begin(); itr != value.frame.end(); itr++) {
-				auto wrapper = gcnew LedValueWrapper(*itr);
+			for (LedValue val : value.frame) {
+				auto wrapper = gcnew LedValueWrapper(val);
 				Frame->Add(wrapper);
 			}
 		}

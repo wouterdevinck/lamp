@@ -15,6 +15,14 @@ string HttpHandler::handleHttpRequest(string method, string path) {
       _led->setLedColor(color);
     }
   }
+  if (method == "POST") {
+    if (path == "/upgrade") {
+      _upgrade->upgrade("https://github.com/wouterdevinck/lamp/releases/download/0.2.0/lamp.bin"); // TODO get from form
+      return "Done";
+    } else {
+      return "Not Found";
+    }
+  }
   return "<!DOCTYPE html>"
     "<html>\n"
     "<head>\n"
@@ -26,6 +34,11 @@ string HttpHandler::handleHttpRequest(string method, string path) {
     "  <a href=\"/r\">RED</a>\n"
     "  <a href=\"/g\">GREEN</a>\n"
     "  <a href=\"/b\">BLUE</a>\n"
+    "  <h1>Upgrade</h1>\n"
+    "  <form action=\"upgrade\" method=\"POST\">\n"
+    "    <!--<input type=\"text\" name=\"url\"><br />-->\n"
+    "    <input type=\"submit\" value=\"Upgrade\">\n"
+    "  </form>\n"
     "</body>\n"
     "</html>\n";
 }

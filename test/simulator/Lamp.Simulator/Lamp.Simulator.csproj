@@ -55,7 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HttpClient.cs" />
     <Compile Include="HttpServer.cs" />
+    <Compile Include="HttpWebRequestExt.cs" />
     <Compile Include="LedArray.cs" />
     <Compile Include="RgbLed.cs" />
     <Compile Include="Updater.cs" />

@@ -13,11 +13,13 @@ void UpgradeManager::boot() const {
 }
 
 void UpgradeManager::upgrade(string url) const {
-  map<string, string> headers = { 
-    { "Range", "bytes=0-100" } 
-  };
-  const HttpRequest req {
-    "GET", url, headers
-  };
-  auto resp = _httpclient->request(req);
+  _updater->beginUpgrade(); // TODO check result
+
+  // TODO loop
+  auto headers = map<string, string>();
+  headers.insert({ "Range", "bytes=0-100" });
+  auto resp = _httpclient->request({ "GET", url, headers });
+  _updater->writeChunk(resp.body);
+
+  _updater->completeUpgrade(); // TODO check result
 }

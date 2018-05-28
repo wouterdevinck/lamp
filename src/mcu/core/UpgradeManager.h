@@ -3,9 +3,6 @@
 #include "IUpdater.h"
 #include "IHttpClient.h"
 
-// #include <cstdint>
-// #include <vector>
-
 namespace lamp {
 
   struct UpgradeManager {
@@ -20,8 +17,6 @@ namespace lamp {
     private:
       IUpdater* _updater;
       IHttpClient* _httpclient;
-
-      // vector<uint8_t> getChunk(string url);
 
   };
 

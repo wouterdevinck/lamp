@@ -3,10 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Lamp.Simulator"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Ellipse Width="50" Height="50" Fill="{Binding Brush}" x:Name="ellipse" />
+        Title="Lamp Simulator" Height="700" Width="1000">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" BorderBrush="Silver" BorderThickness="1" Margin="5">
+            <Ellipse Width="10" Height="10" Fill="{Binding Brush}" x:Name="ellipse" 
+                     HorizontalAlignment="Left" Margin="10" />
+        </Border>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" BorderBrush="Silver" BorderThickness="1" Margin="5">
+                <WebBrowser x:Name="browser" />
+            </Border>
+            <Border Grid.Column="1" BorderBrush="Silver" BorderThickness="1" Margin="5">
+                
+            </Border>
+        </Grid>
     </Grid>
 </Window>

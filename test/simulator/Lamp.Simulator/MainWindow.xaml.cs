@@ -2,7 +2,9 @@
 
 namespace Lamp.Simulator {
 
-    public partial class MainWindow { 
+    public partial class MainWindow {
+
+        private const int Port = 8282;
 
         public MainWindow() {
             InitializeComponent();
@@ -15,7 +17,9 @@ namespace Lamp.Simulator {
 
             var lamp = new LampWrapper(updater, httpserver, httpclient, led, leds); 
             
-            lamp.Start(8282);
+            lamp.Start(Port);
+
+            browser.Navigate("http://localhost:" + Port);
 
         }
 

@@ -126,6 +126,9 @@
     <ClCompile Include="..\..\..\src\mcu\core\UpgradeManager.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\Lamp.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\mcu\core\.editorconfig" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

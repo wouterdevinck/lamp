@@ -26,3 +26,36 @@ Updater::Updater() {
   ESP_LOGD(tag, "%s", dbg.str().c_str())
 
 }
+
+string Updater::getRunningVersion() {
+  return LAMP_VERSION;
+}
+
+string Updater::getRunningFpgaHash() {
+  // TODO
+  return "";
+}
+
+string Updater::getInstalledFpgaHash() {
+  return FPGA_HASH;
+}
+
+bool Updater::beginUpgrade() {
+  // TODO
+  return false;
+}
+
+bool Updater::writeChunk(vector<uint8_t> chunk) {
+  // TODO
+  return false;
+}
+
+bool Updater::completeUpgrade() {
+  // TODO
+  return false;
+}
+
+bool Updater::flashFpga() {
+  // TODO
+  return false;
+}

@@ -30,12 +30,12 @@ namespace lamp {
 
     private:
       IUpdater* _updater;
-	  IHttpServer* _httpserver;
-	  IHttpClient* _httpclient;
-	  IRgbLed* _led;
-	  ILedBoardChain* _leds;
-	  IHttpHandler* _handler;
-	  UpgradeManager* _upgrade;
+      IHttpServer* _httpserver;
+      IHttpClient* _httpclient;
+      IRgbLed* _led;
+      ILedBoardChain* _leds;
+      IHttpHandler* _handler;
+      UpgradeManager* _upgrade;
 
   };
 

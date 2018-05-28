@@ -12,13 +12,13 @@ namespace lamp {
   struct HttpRequest {
     string method;
     string url;
-	map<string, string> headers;
+    map<string, string> headers;
   };
 
   struct HttpResponse {
     uint8_t status;
-	map<string, string> headers;
-	vector<uint8_t> body;
+    map<string, string> headers;
+    vector<uint8_t> body;
   };
 
   struct IHttpClient {

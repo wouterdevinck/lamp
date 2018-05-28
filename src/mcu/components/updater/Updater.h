@@ -14,6 +14,16 @@ namespace lamp {
     public:
       explicit Updater();
 
+      string getRunningVersion() override;
+      string getRunningFpgaHash() override;
+      string getInstalledFpgaHash() override;
+
+      bool beginUpgrade() override;
+      bool writeChunk(vector<uint8_t> chunk) override;
+      bool completeUpgrade() override;
+
+      bool flashFpga() override;
+
   };
 
 }

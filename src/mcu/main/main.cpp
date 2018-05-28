@@ -6,6 +6,7 @@
 #include "WiFiEventHandler.h"
 #include "SPI.h"
 #include "HttpServer.h"
+#include "HttpClient.h"
 #include "RgbLed.h"
 #include "LedBoardChain.h"
 #include "Updater.h"
@@ -29,11 +30,12 @@ class LampWiFiEventHandler: public WiFiEventHandler {
 
     auto spi = new SPI(SPI1_HOST, SPI1_DMA_CH, SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_CLK_PIN, SPI1_CS_PIN);
 
-    auto http = new HttpServer();
+    auto httpserver = new HttpServer();
+    auto httpclient = new HttpClient();
     auto led = new RgbLed(PIN_RGB_RED, PIN_RGB_GREEN, PIN_RGB_BLUE);
     auto leds = new LedBoardChain(spi, PIN_LED_INT);
     auto updater = new Updater();
-    auto lamp = new Lamp(updater, http, led, leds); 
+    auto lamp = new Lamp(updater, httpserver, httpclient, led, leds); 
     lamp->start(HTTP_PORT);
 
     // == TEMP TEST ==

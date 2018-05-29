@@ -17,8 +17,12 @@ string HttpHandler::handleHttpRequest(string method, string path) {
   }
   if (method == "POST") {
     if (path == "/upgrade") {
-      _upgrade->upgrade("https://github.com/wouterdevinck/lamp/releases/download/0.2.0/lamp.bin"); // TODO get from form
-      return "Done";
+      auto url = "https://github.com/wouterdevinck/lamp/releases/download/0.2.0/lamp.bin"; // TODO get from form
+      if (_upgrade->upgrade(url)) {
+        return "Upgrade completed";
+      } else {
+        return "Upgrade failed";
+      }
     } else {
       return "Not Found";
     }
@@ -39,6 +43,9 @@ string HttpHandler::handleHttpRequest(string method, string path) {
     "    <!--<input type=\"text\" name=\"url\"><br />-->\n"
     "    <input type=\"submit\" value=\"Upgrade\">\n"
     "  </form>\n"
+    "  <footer>\n"
+    "    Version: " + _upgrade->getVersion() + "\n"
+    "  </footer>\n"
     "</body>\n"
     "</html>\n";
 }

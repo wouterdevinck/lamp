@@ -3,6 +3,8 @@
 #include "IUpdater.h"
 #include "IHttpClient.h"
 
+#define CHUNK_SIZE 100 * 1024
+
 namespace lamp {
 
   struct UpgradeManager {
@@ -12,7 +14,8 @@ namespace lamp {
         _updater(updater), _httpclient(httpclient) {}
 
       void boot() const;
-      void upgrade(string url) const;
+      bool upgrade(string url) const;
+      string getVersion() const;
 
     private:
       IUpdater* _updater;

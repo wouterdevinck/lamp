@@ -4,7 +4,9 @@ configuration: Release
 before_build:
 - ps: >-
     $Version = git describe --tags --dirty;
-    Update-AppveyorBuild -Version $Version
+    Update-AppveyorBuild -Version $Version;
+    $InfoFile = "test\simulator\Lamp.Simulator\Properties\AssemblyInfo.cs";
+    (Get-Content $InfoFile).replace('0.0.0-local', $Version) | Set-Content $InfoFile
 build:
   project: test\simulator\Lamp.sln
   verbosity: minimal

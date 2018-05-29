@@ -1,6 +1,7 @@
 ﻿using LampInterop;
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace Lamp.Simulator {
         private string _installedHash = ComputeSha256("fpga-version-2");
 
         protected override string GetRunningVersion() {
-            throw new NotImplementedException();
+            return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
         }
 
         protected override string GetInstalledFpgaHash() {
@@ -24,15 +25,18 @@ namespace Lamp.Simulator {
         }
         
         protected override bool BeginUpgrade() {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return true;
         }
 
         protected override bool WriteChunk(List<byte> chunk) {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return true;
         }
 
         protected override bool CompleteUpgrade() {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return true;
         }
 
         protected override bool FlashFpga() {

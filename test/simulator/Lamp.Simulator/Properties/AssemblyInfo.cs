@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -7,7 +7,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Lamp Simulator")]
-[assembly: AssemblyCopyright("Copyright © Wouter Devinck 2018")]
+[assembly: AssemblyCopyright("Copyright � Wouter Devinck 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
@@ -17,4 +17,4 @@ using System.Windows;
 )]
 
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("0.0.0-local")]

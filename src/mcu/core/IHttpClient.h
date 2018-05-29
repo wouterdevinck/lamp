@@ -5,6 +5,10 @@
 #include <vector>
 #include <map>
 
+#define HTTP_GET "GET"
+#define HTTP_RANGE "Range"
+#define HTTP_CONTENT_RANGE "Content-Range"
+
 using namespace std;
 
 namespace lamp {

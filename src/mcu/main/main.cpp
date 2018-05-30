@@ -10,6 +10,7 @@
 #include "RgbLed.h"
 #include "LedBoardChain.h"
 #include "Updater.h"
+#include "Logger.h"
 #include "Lamp.h"
 
 #define WIFI_SSID CONFIG_WIFI_SSID
@@ -35,7 +36,8 @@ class LampWiFiEventHandler: public WiFiEventHandler {
     auto led = new RgbLed(PIN_RGB_RED, PIN_RGB_GREEN, PIN_RGB_BLUE);
     auto leds = new LedBoardChain(spi, PIN_LED_INT);
     auto updater = new Updater();
-    auto lamp = new Lamp(updater, httpserver, httpclient, led, leds); 
+    auto logger = new Logger();
+    auto lamp = new Lamp(updater, logger, httpserver, httpclient, led, leds); 
     lamp->start(HTTP_PORT);
 
     // == TEMP TEST ==

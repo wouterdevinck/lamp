@@ -37,7 +37,7 @@ bool UpgradeManager::upgrade(string url) const {
     }
     current += CHUNK_SIZE;
     auto header = resp.headers[HTTP_CONTENT_RANGE];
-    total = stoi(header.substr(header.find("/") + 1));
+    total = atoi(header.substr(header.find("/") + 1).c_str());
   }
   _logger->logDebug(_tag, "Completing upgrade");
   if (!_updater->completeUpgrade()) {
@@ -45,6 +45,7 @@ bool UpgradeManager::upgrade(string url) const {
     return false;
   }
   _logger->logInfo(_tag, "Upgrade completed");
+  return true;
 }
 
 string UpgradeManager::getVersion() const {

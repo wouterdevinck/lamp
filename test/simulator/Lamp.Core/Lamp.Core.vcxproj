@@ -115,6 +115,7 @@
     <ClInclude Include="..\..\..\src\mcu\core\IHttpHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IHttpServer.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IHttpClient.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\ILogger.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IRgbLed.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IUpdater.h" />
     <ClInclude Include="..\..\..\src\mcu\core\HttpHandler.h" />

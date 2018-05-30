@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractHttpClient.h" />
     <ClInclude Include="AbstractLedBoardChain.h" />
+    <ClInclude Include="AbstractLogger.h" />
     <ClInclude Include="AbstractUpdater.h" />
     <ClInclude Include="HttpHandlerWrapper.h" />
     <ClInclude Include="AbstractHttpServer.h" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="AbstractHttpClient.cpp" />
     <ClCompile Include="AbstractLedBoardChain.cpp" />
+    <ClCompile Include="AbstractLogger.cpp" />
     <ClCompile Include="AbstractUpdater.cpp" />
     <ClCompile Include="HttpHandlerWrapper.cpp" />
     <ClCompile Include="AbstractHttpServer.cpp" />

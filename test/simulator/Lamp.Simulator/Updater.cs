@@ -25,17 +25,14 @@ namespace Lamp.Simulator {
         }
         
         protected override bool BeginUpgrade() {
-            //throw new NotImplementedException();
             return true;
         }
 
         protected override bool WriteChunk(List<byte> chunk) {
-            //throw new NotImplementedException();
             return true;
         }
 
         protected override bool CompleteUpgrade() {
-            //throw new NotImplementedException();
             return true;
         }
 

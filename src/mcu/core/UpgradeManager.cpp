@@ -5,9 +5,8 @@
 
 using namespace lamp;
 
-// TODO: logging
-
 void UpgradeManager::boot() const {
+  // TODO logs
   auto running = _updater->getRunningFpgaHash();
   auto installed = _updater->getInstalledFpgaHash();
   if (running != installed) {
@@ -16,7 +15,10 @@ void UpgradeManager::boot() const {
 }
 
 bool UpgradeManager::upgrade(string url) const {
+  _logger->logInfo(_tag, "Starting upgrade");
+  _logger->logDebug(_tag, "Upgrade URL: " + url);
   if (!_updater->beginUpgrade()) {
+    _logger->logError(_tag, "Failed to start upgrade");
     return false;
   }
   map<string, string> headers = { { HTTP_RANGE, "" } };
@@ -26,17 +28,23 @@ bool UpgradeManager::upgrade(string url) const {
     ostringstream range;
     range << "bytes=" << current << "-" << min((current + CHUNK_SIZE), total) - 1;
     headers[HTTP_RANGE] = range.str();
+    _logger->logDebug(_tag, "Downloading chunk: " + range.str());
     auto resp = _httpclient->request({ HTTP_GET, url, headers });
+    _logger->logDebug(_tag, "Writing chunk to flash");
     if (!_updater->writeChunk(resp.body)) {
+      _logger->logError(_tag, "Failed to write chunk");
       return false;
     }
     current += CHUNK_SIZE;
     auto header = resp.headers[HTTP_CONTENT_RANGE];
     total = stoi(header.substr(header.find("/") + 1));
   }
+  _logger->logDebug(_tag, "Completing upgrade");
   if (!_updater->completeUpgrade()) {
+    _logger->logError(_tag, "Failed to complete upgrade");
     return false;
   }
+  _logger->logInfo(_tag, "Upgrade completed");
 }
 
 string UpgradeManager::getVersion() const {

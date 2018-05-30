@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IUpdater.h"
+#include "ILogger.h"
 #include "IHttpServer.h"
 #include "IHttpClient.h"
 #include "IRgbLed.h"
@@ -20,6 +21,7 @@ namespace lamp {
     public:
       explicit Lamp(
         IUpdater* updater, 
+        ILogger* logger,
         IHttpServer* httpserver, 
         IHttpClient* httpclient, 
         IRgbLed* led, 
@@ -30,6 +32,7 @@ namespace lamp {
 
     private:
       IUpdater* _updater;
+      ILogger* _logger;
       IHttpServer* _httpserver;
       IHttpClient* _httpclient;
       IRgbLed* _led;

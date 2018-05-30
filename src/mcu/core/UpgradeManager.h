@@ -2,6 +2,7 @@
 
 #include "IUpdater.h"
 #include "IHttpClient.h"
+#include "ILogger.h"
 
 #define CHUNK_SIZE 100 * 1024
 
@@ -10,8 +11,8 @@ namespace lamp {
   struct UpgradeManager {
 
     public:
-      explicit UpgradeManager(IUpdater* updater, IHttpClient* httpclient) : 
-        _updater(updater), _httpclient(httpclient) {}
+      explicit UpgradeManager(IUpdater* updater, ILogger* logger, IHttpClient* httpclient) : 
+        _updater(updater), _logger(logger), _httpclient(httpclient) {}
 
       void boot() const;
       bool upgrade(string url) const;
@@ -19,7 +20,9 @@ namespace lamp {
 
     private:
       IUpdater* _updater;
+      ILogger* _logger;
       IHttpClient* _httpclient;
+      const string _tag = "Core.UpgradeManager";
 
   };
 

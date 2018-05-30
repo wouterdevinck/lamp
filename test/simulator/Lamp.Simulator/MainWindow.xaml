@@ -20,10 +20,28 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderBrush="Silver" BorderThickness="1" Margin="5">
-                <WebBrowser x:Name="browser" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnBack" Content="«" Grid.Column="0" />
+                        <Button x:Name="btnNext" Content="»" Grid.Column="1" />
+                        <TextBox x:Name="url" IsEnabled="False" Grid.Column="2"></TextBox>
+                    </Grid>
+                    <WebBrowser x:Name="browser" Grid.Row="1" />
+                </Grid>
             </Border>
             <Border Grid.Column="1" BorderBrush="Silver" BorderThickness="1" Margin="5">
-                
+                <ScrollViewer x:Name="logscroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5">
+                    <TextBlock x:Name="log" Text="{Binding Log}"></TextBlock>
+                </ScrollViewer>
             </Border>
         </Grid>
     </Grid>

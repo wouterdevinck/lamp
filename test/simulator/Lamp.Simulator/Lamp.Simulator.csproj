@@ -73,10 +73,45 @@
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpServer.cs" />
     <Compile Include="HttpWebRequestExt.cs" />
+    <Compile Include="Led.xaml.cs">
+      <DependentUpon>Led.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LedArray.cs" />
+    <Compile Include="LedDisplay.xaml.cs">
+      <DependentUpon>LedDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LedBoard.xaml.cs">
+      <DependentUpon>LedBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LedGroup.xaml.cs">
+      <DependentUpon>LedGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LedPanel.xaml.cs">
+      <DependentUpon>LedPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="RgbLed.cs" />
     <Compile Include="Updater.cs" />
+    <Page Include="Led.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LedDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LedBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LedGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LedPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

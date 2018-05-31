@@ -3,18 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lamp.Simulator"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Lamp Simulator" Height="700" Width="1000">
+        ResizeMode="CanMinimize" Title="Lamp Simulator" Height="900" Width="1170">
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="105" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border Grid.Row="0" BorderBrush="Silver" BorderThickness="1" Margin="5">
-            <Ellipse Width="10" Height="10" Fill="{Binding Brush}" x:Name="ellipse" 
-                     HorizontalAlignment="Left" Margin="10" />
+            <local:LedDisplay x:Name="ledDisplay" Margin="5" />
         </Border>
-        <Grid Grid.Row="1">
+        <Border Grid.Row="1" BorderBrush="Silver" BorderThickness="1" Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Status: " Margin="10 10 0 10" />
+                <Ellipse Width="10" Height="10" Fill="{Binding Brush}" x:Name="ellipse" 
+                     HorizontalAlignment="Left" Margin="10"  />
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -22,10 +30,10 @@
             <Border Grid.Column="0" BorderBrush="Silver" BorderThickness="1" Margin="5">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30" />
+                        <RowDefinition Height="20" />
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Margin="5">
+                    <Grid Grid.Row="0" Margin="-1 -1 -1 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20" />
                             <ColumnDefinition Width="20" />

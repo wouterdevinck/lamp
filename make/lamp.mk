@@ -41,6 +41,16 @@ clean:
 	rm -rf $(BUILD_DIR)
 	rm -rf $(ARTIFACT_DIR)
 
+.PHONY: flash-mcu
+flash-mcu:
+	$(IDF_PATH)/components/esptool_py/esptool/esptool.py \
+	  --chip esp32 --port /dev/ttyUSB1 --baud 115200 \
+	  --before default_reset --after hard_reset write_flash -z \
+	  --flash_mode dio --flash_freq 40m --flash_size detect \
+	  0x1000 $(ARTIFACT_DIR)/factory/bootloader.bin \
+	  0x10000 $(ARTIFACT_DIR)/factory/lamp.bin \
+	  0x8000 $(ARTIFACT_DIR)/factory/partitions.bin
+
 .PHONY: menuconfig
 menuconfig:
 	docker run -it --rm -v $(PWD):/vol:Z -w /vol $(DOCKER_PREFIX)mcu $(MAKE) -f $(SCRIPT_DIR)/mcu.mk menuconfig

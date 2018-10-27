@@ -51,6 +51,11 @@ flash-mcu:
 	  0x10000 $(ARTIFACT_DIR)/factory/lamp.bin \
 	  0x8000 $(ARTIFACT_DIR)/factory/partitions.bin
 
+.PHONY: monitor-mcu
+monitor-mcu:
+	$(IDF_PATH)/tools/idf_monitor.py \
+	  --port /dev/ttyUSB1 $(BUILD_DIR)/mcu/lamp.elf
+
 .PHONY: menuconfig
 menuconfig:
 	docker run -it --rm -v $(PWD):/vol:Z -w /vol $(DOCKER_PREFIX)mcu $(MAKE) -f $(SCRIPT_DIR)/mcu.mk menuconfig

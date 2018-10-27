@@ -5,6 +5,11 @@ services:
       context: .
       dockerfile: Dockerfile-mcu
     image: wouterdevinck/lamp-buildenv-mcu
+  mcu-basic:
+    build:
+      context: .
+      dockerfile: Dockerfile-mcu-basic
+    image: wouterdevinck/lamp-buildenv-mcu-basic
   fpga:
     build:
       context: .

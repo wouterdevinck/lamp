@@ -9,6 +9,7 @@ MAKE_IN_DOCKER := $(MAKE) docker
 all:
 	$(MAKE) fpga
 	$(MAKE) mcu
+	$(MAKE) mcu-basic
 	$(MAKE) collect
 
 $(BUILD_DIR)/fpga/lamp.bin:
@@ -29,6 +30,10 @@ mcu: $(BUILD_DIR)/fpga/lamp.bin $(BUILD_DIR)/fpga/lamp.hash
 	$(MAKE_IN_DOCKER) mcu defconfig
 	$(MAKE_IN_DOCKER) mcu
 
+.PHONY: mcu-basic
+mcu-basic: 
+	$(MAKE_IN_DOCKER) mcu-basic
+
 .PHONY: collect
 collect:
 	$(SCRIPT_DIR)/collect-artifacts.sh
@@ -38,6 +43,7 @@ clean:
 	$(MAKE_IN_DOCKER) fpga clean
 	$(MAKE_IN_DOCKER) mcu clean
 	$(MAKE_IN_DOCKER) mcu clean-dir
+	$(MAKE_IN_DOCKER) mcu-basic clean
 	rm -rf $(BUILD_DIR)
 	rm -rf $(ARTIFACT_DIR)
 
@@ -55,6 +61,14 @@ flash-mcu:
 monitor-mcu:
 	$(IDF_PATH)/tools/idf_monitor.py \
 	  --port /dev/ttyUSB1 $(BUILD_DIR)/mcu/lamp.elf
+
+.PHONY: flash-mcu-basic
+flash-mcu-basic:
+	avrdude -p m328 -c usbasp -B 5 -U flash:w:$(BUILD_DIR)/mcu-basic/lamp.hex
+
+.PHONY: fuses-mcu-basic
+fuses-mcu-basic:
+	avrdude -p m328 -c usbasp -B 5 -U lfuse:w:0xdf:m
 
 .PHONY: menuconfig
 menuconfig:

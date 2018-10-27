@@ -15,6 +15,7 @@ deploy:
   - out/factory/bootloader.bin
   - out/factory/partitions.bin
   - out/factory/lamp.bin
+  - out/factory/lamp.hex
   - out/simulator/simulator.zip
   skip_cleanup: true
   on:

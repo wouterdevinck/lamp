@@ -15,6 +15,7 @@ cp $BLD_DIR/fpga/lamp.bin $OUT_DIR/factory/fpga.bin
 cp $BLD_DIR/mcu/lamp.bin $OUT_DIR/factory/lamp.bin
 cp $BLD_DIR/mcu/partitions.bin $OUT_DIR/factory/partitions.bin
 cp $BLD_DIR/mcu/bootloader/bootloader.bin $OUT_DIR/factory/bootloader.bin
+cp $BLD_DIR/mcu-basic/lamp.hex $OUT_DIR/factory/lamp.hex
 
 cp $BLD_DIR/mcu/lamp.bin $OUT_DIR/ota/lamp.bin
 

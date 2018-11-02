@@ -1,3 +1,5 @@
+#ifndef BASIC
+
 #include "HttpHandler.h"
 
 using namespace lamp;
@@ -49,3 +51,5 @@ string HttpHandler::handleHttpRequest(string method, string path) {
     "</body>\n"
     "</html>\n";
 }
+
+#endif

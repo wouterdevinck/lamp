@@ -47,6 +47,8 @@ clean:
 	rm -rf $(BUILD_DIR)
 	rm -rf $(ARTIFACT_DIR)
 
+# TODO move flash-mcu and monitor-mcu to specific makefile, like done for flash-mcu-basic
+
 .PHONY: flash-mcu
 flash-mcu:
 	$(IDF_PATH)/components/esptool_py/esptool/esptool.py \
@@ -64,11 +66,7 @@ monitor-mcu:
 
 .PHONY: flash-mcu-basic
 flash-mcu-basic:
-	avrdude -p m328 -c usbasp -B 5 -U flash:w:$(BUILD_DIR)/mcu-basic/lamp.hex
-
-.PHONY: fuses-mcu-basic
-fuses-mcu-basic:
-	avrdude -p m328 -c usbasp -B 5 -U lfuse:w:0xdf:m
+	$(MAKE) -f $(SCRIPT_DIR)/mcu-basic.mk flash
 
 .PHONY: menuconfig
 menuconfig:

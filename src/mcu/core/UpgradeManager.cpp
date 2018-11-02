@@ -1,3 +1,5 @@
+#ifndef BASIC
+
 #include "UpgradeManager.h"
 
 #include <sstream>
@@ -51,3 +53,5 @@ bool UpgradeManager::upgrade(string url) const {
 string UpgradeManager::getVersion() const {
   return _updater->getRunningVersion();
 }
+
+#endif

@@ -2,6 +2,7 @@
 
 using namespace lamp;
 
+#ifndef BASIC
 Lamp::Lamp(
   IUpdater* updater,
   ILogger* logger,
@@ -19,11 +20,20 @@ Lamp::Lamp(
   _upgrade = new UpgradeManager(updater, logger, httpclient);
   _handler = new HttpHandler(led, _upgrade);
 }
+#else
+Lamp::Lamp(
+  IRgbLed* led
+) {
+  _led = led;
+}
+#endif
 
 void Lamp::start(const int port) const {
+  #ifndef BASIC
   _logger->logInfo("Lamp", "Lamp is starting");
-  const RgbLedColor color = { 0, 0, 255 };
-  _led->setLedColor(color);
   _httpserver->start(port, _handler);
   _upgrade->boot();
+  #endif
+  const RgbLedColor color = { 0, 0, 255 };
+  _led->setLedColor(color);
 }

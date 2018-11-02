@@ -1,24 +1,27 @@
 #pragma once
 
+#include <cstdint>
+
+#include "IRgbLed.h"
+
+#ifndef BASIC
 #include "IUpdater.h"
 #include "ILogger.h"
 #include "IHttpServer.h"
 #include "IHttpClient.h"
-#include "IRgbLed.h"
 #include "ILedBoardChain.h"
 #include "HttpHandler.h"
 #include "UpgradeManager.h"
-
-#include <cstdint>
-
 // #include <memory>
 // TODO use shared_ptr
+#endif
 
 namespace lamp {
 
   class Lamp {
 
     public:
+      #ifndef BASIC
       explicit Lamp(
         IUpdater* updater, 
         ILogger* logger,
@@ -27,18 +30,25 @@ namespace lamp {
         IRgbLed* led, 
         ILedBoardChain* leds
       );
+      #else
+      explicit Lamp(
+        IRgbLed* led
+      );
+      #endif
 
       void start(int port) const;
 
     private:
+      IRgbLed* _led;
+      #ifndef BASIC
       IUpdater* _updater;
       ILogger* _logger;
       IHttpServer* _httpserver;
       IHttpClient* _httpclient;
-      IRgbLed* _led;
       ILedBoardChain* _leds;
       IHttpHandler* _handler;
       UpgradeManager* _upgrade;
+      #endif
 
   };
 

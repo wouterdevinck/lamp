@@ -26,10 +26,12 @@ Lamp::Lamp(
 #else
 Lamp::Lamp(
   IIrReceiver* ir,
-  IRgbLed* led
+  IRgbLed* led,
+  ILedBoardChain* leds
 ) {
   _ir = ir;
   _led = led;
+  _leds = leds;
   _irhandler = new IrHandler(led);
 }
 #endif

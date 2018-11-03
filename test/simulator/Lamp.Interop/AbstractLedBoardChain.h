@@ -53,6 +53,7 @@ namespace LampInterop {
 
 	protected:
 		void addKeyframe(KeyFrame keyframe) override;
+		void setAllLeds(LedValue color) override;
 
 	private:
 		gcroot<AbstractLedBoardChain^> m_owner;
@@ -77,12 +78,18 @@ namespace LampInterop {
 
 	protected:
 		virtual void AddKeyframe(KeyFrameWrapper^ keyframe) = 0;
+		virtual void SetAllLeds(LedValueWrapper^ color) = 0;
 
 	internal:
 		void CallAddKeyframe(KeyFrame keyframe) {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
 			auto wrapper = gcnew KeyFrameWrapper(keyframe);
 			AddKeyframe(wrapper);
+		}
+		void CallSetAllLeds(LedValue color) {
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
+		    auto wrapper = gcnew LedValueWrapper(color);
+			SetAllLeds(wrapper);
 		}
 
 	};

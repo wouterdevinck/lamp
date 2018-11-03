@@ -139,12 +139,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractHttpClient.h" />
+    <ClInclude Include="AbstractIrReceiver.h" />
     <ClInclude Include="AbstractLedBoardChain.h" />
     <ClInclude Include="AbstractLogger.h" />
     <ClInclude Include="AbstractUpdater.h" />
     <ClInclude Include="HttpHandlerWrapper.h" />
     <ClInclude Include="AbstractHttpServer.h" />
     <ClInclude Include="AbstractRgbLed.h" />
+    <ClInclude Include="IrHandlerWrapper.h" />
     <ClInclude Include="LampWrapper.h" />
     <ClInclude Include="MarshalHelper.h" />
     <ClInclude Include="resource.h" />
@@ -152,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractHttpClient.cpp" />
+    <ClCompile Include="AbstractIrReceiver.cpp" />
     <ClCompile Include="AbstractLedBoardChain.cpp" />
     <ClCompile Include="AbstractLogger.cpp" />
     <ClCompile Include="AbstractUpdater.cpp" />
@@ -159,6 +162,7 @@
     <ClCompile Include="AbstractHttpServer.cpp" />
     <ClCompile Include="AbstractRgbLed.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="IrHandlerWrapper.cpp" />
     <ClCompile Include="LampWrapper.cpp" />
     <ClCompile Include="MarshalHelper.cpp" />
     <ClCompile Include="Stdafx.cpp">

@@ -7,6 +7,7 @@
 #include "AbstractLedBoardChain.h"
 #include "AbstractUpdater.h"
 #include "AbstractLogger.h"
+#include "AbstractIrReceiver.h"
 
 using namespace System;
 using namespace lamp;
@@ -20,6 +21,7 @@ namespace LampInterop {
 		LampWrapper(
 			AbstractUpdater^ updater,
 			AbstractLogger^ logger,
+			AbstractIrReceiver^ ir,
 			AbstractHttpServer^ httpserver, 
 			AbstractHttpClient^ httpclient, 
 			AbstractRgbLed^ led, 
@@ -27,6 +29,7 @@ namespace LampInterop {
 			m_Impl = new Lamp(
 				updater->Native(),
 				logger->Native(),
+				ir->Native(),
 				httpserver->Native(), 
 				httpclient->Native(), 
 				led->Native(), 

@@ -26,6 +26,10 @@ void LedBoardChain::addKeyframe(KeyFrame keyframe) {
   if(_ready && !_frames.empty()) transferNextKeyframe();
 }
 
+void LedBoardChain::setAllLeds(LedValue color) {
+  // TODO
+}
+
 void LedBoardChain::transferNextKeyframe() {
   auto f = _frames.front();
   _frames.pop();

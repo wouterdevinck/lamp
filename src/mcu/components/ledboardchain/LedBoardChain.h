@@ -19,6 +19,7 @@ namespace lamp {
       explicit LedBoardChain(SPI* spi, int pinInt);
 
       void addKeyframe(KeyFrame keyframe) override;
+      void setAllLeds(LedValue color) override;
 
     private:
       SPI* _spi;

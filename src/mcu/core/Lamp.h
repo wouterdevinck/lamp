@@ -2,16 +2,16 @@
 
 #include <cstdint>
 
-#include "IRgbLed.h"
 #include "IIrReceiver.h"
 #include "IrHandler.h"
+#include "IRgbLed.h"
+#include "ILedBoardChain.h"
 
 #ifndef BASIC
 #include "IUpdater.h"
 #include "ILogger.h"
 #include "IHttpServer.h"
 #include "IHttpClient.h"
-#include "ILedBoardChain.h"
 #include "HttpHandler.h"
 #include "UpgradeManager.h"
 // #include <memory>
@@ -36,22 +36,23 @@ namespace lamp {
       #else
       explicit Lamp(
         IIrReceiver* ir, 
-        IRgbLed* led
+        IRgbLed* led,
+        ILedBoardChain* leds
       );
       #endif
 
       void start(int port) const;
 
     private:
-      IIrReceiver* _ir; 
-      IRgbLed* _led;
+      IIrReceiver* _ir;
       IIrHandler* _irhandler;
+      IRgbLed* _led;
+      ILedBoardChain* _leds;
       #ifndef BASIC
       IUpdater* _updater;
       ILogger* _logger;
       IHttpServer* _httpserver;
       IHttpClient* _httpclient;
-      ILedBoardChain* _leds;
       IHttpHandler* _httphandler;
       UpgradeManager* _upgrade;
       #endif

@@ -9,6 +9,10 @@ namespace Lamp.Simulator {
             throw new NotImplementedException();
         }
 
+        protected override void SetAllLeds(LedValueWrapper color) {
+            throw new NotImplementedException();
+        }
+
     }
 
 }

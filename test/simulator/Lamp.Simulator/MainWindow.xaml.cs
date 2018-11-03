@@ -11,14 +11,17 @@ namespace Lamp.Simulator {
 
             var updater = new Updater();
             var logger = new Logger();
+            var ir = new IrReceiver();
             var httpserver = new HttpServer();
             var httpclient = new HttpClient();
             var led = new RgbLed(ellipse);
             var leds = new LedArray();
 
-            var lamp = new LampWrapper(updater, logger, httpserver, httpclient, led, leds); 
+            var lamp = new LampWrapper(updater, logger, ir, httpserver, httpclient, led, leds); 
             
             lamp.Start(Port);
+
+            // ir.SendCode(0x0010);
 
             // Browser
             browser.Navigated += (s, e) => {

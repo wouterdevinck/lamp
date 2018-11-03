@@ -8,30 +8,30 @@ using namespace lamp;
 // PD6 - OC0A - blue
 
 RgbLed::RgbLed() {
-  DDRD = (1 << PD3) | (1 << PD5) | (1 << PD6);
-  TCCR0A = (1 << WGM00) | (1 << WGM01);
-  TCCR0B = (1 << CS00);
-  TCCR2A = (1 << WGM20) | (1 << WGM21);
-  TCCR2B = (1 << CS20);
+  DDRD = _BV(PD3) | _BV(PD5) | _BV(PD6);
+  TCCR0A = _BV(WGM00) | _BV(WGM01);
+  TCCR0B = _BV(CS00);
+  TCCR2A = _BV(WGM20) | _BV(WGM21);
+  TCCR2B = _BV(CS20);
 }
 
 void RgbLed::setLedColor(RgbLedColor color) {
   if(color.r == 0) {
-    TCCR2A &= ~(1 << COM2B1);
+    TCCR2A &= ~_BV(COM2B1);
   } else {
-    TCCR2A |= (1 << COM2B1);
+    TCCR2A |= _BV(COM2B1);
     OCR2B = color.r;
   }
   if(color.g == 0) {
-    TCCR0A &= ~(1 << COM0B1);
+    TCCR0A &= ~_BV(COM0B1);
   } else {
-    TCCR0A |= (1 << COM0B1);
+    TCCR0A |= _BV(COM0B1);
     OCR0B = color.g;
   }
   if(color.b == 0) {
-    TCCR0A &= ~(1 << COM0A1);
+    TCCR0A &= ~_BV(COM0A1);
   } else {
-    TCCR0A |= (1 << COM0A1);
+    TCCR0A |= _BV(COM0A1);
     OCR0A = color.b;
   }
 }

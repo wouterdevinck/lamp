@@ -73,6 +73,7 @@
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpServer.cs" />
     <Compile Include="HttpWebRequestExt.cs" />
+    <Compile Include="IrReceiver.cs" />
     <Compile Include="Led.xaml.cs">
       <DependentUpon>Led.xaml</DependentUpon>
     </Compile>

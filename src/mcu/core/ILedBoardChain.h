@@ -1,6 +1,5 @@
 #pragma once
 
-
 #ifndef BASIC
 #include <chrono>
 #include <vector>
@@ -41,17 +40,16 @@ namespace lamp {
 
     #ifndef BASIC
     virtual void addKeyframe(KeyFrame keyframe) = 0;
+    // Todo: Set startup animation
+    // Todo: Get LED status
+    // Todo: Get firmware version
+    // Todo: Firmware upgrade
     #endif
 
     virtual void setAllLeds(LedValue color) = 0;
-
-    // TODO
-    // ====
-    //  * Set startup animation
-    //  * Global brightness adjust
-    //  * Get LED status
-    //  * Get firmware version
-    //  * Firmware upgrade
+    virtual void setAllLeds(LedValue values[]) = 0;
+    virtual void setBrightness(uint8_t brightness) = 0;
+    virtual void setBrightness(uint8_t values[]) = 0;
 
   };
 

@@ -54,6 +54,9 @@ namespace LampInterop {
 	protected:
 		void addKeyframe(KeyFrame keyframe) override;
 		void setAllLeds(LedValue color) override;
+		void setAllLeds(LedValue values[]) override;
+		void setBrightness(uint8_t brightness) override;
+		void setBrightness(uint8_t values[]) override;
 
 	private:
 		gcroot<AbstractLedBoardChain^> m_owner;
@@ -79,6 +82,9 @@ namespace LampInterop {
 	protected:
 		virtual void AddKeyframe(KeyFrameWrapper^ keyframe) = 0;
 		virtual void SetAllLeds(LedValueWrapper^ color) = 0;
+		virtual void SetAllLeds(List<LedValue^>^ values) = 0;
+		virtual void SetBrightness(int brightness) = 0;
+		virtual void SetBrightness(List<int>^ values) = 0;
 
 	internal:
 		void CallAddKeyframe(KeyFrame keyframe) {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #ifndef BASIC
 #include <chrono>
 #include <vector>
@@ -18,6 +20,11 @@ namespace lamp {
     unsigned int g : 12;
     unsigned int b : 12;
     unsigned int w : 12;
+  };
+
+  struct ChainInfo {
+    uint8_t channels;
+    uint8_t drivers;
   };
 
   #ifndef BASIC
@@ -50,6 +57,7 @@ namespace lamp {
     virtual void setAllLeds(LedValue values[]) = 0;
     virtual void setBrightness(uint8_t brightness) = 0;
     virtual void setBrightness(uint8_t values[]) = 0;
+    virtual ChainInfo getChainInfo() = 0;
 
   };
 

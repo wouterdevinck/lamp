@@ -20,3 +20,7 @@ void LedBoardChain::setBrightness(uint8_t brightness) {
 void LedBoardChain::setBrightness(uint8_t values[]) {
   // TODO
 }
+
+ChainInfo LedBoardChain::getChainInfo() {
+  // TODO
+}

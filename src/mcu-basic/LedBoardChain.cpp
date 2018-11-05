@@ -3,7 +3,11 @@
 
 using namespace lamp;
 
-LedBoardChain::LedBoardChain() {}
+LedBoardChain::LedBoardChain(uint8_t drivers) {
+  _drivers = drivers;
+  _channels = _drivers * 16; 
+  _bytes = _drivers * 24;
+}
 
 void LedBoardChain::setAllLeds(LedValue color) {
   // TODO
@@ -22,5 +26,8 @@ void LedBoardChain::setBrightness(uint8_t values[]) {
 }
 
 ChainInfo LedBoardChain::getChainInfo() {
-  // TODO
+  return ChainInfo {
+    _channels,
+    _drivers
+  };
 }

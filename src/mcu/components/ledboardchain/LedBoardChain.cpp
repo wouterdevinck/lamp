@@ -44,6 +44,7 @@ void LedBoardChain::setBrightness(uint8_t values[]) {
 
 ChainInfo LedBoardChain::getChainInfo() {
   // TODO
+  return ChainInfo{};
 }
 
 void LedBoardChain::transferNextKeyframe() {

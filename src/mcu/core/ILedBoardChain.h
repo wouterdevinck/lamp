@@ -22,9 +22,21 @@ namespace lamp {
     unsigned int w : 12;
   };
 
-  struct ChainInfo {
-    uint8_t channels;
-    uint8_t drivers;
+  struct ChainInfo {   
+    uint8_t boards;    // 30
+    uint8_t drivers;   // 60
+    uint8_t ledgroups; // 240
+    uint16_t channels; // 960
+    uint16_t bytes;    // 1440
+
+    ChainInfo(uint8_t ledboards) {
+      boards = ledboards;
+      drivers = boards * 2;
+      ledgroups = drivers * 4;
+      channels = drivers * 16;
+      bytes = drivers * 24;
+    }
+
   };
 
   #ifndef BASIC
@@ -57,7 +69,7 @@ namespace lamp {
     virtual void setAllLeds(LedValue values[]) = 0;
     virtual void setBrightness(uint8_t brightness) = 0;
     virtual void setBrightness(uint8_t values[]) = 0;
-    virtual ChainInfo getChainInfo() = 0;
+    virtual ChainInfo* getChainInfo() = 0;
 
   };
 

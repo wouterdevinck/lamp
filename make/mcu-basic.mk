@@ -17,7 +17,7 @@ OUTDIR  = build/mcu-basic/
 
 C++FLAGS = -Os
 C++FLAGS += -Wall
-C++FLAGS += -std=c++11
+C++FLAGS += -std=c++14
 C++FLAGS += -DF_CPU=$(OSC)
 C++FLAGS += -DBASIC
 C++FLAGS += -mmcu=$(DEVICE)

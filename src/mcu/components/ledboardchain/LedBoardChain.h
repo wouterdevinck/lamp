@@ -23,12 +23,13 @@ namespace lamp {
       void setAllLeds(LedValue values[]) override;
       void setBrightness(uint8_t brightness) override;
       void setBrightness(uint8_t values[]) override;
-      ChainInfo getChainInfo() override;
+      ChainInfo* getChainInfo() override;
 
     private:
       SPI* _spi;
       queue<KeyFrame> _frames;
       bool _ready;
+      ChainInfo* _info;
       void transferNextKeyframe();
 
   };

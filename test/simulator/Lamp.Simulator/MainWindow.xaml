@@ -26,6 +26,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderBrush="Silver" BorderThickness="1" Margin="5">
                 <Grid>
@@ -50,6 +51,9 @@
                 <ScrollViewer x:Name="logscroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="5">
                     <TextBlock x:Name="log" Text="{Binding Log}"></TextBlock>
                 </ScrollViewer>
+            </Border>
+            <Border Grid.Column="2" BorderBrush="Silver" BorderThickness="1" Margin="5">
+                <local:RemoteControl x:Name="remote" />
             </Border>
         </Grid>
     </Grid>

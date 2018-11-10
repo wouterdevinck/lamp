@@ -3,7 +3,7 @@ using LampInterop;
 
 namespace Lamp.Simulator {
 
-    internal class IrReceiver : AbstractIrReceiver {
+    public class IrReceiver : AbstractIrReceiver {
 
         private IrHandlerWrapper _handler;
 

@@ -123,12 +123,14 @@
     <ClInclude Include="..\..\..\src\mcu\core\HttpHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IrHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\UpgradeManager.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\LedsManager.h" />
     <ClInclude Include="..\..\..\src\mcu\core\Lamp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\mcu\core\HttpHandler.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\IrHandler.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\UpgradeManager.cpp" />
+    <ClCompile Include="..\..\..\src\mcu\core\LedsManager.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\Lamp.cpp" />
   </ItemGroup>
   <ItemGroup>

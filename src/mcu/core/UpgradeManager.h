@@ -8,13 +8,13 @@
 
 namespace lamp {
 
-  struct UpgradeManager {
+  class UpgradeManager {
 
     public:
       explicit UpgradeManager(IUpdater* updater, ILogger* logger, IHttpClient* httpclient) : 
         _updater(updater), _logger(logger), _httpclient(httpclient) {}
 
-      void boot() const;
+      void start() const;
       bool upgrade(string url) const;
       string getVersion() const;
 

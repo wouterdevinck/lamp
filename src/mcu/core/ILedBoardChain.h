@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 
 #ifndef BASIC
 #include <chrono>
@@ -19,6 +20,23 @@ namespace lamp {
     unsigned int g : 12;
     unsigned int b : 12;
     unsigned int w : 12;
+  };
+
+  struct ChainInfo {   
+    uint8_t boards;    // 30
+    uint8_t drivers;   // 60
+    uint8_t ledgroups; // 240
+    uint16_t channels; // 960
+    uint16_t bytes;    // 1440
+
+    ChainInfo(uint8_t ledboards) {
+      boards = ledboards;
+      drivers = boards * 2;
+      ledgroups = drivers * 4;
+      channels = drivers * 16;
+      bytes = drivers * 24;
+    }
+
   };
 
   #ifndef BASIC
@@ -41,17 +59,17 @@ namespace lamp {
 
     #ifndef BASIC
     virtual void addKeyframe(KeyFrame keyframe) = 0;
+    // Todo: Set startup animation
+    // Todo: Get LED status
+    // Todo: Get firmware version
+    // Todo: Firmware upgrade
     #endif
 
     virtual void setAllLeds(LedValue color) = 0;
-
-    // TODO
-    // ====
-    //  * Set startup animation
-    //  * Global brightness adjust
-    //  * Get LED status
-    //  * Get firmware version
-    //  * Firmware upgrade
+    virtual void setAllLeds(LedValue values[]) = 0;
+    virtual void setBrightness(uint8_t brightness) = 0;
+    virtual void setBrightness(uint8_t values[]) = 0;
+    virtual ChainInfo* getChainInfo() = 0;
 
   };
 

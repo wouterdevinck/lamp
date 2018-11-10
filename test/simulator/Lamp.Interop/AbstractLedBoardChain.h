@@ -28,6 +28,33 @@ namespace LampInterop {
 
 	};
 
+	public ref struct ChainInfoWrapper {
+
+		ChainInfoWrapper(Byte boards) {
+			_info = new ChainInfo(boards);
+			Boards = _info->boards;
+			Drivers = _info->drivers;
+			LedGroups = _info->ledgroups;
+			Channels = _info->channels;
+			Bytes = _info->bytes;
+		}
+
+		property Byte Boards;
+		property Byte Drivers;
+		property Byte LedGroups;
+		property UInt16 Channels;
+		property UInt16 Bytes;
+
+		ChainInfo* _info;
+
+		property ChainInfo* Native {
+			ChainInfo* get() {
+				return _info;
+			}
+		};
+
+	};
+
 	public ref struct KeyFrameWrapper {
 
 		KeyFrameWrapper(KeyFrame value) {
@@ -54,6 +81,10 @@ namespace LampInterop {
 	protected:
 		void addKeyframe(KeyFrame keyframe) override;
 		void setAllLeds(LedValue color) override;
+		void setAllLeds(LedValue values[]) override;
+		void setBrightness(uint8_t brightness) override;
+		void setBrightness(uint8_t values[]) override;
+		ChainInfo* getChainInfo() override;
 
 	private:
 		gcroot<AbstractLedBoardChain^> m_owner;
@@ -79,6 +110,10 @@ namespace LampInterop {
 	protected:
 		virtual void AddKeyframe(KeyFrameWrapper^ keyframe) = 0;
 		virtual void SetAllLeds(LedValueWrapper^ color) = 0;
+		virtual void SetAllLeds(List<LedValueWrapper^>^ values) = 0;
+		virtual void SetBrightness(Byte brightness) = 0;
+		virtual void SetBrightness(List<Byte>^ values) = 0;
+		virtual ChainInfoWrapper^ GetChainInfo() = 0;
 
 	internal:
 		void CallAddKeyframe(KeyFrame keyframe) {
@@ -88,8 +123,37 @@ namespace LampInterop {
 		}
 		void CallSetAllLeds(LedValue color) {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
-		    auto wrapper = gcnew LedValueWrapper(color);
+			auto wrapper = gcnew LedValueWrapper(color);
 			SetAllLeds(wrapper);
+		}
+		void CallSetAllLeds(LedValue values[]) {
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
+			auto list = gcnew List<LedValueWrapper^>();
+			if (sizeof(values) > 0) {
+				for (int i = 0; i < sizeof(values) / sizeof(values[0]); i++) {
+					auto wrapper = gcnew LedValueWrapper(values[i]);
+					list->Add(wrapper);
+				}
+			}
+			SetAllLeds(list);
+		}
+		void CallSetBrightness(uint8_t brightness) {
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
+			SetBrightness(brightness);
+		}
+		void CallSetBrightness(uint8_t values[]) {
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
+			auto list = gcnew List<Byte>();
+			if (sizeof(values) > 0) {
+				for (int i = 0; i < sizeof(values) / sizeof(values[0]); i++) {
+					list->Add(values[i]);
+				}
+			}
+			SetBrightness(list);
+		}
+		ChainInfo* CallGetChainInfo() {
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
+			return GetChainInfo()->Native;
 		}
 
 	};

@@ -20,8 +20,9 @@ Lamp::Lamp(
   _led = led;
   _leds = leds;
   _upgrade = new UpgradeManager(updater, logger, httpclient);
-  _httphandler = new HttpHandler(led, _upgrade);
-  _irhandler = new IrHandler(led);
+  _manager = new LedsManager(leds);
+  _httphandler = new HttpHandler(led, _upgrade, _manager);
+  _irhandler = new IrHandler(led, _manager);
 }
 #else
 Lamp::Lamp(
@@ -32,7 +33,8 @@ Lamp::Lamp(
   _ir = ir;
   _led = led;
   _leds = leds;
-  _irhandler = new IrHandler(led);
+  _manager = new LedsManager(leds);
+  _irhandler = new IrHandler(led, _manager);
 }
 #endif
 
@@ -40,8 +42,9 @@ void Lamp::start(const int port) const {
   #ifndef BASIC
   _logger->logInfo("Lamp", "Lamp is starting");
   _httpserver->start(port, _httphandler);
-  _upgrade->boot();
+  _upgrade->start();
   #endif
+  _manager->start();
   _ir->start(_irhandler);
   const RgbLedColor color = { 0, 0, 255 };
   _led->setLedColor(color);

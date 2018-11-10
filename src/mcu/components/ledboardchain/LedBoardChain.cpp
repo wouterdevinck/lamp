@@ -14,7 +14,7 @@ using namespace lamp;
 LedBoardChain::LedBoardChain(SPI* spi, int pinInt) {
   _spi = spi;
   _ready = true;
-
+  _info = new ChainInfo(0); // TODO
   // TODO
   // addISRHandler
   // setInterruptType PIO_INTR_NEGEDGE
@@ -28,6 +28,22 @@ void LedBoardChain::addKeyframe(KeyFrame keyframe) {
 
 void LedBoardChain::setAllLeds(LedValue color) {
   // TODO
+}
+
+void LedBoardChain::setAllLeds(LedValue values[]) {
+  // TODO
+}
+
+void LedBoardChain::setBrightness(uint8_t brightness) {
+  // TODO
+}
+
+void LedBoardChain::setBrightness(uint8_t values[]) {
+  // TODO
+}
+
+ChainInfo* LedBoardChain::getChainInfo() {
+  return _info;
 }
 
 void LedBoardChain::transferNextKeyframe() {

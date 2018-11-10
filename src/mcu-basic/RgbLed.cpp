@@ -8,7 +8,7 @@ using namespace lamp;
 // PD6 - OC0A - blue
 
 RgbLed::RgbLed() {
-  DDRD = _BV(PD3) | _BV(PD5) | _BV(PD6);
+  DDRD |= _BV(PD3) | _BV(PD5) | _BV(PD6);
   TCCR0A = _BV(WGM00) | _BV(WGM01);
   TCCR0B = _BV(CS00);
   TCCR2A = _BV(WGM20) | _BV(WGM21);

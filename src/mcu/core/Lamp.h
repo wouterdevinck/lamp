@@ -6,6 +6,7 @@
 #include "IrHandler.h"
 #include "IRgbLed.h"
 #include "ILedBoardChain.h"
+#include "LedsManager.h"
 
 #ifndef BASIC
 #include "IUpdater.h"
@@ -48,6 +49,7 @@ namespace lamp {
       IIrHandler* _irhandler;
       IRgbLed* _led;
       ILedBoardChain* _leds;
+      LedsManager* _manager;
       #ifndef BASIC
       IUpdater* _updater;
       ILogger* _logger;

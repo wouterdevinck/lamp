@@ -9,12 +9,15 @@ string HttpHandler::handleHttpRequest(string method, string path) {
     if (path == "/r") {
       const RgbLedColor color = { 255, 0, 0 };
       _led->setLedColor(color);
+      _leds->changeColor(Red);
     } else if (path == "/g") {
       const RgbLedColor color = { 0, 255, 0 };
       _led->setLedColor(color);
+      _leds->changeColor(Green);
     } else if (path == "/b") {
       const RgbLedColor color = { 0, 0, 255 };
       _led->setLedColor(color);
+      _leds->changeColor(Blue);
     }
   }
   if (method == "POST") {

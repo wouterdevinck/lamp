@@ -18,8 +18,8 @@ namespace lamp {
     private:
       ChainInfo* _info;
 
-      void setAllLeds(LedValue(*value)(uint8_t));
-      void setBrightness(uint8_t(*value)(uint8_t));
+      void setAllLeds(LedValue values[], uint8_t(*index)(uint8_t));
+      void setBrightness(uint8_t values[], uint8_t(*index)(uint8_t));
 
   };
 

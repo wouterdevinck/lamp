@@ -16,32 +16,34 @@ LedBoardChain::LedBoardChain(uint8_t boards) {
 }
 
 void LedBoardChain::setAllLeds(LedValue color) {
-  // TODO
+  LedValue values[1] = { color };
+  setAllLeds(values, [](uint8_t _) { return (uint8_t)0; });
 }
 
 void LedBoardChain::setAllLeds(LedValue values[]) {
-
+  setAllLeds(values, [](uint8_t i) { return i; });
 }
 
 void LedBoardChain::setBrightness(uint8_t brightness) {
-  // TODO
+  uint8_t values[1] = { brightness };
+  setBrightness(values, [](uint8_t _) { return (uint8_t)0; });
 }
 
 void LedBoardChain::setBrightness(uint8_t values[]) {
-  // TODO
+  setBrightness(values, [](uint8_t i) { return i; });
 }
 
 ChainInfo* LedBoardChain::getChainInfo() {
   return _info;
 }
 
-void LedBoardChain::setAllLeds(LedValue(*value)(uint8_t)) {
+void LedBoardChain::setAllLeds(LedValue values[], uint8_t(*index)(uint8_t)) {
   PORTD &= ~_BV(PD7); // LAT low
   uint8_t data[3];
   for(uint8_t l = 0; l < _info->ledgroups; l++) {
     for(uint8_t i = 0; i < 4; i++) {
       uint16_t c = (l * 4) + i;
-      auto led = value(l);
+      auto led = values[index(l)];
       uint16_t val = i == 0 ? led.r : (i == 1? led.g : (i == 2 ? led.b : led.w));
       if (c & 1) {
         data[2] = val >> 4;
@@ -60,8 +62,18 @@ void LedBoardChain::setAllLeds(LedValue(*value)(uint8_t)) {
   PORTD &= ~_BV(PD7); // LAT low
 }
 
-void LedBoardChain::setBrightness(uint8_t(*value)(uint8_t)) {
-
+void LedBoardChain::setBrightness(uint8_t values[], uint8_t(*index)(uint8_t)) {
+  SPCR |= _BV(CPOL);  // SCK high
+  for (uint8_t i = 0; i < 4; i++) {
+    PORTD |= _BV(PD7);  // LAT high
+    PORTD &= ~_BV(PD7); // LAT low
+  }
+  SPCR &= ~_BV(CPOL); // SCK low
+  for (uint8_t d = 0; d < _info->drivers; d++) { 
+    auto bri = values[index(d)];
+    SPDR = bri << 1; 
+    while (!(SPSR & _BV(SPIF)));
+  }
+  PORTD |= _BV(PD7);  // LAT high
+  PORTD &= ~_BV(PD7); // LAT low
 }
-
-//auto glambda = [](auto a, auto&& b) { return a < b; };

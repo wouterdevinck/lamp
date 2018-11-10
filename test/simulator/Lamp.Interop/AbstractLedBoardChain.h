@@ -30,14 +30,29 @@ namespace LampInterop {
 
 	public ref struct ChainInfoWrapper {
 
-		property Byte Channels;
+		public ChainInfoWrapper(Byte boards) {
+			auto info = new ChainInfo(boards);
+			Boards = info->boards;
+			Drivers = info->drivers;
+			LedGroups = info->ledgroups;
+			Channels = info->channels;
+			Bytes = info->bytes;
+		}
+
+		property Byte Boards;
 		property Byte Drivers;
+		property Byte LedGroups;
+		property UInt16 Channels;
+		property UInt16 Bytes;
 
 		property ChainInfo Native {
 			ChainInfo get() {
 				return ChainInfo {
+					Boards,
+					Drivers,
+					LedGroups,
 					Channels,
-					Drivers
+					Bytes
 				};
 			}
 		};

@@ -6,15 +6,19 @@ void IrHandler::handleIrCommand(uint16_t code) {
   switch(code) {
     case 0x0090: 
       _led->setLedColor({ 255, 0, 0 });
+      _leds->changeColor(Red);
       break;
     case 0x0010:
       _led->setLedColor({ 0, 255, 0 });
+      _leds->changeColor(Green);
       break;
     case 0x0050:
       _led->setLedColor({ 0, 0, 255 });
+      _leds->changeColor(Blue);
       break;
     case 0x00D0:
       _led->setLedColor({ 255, 255, 255 });
+      _leds->changeColor(White);
       break;
   }
 }

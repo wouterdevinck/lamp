@@ -7,7 +7,7 @@
 
 using namespace lamp;
 
-void UpgradeManager::boot() const {
+void UpgradeManager::start() const {
   // TODO logs
   auto running = _updater->getRunningFpgaHash();
   auto installed = _updater->getInstalledFpgaHash();

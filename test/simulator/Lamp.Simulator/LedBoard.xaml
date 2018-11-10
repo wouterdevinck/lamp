@@ -17,13 +17,13 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:LedGroup Grid.Column="0" />
-        <local:LedGroup Grid.Column="1" />
-        <local:LedGroup Grid.Column="2" />
-        <local:LedGroup Grid.Column="3" />
-        <local:LedGroup Grid.Column="4" />
-        <local:LedGroup Grid.Column="5" />
-        <local:LedGroup Grid.Column="6" />
-        <local:LedGroup Grid.Column="7" />
+        <Rectangle Grid.Column="0" x:Name="Group0" />
+        <Rectangle Grid.Column="1" x:Name="Group1" />
+        <Rectangle Grid.Column="2" x:Name="Group2" />
+        <Rectangle Grid.Column="3" x:Name="Group3" />
+        <Rectangle Grid.Column="4" x:Name="Group4" />
+        <Rectangle Grid.Column="5" x:Name="Group5" />
+        <Rectangle Grid.Column="6" x:Name="Group6" />
+        <Rectangle Grid.Column="7" x:Name="Group7" />
     </Grid>
 </UserControl>

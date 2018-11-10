@@ -15,7 +15,7 @@ namespace Lamp.Simulator {
             var httpserver = new HttpServer();
             var httpclient = new HttpClient();
             var led = new RgbLed(ellipse);
-            var leds = new LedArray();
+            var leds = new LedArray(ledDisplay);
 
             var lamp = new LampWrapper(updater, logger, ir, httpserver, httpclient, led, leds); 
             

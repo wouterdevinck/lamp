@@ -24,20 +24,20 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:LedBoard Grid.Column="0" />
-        <local:LedBoard Grid.Column="1" />
-        <local:LedBoard Grid.Column="2" />
-        <local:LedBoard Grid.Column="3" />
-        <local:LedBoard Grid.Column="4" />
-        <local:LedBoard Grid.Column="5" />
-        <local:LedBoard Grid.Column="6" />
-        <local:LedBoard Grid.Column="7" />
-        <local:LedBoard Grid.Column="8" />
-        <local:LedBoard Grid.Column="9" />
-        <local:LedBoard Grid.Column="10" />
-        <local:LedBoard Grid.Column="11" />
-        <local:LedBoard Grid.Column="12" />
-        <local:LedBoard Grid.Column="13" />
-        <local:LedBoard Grid.Column="14" />
+        <local:LedBoard Grid.Column="0" x:Name="Board0" />
+        <local:LedBoard Grid.Column="1" x:Name="Board1" />
+        <local:LedBoard Grid.Column="2" x:Name="Board2" />
+        <local:LedBoard Grid.Column="3" x:Name="Board3" />
+        <local:LedBoard Grid.Column="4" x:Name="Board4" />
+        <local:LedBoard Grid.Column="5" x:Name="Board5" />
+        <local:LedBoard Grid.Column="6" x:Name="Board6" />
+        <local:LedBoard Grid.Column="7" x:Name="Board7" />
+        <local:LedBoard Grid.Column="8" x:Name="Board8" />
+        <local:LedBoard Grid.Column="9" x:Name="Board9" />
+        <local:LedBoard Grid.Column="10" x:Name="Board10" />
+        <local:LedBoard Grid.Column="11" x:Name="Board11" />
+        <local:LedBoard Grid.Column="12" x:Name="Board12" />
+        <local:LedBoard Grid.Column="13" x:Name="Board13" />
+        <local:LedBoard Grid.Column="14" x:Name="Board14" />
     </Grid>
 </UserControl>

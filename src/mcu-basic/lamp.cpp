@@ -5,7 +5,7 @@
 #include "LedBoardChain.h"
 #include "Lamp.h"
 
-#define BOARDS 30
+#define BOARDS 1
 
 using namespace lamp;
 

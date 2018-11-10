@@ -43,18 +43,18 @@ void LedBoardChain::setAllLeds(LedValue values[], uint8_t(*index)(uint8_t)) {
   for(uint8_t l = 0; l < _info->ledgroups; l++) {
     for(uint8_t i = 0; i < 4; i++) {
       uint16_t c = (l * 4) + i;
-      auto led = values[index(l)];
-      uint16_t val = i == 0 ? led.r : (i == 1? led.g : (i == 2 ? led.b : led.w));
+      auto led = values[index(_info->ledgroups - 1 - l)];
+      uint16_t val = i == 0 ? led.b : (i == 1? led.w : (i == 2 ? led.r : led.g));
       if (c & 1) {
-        data[2] = val >> 4;
+        data[0] = val >> 4;
         data[1] = ((uint8_t)(val << 4)) | (data[1] & 0x0F);
         for (uint8_t b = 0; b < 3; b++) {
           SPDR = data[b]; 
           while (!(SPSR & _BV(SPIF)));
         }
       } else {
-        data[1] = val >> 8;
-        data[0] = val & 0xFF;
+        data[1] = (data[1] & 0xF0) | (val >> 8);
+        data[2] = val & 0xFF;
       }
     }
   }

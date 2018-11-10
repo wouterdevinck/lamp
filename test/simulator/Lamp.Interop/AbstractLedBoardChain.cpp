@@ -23,6 +23,6 @@ void NativeLedBoardChain::setBrightness(uint8_t values[]) {
 	m_owner->CallSetBrightness(values);
 }
 
-ChainInfo NativeLedBoardChain::getChainInfo() {
+ChainInfo* NativeLedBoardChain::getChainInfo() {
 	return m_owner->CallGetChainInfo();
 }

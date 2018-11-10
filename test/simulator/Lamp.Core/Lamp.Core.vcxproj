@@ -130,7 +130,7 @@
     <ClCompile Include="..\..\..\src\mcu\core\HttpHandler.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\IrHandler.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\UpgradeManager.cpp" />
-    <ClInclude Include="..\..\..\src\mcu\core\LedsManager.cpp" />
+    <ClCompile Include="..\..\..\src\mcu\core\LedsManager.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\Lamp.cpp" />
   </ItemGroup>
   <ItemGroup>

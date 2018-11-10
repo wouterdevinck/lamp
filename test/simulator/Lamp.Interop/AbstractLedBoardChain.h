@@ -30,13 +30,13 @@ namespace LampInterop {
 
 	public ref struct ChainInfoWrapper {
 
-		public ChainInfoWrapper(Byte boards) {
-			auto info = new ChainInfo(boards);
-			Boards = info->boards;
-			Drivers = info->drivers;
-			LedGroups = info->ledgroups;
-			Channels = info->channels;
-			Bytes = info->bytes;
+		ChainInfoWrapper(Byte boards) {
+			_info = new ChainInfo(boards);
+			Boards = _info->boards;
+			Drivers = _info->drivers;
+			LedGroups = _info->ledgroups;
+			Channels = _info->channels;
+			Bytes = _info->bytes;
 		}
 
 		property Byte Boards;
@@ -45,15 +45,11 @@ namespace LampInterop {
 		property UInt16 Channels;
 		property UInt16 Bytes;
 
-		property ChainInfo Native {
-			ChainInfo get() {
-				return ChainInfo {
-					Boards,
-					Drivers,
-					LedGroups,
-					Channels,
-					Bytes
-				};
+		ChainInfo* _info;
+
+		property ChainInfo* Native {
+			ChainInfo* get() {
+				return _info;
 			}
 		};
 
@@ -88,7 +84,7 @@ namespace LampInterop {
 		void setAllLeds(LedValue values[]) override;
 		void setBrightness(uint8_t brightness) override;
 		void setBrightness(uint8_t values[]) override;
-		ChainInfo getChainInfo() override;
+		ChainInfo* getChainInfo() override;
 
 	private:
 		gcroot<AbstractLedBoardChain^> m_owner;
@@ -155,7 +151,7 @@ namespace LampInterop {
 			}
 			SetBrightness(list);
 		}
-		ChainInfo CallGetChainInfo() {
+		ChainInfo* CallGetChainInfo() {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractLedBoardChain");
 			return GetChainInfo()->Native;
 		}

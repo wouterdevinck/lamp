@@ -5,18 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" d:DesignHeight="5" d:DesignWidth="5">
     <Grid>
-        <Ellipse Width="5" Height="5" Fill="#ececec">
+        <Ellipse Width="5" Height="5" Fill="White">
             <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="0"
-                    Color="Yellow" Opacity="1" BlurRadius="10"/>
+                <DropShadowEffect ShadowDepth="0" x:Name="shadow"
+                    Color="Yellow" Opacity="1" BlurRadius="0" />
             </Ellipse.Effect>
         </Ellipse>
-        <Ellipse Width="5" Height="5" Fill="Transparent">
+        <Ellipse Width="5" Height="5" Fill="Transparent" x:Name="rgb">
             <Ellipse.Clip>
                 <RectangleGeometry Rect="0 0 3 5" />
             </Ellipse.Clip>
         </Ellipse>
-        <Ellipse Width="5" Height="5" Fill="Yellow">
+        <Ellipse Width="5" Height="5" Fill="Transparent" x:Name="white">
             <Ellipse.Clip>
                 <RectangleGeometry Rect="3 0 5 5" />
             </Ellipse.Clip>

@@ -13,9 +13,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <local:Led Grid.Row="0" />
-        <local:Led Grid.Row="1" />
-        <local:Led Grid.Row="2" />
-        <local:Led Grid.Row="3" />
+        <local:Led Grid.Row="0" x:Name="led1" />
+        <local:Led Grid.Row="1" x:Name="led2" />
+        <local:Led Grid.Row="2" x:Name="led3" />
+        <local:Led Grid.Row="3" x:Name="led4" />
     </Grid>
 </UserControl>

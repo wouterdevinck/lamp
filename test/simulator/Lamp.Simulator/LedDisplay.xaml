@@ -12,7 +12,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="35" />
         </Grid.RowDefinitions>
-        <local:LedPanel Grid.Row="0" />
-        <local:LedPanel Grid.Row="2" />
+        <local:LedPanel Grid.Row="0" x:Name="Top" />
+        <local:LedPanel Grid.Row="2" x:Name="Bottom" />
     </Grid>
 </UserControl>

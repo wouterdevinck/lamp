@@ -6,20 +6,33 @@ namespace Lamp.Simulator {
 
     internal class LedArray : AbstractLedBoardChain {
 
+        private const Byte Boards = 30;
+        private LedDisplay _disp;
+        private ChainInfoWrapper _info;
+
+        public LedArray(LedDisplay disp) {
+            _disp = disp;
+            _info = new ChainInfoWrapper(Boards);
+        }
+
         protected override void AddKeyframe(KeyFrameWrapper keyframe) {
             throw new NotImplementedException();
         }
 
         protected override ChainInfoWrapper GetChainInfo() {
-            throw new NotImplementedException();
+            return _info;
         }
 
         protected override void SetAllLeds(LedValueWrapper color) {
-            throw new NotImplementedException();
+            var values = new List<LedValueWrapper>();
+            for (var i = 0; i < _info.LedGroups; i++) {
+                values.Add(color);
+            }
+            _disp.Values = values;
         }
 
         protected override void SetAllLeds(List<LedValueWrapper> values) {
-            throw new NotImplementedException();
+            _disp.Values = values;
         }
 
         protected override void SetBrightness(List<byte> values) {

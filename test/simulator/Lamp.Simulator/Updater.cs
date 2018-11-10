@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 
 namespace Lamp.Simulator {
 
@@ -25,14 +26,17 @@ namespace Lamp.Simulator {
         }
         
         protected override bool BeginUpgrade() {
+            Thread.Sleep(100);
             return true;
         }
 
         protected override bool WriteChunk(List<byte> chunk) {
+            Thread.Sleep(1000);
             return true;
         }
 
         protected override bool CompleteUpgrade() {
+            Thread.Sleep(500);
             return true;
         }
 

@@ -1,8 +1,8 @@
 #include "Updater.h"
 #include "version.h"
 #include "esp_log.h"
-#include <iomanip>
-#include <sstream>
+// #include <iomanip>
+// #include <sstream>
 
 static char tag[] = "Updater";
 
@@ -14,7 +14,7 @@ Updater::Updater() {
   // TEMP TEST
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
   ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);
-  ostringstream dbg;
+  /* ostringstream dbg;
   dbg << endl;
   for (int i = 0; i < fpga_image_end - fpga_image_start; ++i) {
     dbg << hex << setw(2) << setfill('0') << 
@@ -23,7 +23,7 @@ Updater::Updater() {
       dbg << endl;
     }
   }
-  ESP_LOGD(tag, "%s", dbg.str().c_str())
+  ESP_LOGD(tag, "%s", dbg.str().c_str())*/
 
 }
 

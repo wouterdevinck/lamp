@@ -10,9 +10,9 @@ const LedValue LedsManager::LampColors[4] = {
 };
 
 void LedsManager::start() const {
-  _leds->setAllLeds(LampColors[White]);
+  _leds->setAllLeds(LampColors[(uint8_t)LampColor::White]);
 }
 
 void LedsManager::changeColor(LampColor color) const {
-  _leds->setAllLeds(LampColors[color]);
+  _leds->setAllLeds(LampColors[(uint8_t)color]);
 }

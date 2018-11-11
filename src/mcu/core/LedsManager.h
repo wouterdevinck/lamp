@@ -9,7 +9,7 @@
 
 namespace lamp {
 
-  enum LampColor {
+  enum struct LampColor : uint8_t {
     Red = 0,
     Green = 1,
     Blue = 2,

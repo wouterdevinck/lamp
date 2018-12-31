@@ -10,7 +10,8 @@ Lamp::Lamp(
   IHttpServer* httpserver,
   IHttpClient* httpclient,
   IRgbLed* led,
-  ILedBoardChain* leds
+  ILedBoardChain* leds,
+  ITiming* timing
 ) {
   _updater = updater;
   _logger = logger;
@@ -19,8 +20,9 @@ Lamp::Lamp(
   _httpclient = httpclient;
   _led = led;
   _leds = leds;
+  _timing = timing;
   _upgrade = new UpgradeManager(updater, logger, httpclient);
-  _manager = new LedsManager(leds);
+  _manager = new LedsManager(leds, timing);
   _httphandler = new HttpHandler(led, _upgrade, _manager);
   _irhandler = new IrHandler(led, _manager);
 }
@@ -28,12 +30,14 @@ Lamp::Lamp(
 Lamp::Lamp(
   IIrReceiver* ir,
   IRgbLed* led,
-  ILedBoardChain* leds
+  ILedBoardChain* leds,
+  ITiming* timing
 ) {
   _ir = ir;
   _led = led;
   _leds = leds;
-  _manager = new LedsManager(leds);
+  _timing = timing;
+  _manager = new LedsManager(leds, timing);
   _irhandler = new IrHandler(led, _manager);
 }
 #endif

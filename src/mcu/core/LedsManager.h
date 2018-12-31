@@ -3,9 +3,11 @@
 // TODO logs
 
 #include "ILedBoardChain.h"
+#include "ITiming.h"
 
-#define LEDMAX 4095
+#define BRIINIT 100
 #define BRIMAX 127
+#define LEDMAX 4095
 
 namespace lamp {
 
@@ -19,13 +21,23 @@ namespace lamp {
   class LedsManager {
 
     public:
-      explicit LedsManager(ILedBoardChain* leds) : _leds(leds) {}
+      explicit LedsManager(ILedBoardChain* leds, ITiming* timing) : 
+        _leds(leds), _timing(timing) { 
+          _bri = BRIINIT; 
+          _color = LampColor::White;
+      }
 
       void start() const;
-      void changeColor(LampColor color) const;
+      void changeColor(LampColor color);
+      void increaseBrightness();
+      void decreaseBrightness();
+      void test() const;
 
     private:
       ILedBoardChain* _leds;
+      ITiming* _timing;
+      uint8_t _bri;
+      LampColor _color;
       const static LedValue LampColors[];
 
   };

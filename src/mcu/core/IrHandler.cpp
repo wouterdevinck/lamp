@@ -4,7 +4,13 @@ using namespace lamp;
 	
 void IrHandler::handleIrCommand(uint16_t code) {
   switch(code) {
-    case (uint16_t)IrCommand::Red: 
+    case (uint16_t)IrCommand::BrightnessUp:
+      _leds->increaseBrightness();
+      break;
+    case (uint16_t)IrCommand::BrightnessDown:
+      _leds->decreaseBrightness();
+      break;
+    case (uint16_t)IrCommand::Red:
       _led->setLedColor({ 255, 0, 0 });
       _leds->changeColor(LampColor::Red);
       break;
@@ -19,6 +25,9 @@ void IrHandler::handleIrCommand(uint16_t code) {
     case (uint16_t)IrCommand::White:
       _led->setLedColor({ 255, 255, 255 });
       _leds->changeColor(LampColor::White);
+      break;
+    case (uint16_t)IrCommand::Flash:
+      _leds->test();
       break;
   }
 }

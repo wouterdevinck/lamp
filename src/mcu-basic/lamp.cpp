@@ -3,9 +3,10 @@
 #include "IrReceiver.h"
 #include "RgbLed.h"
 #include "LedBoardChain.h"
+#include "Timing.h"
 #include "Lamp.h"
 
-#define BOARDS 2
+#define BOARDS 4
 
 using namespace lamp;
 
@@ -17,7 +18,8 @@ int main(void) {
   auto ir = new IrReceiver();
   auto led = new RgbLed();
   auto leds = new LedBoardChain(BOARDS);
-  auto lamp = new Lamp(ir, led, leds);
+  auto timing = new Timing();
+  auto lamp = new Lamp(ir, led, leds, timing);
   lamp->start(0);
   while(1){
     ir->loop();

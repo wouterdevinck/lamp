@@ -7,7 +7,7 @@ IrReceiver::IrReceiver() {}
 
 void IrReceiver::start(IIrHandler* handler) {
   _handler = handler;
-  TCCR1B = _BV(CS11);
+  TCCR1B |= _BV(CS11);
   PORTD |= _BV(PD4);
 }
 

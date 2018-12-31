@@ -43,7 +43,7 @@ void LedBoardChain::setAllLeds(LedValue values[], uint8_t(*index)(uint8_t)) {
   for(uint8_t l = 0; l < _info->ledgroups; l++) {
     for(uint8_t i = 0; i < 4; i++) {
       uint16_t c = (l * 4) + i;
-      auto led = values[index(_info->ledgroups - 1 - l)];
+      auto led = values[index(_info->ledgroups - 1 - l)]; // TODO flip groups of 4
       uint16_t val = i == 0 ? led.b : (i == 1? led.w : (i == 2 ? led.r : led.g));
       if (c & 1) {
         data[0] = val >> 4;

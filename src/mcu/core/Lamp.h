@@ -6,6 +6,7 @@
 #include "IrHandler.h"
 #include "IRgbLed.h"
 #include "ILedBoardChain.h"
+#include "ITiming.h"
 #include "LedsManager.h"
 
 #ifndef BASIC
@@ -32,13 +33,15 @@ namespace lamp {
         IHttpServer* httpserver, 
         IHttpClient* httpclient, 
         IRgbLed* led, 
-        ILedBoardChain* leds
+        ILedBoardChain* leds,
+        ITiming* timing
       );
       #else
       explicit Lamp(
         IIrReceiver* ir, 
         IRgbLed* led,
-        ILedBoardChain* leds
+        ILedBoardChain* leds,
+        ITiming* timing
       );
       #endif
 
@@ -49,6 +52,7 @@ namespace lamp {
       IIrHandler* _irhandler;
       IRgbLed* _led;
       ILedBoardChain* _leds;
+      ITiming* _timing;
       LedsManager* _manager;
       #ifndef BASIC
       IUpdater* _updater;

@@ -23,22 +23,24 @@ bool UpgradeManager::upgrade(string url) const {
     _logger->logError(_tag, "Failed to start upgrade");
     return false;
   }
-  map<string, string> headers = { { HTTP_RANGE, "" } };
+  map<string, string> headers = { { HTTPCLIENT_RANGE, "" } };
   auto current = 0;
   auto total = CHUNK_SIZE;
   while (current < total) {
     ostringstream range;
     range << "bytes=" << current << "-" << min((current + CHUNK_SIZE), total) - 1;
-    headers[HTTP_RANGE] = range.str();
+    headers[HTTPCLIENT_RANGE] = range.str();
     _logger->logDebug(_tag, "Downloading chunk: " + range.str());
-    auto resp = _httpclient->request({ HTTP_GET, url, headers });
+    auto resp = _httpclient->request({ HTTPCLIENT_GET, url, headers });
+    // TODO Check status code (expect 206 Partial Content)
     _logger->logDebug(_tag, "Writing chunk to flash");
     if (!_updater->writeChunk(resp.body)) {
       _logger->logError(_tag, "Failed to write chunk");
       return false;
     }
     current += CHUNK_SIZE;
-    auto header = resp.headers[HTTP_CONTENT_RANGE];
+    auto header = resp.headers[HTTPCLIENT_CONTENT_RANGE];
+    // TODO Check header existence
     total = atoi(header.substr(header.find("/") + 1).c_str());
   }
   _logger->logDebug(_tag, "Completing upgrade");

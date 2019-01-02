@@ -42,20 +42,21 @@ string Updater::getInstalledFpgaHash() {
 
 bool Updater::beginUpgrade() {
   // TODO
-  return false;
+  ESP_LOGD(tag, "beginUpgrade");
+  return true;
 }
 
 bool Updater::writeChunk(vector<uint8_t> chunk) {
   // TODO
-  return false;
+  return true;
 }
 
 bool Updater::completeUpgrade() {
   // TODO
-  return false;
+  return true;
 }
 
 bool Updater::flashFpga() {
   // TODO
-  return false;
+  return true;
 }

@@ -9,7 +9,8 @@ static char tag[] = "Updater";
 using namespace lamp;
 using namespace std;
 
-Updater::Updater() {
+Updater::Updater(uint16_t chunkSize) {
+  _chunkSize = chunkSize;
 
   // TEMP TEST
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
@@ -59,4 +60,8 @@ bool Updater::completeUpgrade() {
 bool Updater::flashFpga() {
   // TODO
   return true;
+}
+
+uint16_t Updater::getPreferredChunkSize() {
+  return _chunkSize;
 }

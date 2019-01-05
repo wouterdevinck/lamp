@@ -12,7 +12,7 @@ namespace lamp {
   class Updater : public IUpdater {
 
     public:
-      explicit Updater();
+      explicit Updater(uint16_t chunkSize);
 
       string getRunningVersion() override;
       string getRunningFpgaHash() override;
@@ -23,6 +23,11 @@ namespace lamp {
       bool completeUpgrade() override;
 
       bool flashFpga() override;
+
+      uint16_t getPreferredChunkSize() override;
+
+    private:
+      uint16_t _chunkSize;
 
   };
 

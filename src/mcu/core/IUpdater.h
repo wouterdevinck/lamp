@@ -22,6 +22,8 @@ namespace lamp {
 
     virtual bool flashFpga() = 0;
 
+    virtual uint16_t getPreferredChunkSize() = 0;
+
   };
 
 }

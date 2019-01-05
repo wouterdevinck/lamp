@@ -4,8 +4,6 @@
 #include "IHttpClient.h"
 #include "ILogger.h"
 
-#define CHUNK_SIZE 50 * 1024 // TODO Make this a config somewhere (re-use in httpclient implementation for receive buffer size)
-
 namespace lamp {
 
   class UpgradeManager {

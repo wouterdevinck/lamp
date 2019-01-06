@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IUpdater.h"
+#include "esp_ota_ops.h"
 #include <cstdint>
 
 // Load fpga bitstream from .rodata section
@@ -28,6 +29,8 @@ namespace lamp {
 
     private:
       uint16_t _chunkSize;
+      esp_ota_handle_t _otaHandle;
+      const esp_partition_t* _otaTarget;
 
   };
 

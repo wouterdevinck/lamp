@@ -20,7 +20,7 @@ bool UpgradeManager::upgrade(string url) const {
   _logger->logInfo(_tag, "Starting upgrade");
   _logger->logDebug(_tag, "Upgrade URL: " + url);
   uint16_t chunkSize = _updater->getPreferredChunkSize();
-  _logger->logDebug(_tag, "Chunk size: " + chunkSize);
+  _logger->logDebug(_tag, "Chunk size: " + chunkSize); // BUG
   if (!_updater->beginUpgrade()) {
     _logger->logError(_tag, "Failed to start upgrade");
     return false;

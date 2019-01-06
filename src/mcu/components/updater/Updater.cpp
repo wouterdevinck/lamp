@@ -1,6 +1,7 @@
 #include "Updater.h"
 #include "version.h"
 #include "esp_log.h"
+#include "esp_system.h"
 // #include <iomanip>
 // #include <sstream>
 
@@ -11,8 +12,6 @@ using namespace std;
 
 Updater::Updater(uint16_t chunkSize) {
   _chunkSize = chunkSize;
-
-  // TEMP TEST
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
   ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);
   /* ostringstream dbg;
@@ -25,7 +24,6 @@ Updater::Updater(uint16_t chunkSize) {
     }
   }
   ESP_LOGD(tag, "%s", dbg.str().c_str())*/
-
 }
 
 string Updater::getRunningVersion() {
@@ -42,18 +40,42 @@ string Updater::getInstalledFpgaHash() {
 }
 
 bool Updater::beginUpgrade() {
-  // TODO
-  ESP_LOGD(tag, "beginUpgrade");
+  ESP_LOGD(tag, "Begin upgrade called");
+  _otaTarget = ::esp_ota_get_next_update_partition(NULL);
+  esp_err_t err = ::esp_ota_begin(_otaTarget, OTA_SIZE_UNKNOWN, &_otaHandle);
+  if (err != ESP_OK) {
+    ESP_LOGE(tag, "Begin upgrade failed!");
+    return false;
+  }
+  ESP_LOGI(tag, "Begin upgrade succeeded");
   return true;
 }
 
 bool Updater::writeChunk(vector<uint8_t> chunk) {
-  // TODO
+  ESP_LOGD(tag, "Write chunk called");
+  esp_err_t err = ::esp_ota_write(_otaHandle, (const void *)chunk.data(), chunk.size());
+  if (err != ESP_OK) {
+    ESP_LOGE(tag, "Writing chunk failed!");
+    return false;
+  }
+  ESP_LOGD(tag, "Chunk written - %d bytes", chunk.size());
   return true;
 }
 
 bool Updater::completeUpgrade() {
-  // TODO
+  ESP_LOGD(tag, "Complete upgrade called");
+  esp_err_t err = ::esp_ota_end(_otaHandle);
+  if (err != ESP_OK) {
+    ESP_LOGE(tag, "Complete upgrade failed (esp_ota_end)!");
+    return false;
+  }
+  err = ::esp_ota_set_boot_partition(_otaTarget);
+  if (err != ESP_OK) {
+    ESP_LOGE(tag, "Complete upgrade failed (esp_ota_set_boot_partition)!");
+    return false;
+  }
+  ESP_LOGI(tag, "Restarting...");
+  ::esp_restart();
   return true;
 }
 

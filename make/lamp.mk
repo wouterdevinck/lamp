@@ -59,6 +59,12 @@ flash-mcu:
 	  0x10000 $(ARTIFACT_DIR)/factory/lamp.bin \
 	  0x8000 $(ARTIFACT_DIR)/factory/partitions.bin
 
+.PHONY: reset-ota-mcu
+reset-ota-mcu:
+	$(IDF_PATH)/components/esptool_py/esptool/esptool.py \
+	  --chip esp32 --port /dev/ttyUSB1 --baud 115200 \
+	  --after hard_reset erase_region 0xd000 0x2000
+
 .PHONY: monitor-mcu
 monitor-mcu:
 	$(IDF_PATH)/tools/idf_monitor.py \

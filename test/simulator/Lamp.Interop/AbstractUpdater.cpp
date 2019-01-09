@@ -30,3 +30,7 @@ bool NativeUpdater::completeUpgrade() {
 bool NativeUpdater::flashFpga() {
 	return m_owner->CallFlashFpga();
 }
+
+uint16_t NativeUpdater::getPreferredChunkSize() {
+	return m_owner->CallGetPreferredChunkSize();
+}

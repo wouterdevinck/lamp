@@ -25,7 +25,8 @@ namespace LampInterop {
 		bool beginUpgrade() override;
 		bool writeChunk(vector<uint8_t> chunk) override;
 		bool completeUpgrade() override;
-		bool flashFpga() override;
+		bool flashFpga() override;   
+		uint16_t getPreferredChunkSize() override;
 
 	private:
 		gcroot<AbstractUpdater^> m_owner;
@@ -56,6 +57,7 @@ namespace LampInterop {
 		virtual Boolean WriteChunk(List<Byte>^ chunk) = 0;
 		virtual Boolean CompleteUpgrade() = 0;
 		virtual Boolean FlashFpga() = 0;
+		virtual UInt16 GetPreferredChunkSize() = 0;
 
 	internal:
 		string CallGetRunningVersion() {
@@ -85,6 +87,10 @@ namespace LampInterop {
 		bool CallFlashFpga() {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractUpdater");
 			return FlashFpga();
+		}
+		UInt16 CallGetPreferredChunkSize() {
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractUpdater");
+			return GetPreferredChunkSize();
 		}
 		
 	};

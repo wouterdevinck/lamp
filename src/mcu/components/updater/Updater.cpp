@@ -2,6 +2,7 @@
 #include "version.h"
 #include "esp_log.h"
 #include "esp_system.h"
+
 // #include <iomanip>
 // #include <sstream>
 
@@ -53,6 +54,12 @@ bool Updater::beginUpgrade() {
 
 bool Updater::writeChunk(vector<uint8_t> chunk) {
   ESP_LOGD(tag, "Write chunk called");
+  /* ostringstream dbg;
+  for (int i = 0; i < chunk.size(); ++i) {
+    dbg << hex << setw(2) << setfill('0') << 
+      static_cast<unsigned int>(chunk.data()[i]);
+  }
+  ESP_LOGD(tag, "Chunk: %s", dbg.str().c_str()); */
   esp_err_t err = ::esp_ota_write(_otaHandle, (const void *)chunk.data(), chunk.size());
   if (err != ESP_OK) {
     ESP_LOGE(tag, "Writing chunk failed!");

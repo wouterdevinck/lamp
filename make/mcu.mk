@@ -14,3 +14,7 @@ include $(IDF_PATH)/make/project.mk
 clean-dir:
 	rm -rf $(BUILD_DIR_BASE)
 	rm -rf $(BUILD_DIR_CORE)
+
+.PHONY: clean-version
+clean-version:
+	rm -rf $(BUILD_DIR_BASE)/updater/version.h

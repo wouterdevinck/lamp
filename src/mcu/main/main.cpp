@@ -13,9 +13,12 @@
 #include "Logger.h"
 #include "IrReceiver.h"
 #include "Lamp.h"
+#include "MemMon.h"
 
 #define WIFI_SSID CONFIG_WIFI_SSID
 #define WIFI_PASS CONFIG_WIFI_PASSWORD
+
+#define CHUNK_SIZE 25 * 1024
 
 static char tag[] = "LampMain";
 
@@ -33,10 +36,10 @@ class LampWiFiEventHandler: public WiFiEventHandler {
     auto spi = new SPI(SPI1_HOST, SPI1_DMA_CH, SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_CLK_PIN, SPI1_CS_PIN);
 
     auto httpserver = new HttpServer();
-    auto httpclient = new HttpClient();
+    auto httpclient = new HttpClient(CHUNK_SIZE);
     auto led = new RgbLed(PIN_RGB_RED, PIN_RGB_GREEN, PIN_RGB_BLUE);
     auto leds = new LedBoardChain(spi, PIN_LED_INT);
-    auto updater = new Updater();
+    auto updater = new Updater(CHUNK_SIZE);
     auto logger = new Logger();
     auto ir = new IrReceiver();
     auto lamp = new Lamp(updater, logger, ir, httpserver, httpclient, led, leds); 
@@ -73,6 +76,8 @@ class LampWiFiEventHandler: public WiFiEventHandler {
 };
 
 void app_main(void) {
+
+  MemMon memmon(5000);
 
   WiFi wifi;
   auto *eventHandler = new LampWiFiEventHandler();

@@ -1,4 +1,5 @@
 ﻿using LampInterop;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
@@ -43,6 +44,10 @@ namespace Lamp.Simulator {
         protected override bool FlashFpga() {
             _runningHash = _installedHash;
             return true;
+        }
+
+        protected override UInt16 GetPreferredChunkSize() {
+            return 50 * 1024;
         }
         
         private static string ComputeSha256(string input) {

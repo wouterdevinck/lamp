@@ -7,9 +7,12 @@ namespace lamp {
   class HttpClient : public IHttpClient {
 
     public:
-      explicit HttpClient() {}
+      explicit HttpClient(uint16_t chunkSize) : _chunkSize(chunkSize) {}
 
       HttpResponse request(HttpRequest req) override;
+
+    private:
+      uint16_t _chunkSize;
 
   };
 

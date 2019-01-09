@@ -22,7 +22,7 @@ string HttpHandler::handleHttpRequest(string method, string path) {
   }
   if (method == "POST") {
     if (path == "/upgrade") {
-      auto url = "https://github.com/wouterdevinck/lamp/releases/download/0.2.0/lamp.bin"; // TODO get from form
+      auto url = "https://github.com/wouterdevinck/lamp/releases/download/0.4.1/lamp.bin"; // TODO get from form
       if (_upgrade->upgrade(url)) {
         return "Upgrade completed";
       } else {
@@ -45,7 +45,7 @@ string HttpHandler::handleHttpRequest(string method, string path) {
     "  <a href=\"/b\">BLUE</a>\n"
     "  <h1>Upgrade</h1>\n"
     "  <form action=\"upgrade\" method=\"POST\">\n"
-    "    <!--<input type=\"text\" name=\"url\"><br />-->\n"
+    "    <input type=\"text\" name=\"url\" value=\"https://github.com/wouterdevinck/lamp/releases/download/0.4.1/lamp.bin\" size=\"60\"><br />\n"
     "    <input type=\"submit\" value=\"Upgrade\">\n"
     "  </form>\n"
     "  <footer>\n"

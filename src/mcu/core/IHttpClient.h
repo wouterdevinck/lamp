@@ -5,9 +5,10 @@
 #include <vector>
 #include <map>
 
-#define HTTP_GET "GET"
-#define HTTP_RANGE "Range"
-#define HTTP_CONTENT_RANGE "Content-Range"
+#define HTTPCLIENT_GET "GET"
+#define HTTPCLIENT_POST "POST"
+#define HTTPCLIENT_RANGE "Range"
+#define HTTPCLIENT_CONTENT_RANGE "Content-Range"
 
 using namespace std;
 

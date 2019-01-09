@@ -4,8 +4,6 @@
 #include "IHttpClient.h"
 #include "ILogger.h"
 
-#define CHUNK_SIZE 100 * 1024
-
 namespace lamp {
 
   class UpgradeManager {

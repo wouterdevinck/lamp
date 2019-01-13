@@ -2,6 +2,9 @@
 
 #define HTTP_PORT     (80)
 
+#define CHUNK_SIZE    (25 * 1024)
+#define MEMMON_PERIOD (5000)
+
 #define PIN_RGB_BLUE  (33)
 #define PIN_RGB_GREEN (32)
 #define PIN_RGB_RED   (25)

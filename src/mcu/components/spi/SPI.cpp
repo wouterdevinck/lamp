@@ -32,7 +32,7 @@ SPI::SPI(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int p
   dev_config.cs_ena_pretrans  = 0;
   dev_config.clock_speed_hz   = 100000;
   dev_config.spics_io_num     = pinCs;
-  dev_config.flags            = 0;
+  dev_config.flags            = SPI_DEVICE_HALFDUPLEX; // TODO
   dev_config.queue_size       = 1;
   dev_config.pre_cb           = NULL;
   dev_config.post_cb          = NULL;

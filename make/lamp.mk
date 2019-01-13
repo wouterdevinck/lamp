@@ -57,8 +57,10 @@ flash-mcu:
 	  --before default_reset --after hard_reset write_flash -z \
 	  --flash_mode dio --flash_freq 40m --flash_size detect \
 	  0x1000 $(ARTIFACT_DIR)/factory/bootloader.bin \
-	  0x10000 $(ARTIFACT_DIR)/factory/lamp.bin \
-	  0x8000 $(ARTIFACT_DIR)/factory/partitions.bin
+	  0x8000 $(ARTIFACT_DIR)/factory/partitions.bin \
+	  0xd000 $(ARTIFACT_DIR)/factory/ota_data_initial.bin \
+	  0xf000 $(ARTIFACT_DIR)/factory/phy_init_data.bin \
+	  0x10000 $(ARTIFACT_DIR)/factory/lamp.bin 
 
 .PHONY: reset-ota-mcu
 reset-ota-mcu:

@@ -15,6 +15,7 @@ WiFiClient::WiFiClient(Storage* _) {
   ESP_ERROR_CHECK(::esp_event_loop_init(&eventHandler, NULL));
   wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
   ESP_ERROR_CHECK(::esp_wifi_init(&cfg));
+  ESP_ERROR_CHECK(::esp_wifi_set_mode(WIFI_MODE_STA));
 }
 
 void WiFiClient::setHandler(IWiFiHandler* handler) {
@@ -27,9 +28,8 @@ void WiFiClient::connect(string ssid, string pwd) {
   ::memcpy(sta_config.sta.ssid, ssid.data(), ssid.size());
   ::memcpy(sta_config.sta.password, pwd.data(), pwd.size());
   sta_config.sta.bssid_set = 0;
-  ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-  ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &sta_config));
-  ESP_ERROR_CHECK(esp_wifi_start());
+  ::esp_wifi_set_config(ESP_IF_WIFI_STA, &sta_config);
+  ::esp_wifi_start();
 }
 
 void WiFiClient::reconnect() {
@@ -37,7 +37,9 @@ void WiFiClient::reconnect() {
 }
 
 void WiFiClient::startSmartConfig() {
-  // TODO
+  ::esp_wifi_start();
+  ::esp_smartconfig_set_type(SC_TYPE_ESPTOUCH);
+  ::esp_smartconfig_start(&smartConfigCallback);
 }
 
 esp_err_t WiFiClient::eventHandler(void *ctx, system_event_t *event) {
@@ -60,4 +62,40 @@ esp_err_t WiFiClient::eventHandler(void *ctx, system_event_t *event) {
       break;
   }
   return ESP_OK;
+}
+
+void WiFiClient::smartConfigCallback(smartconfig_status_t status, void *pdata) {
+  switch (status) {
+    case SC_STATUS_WAIT:
+      ESP_LOGI(tag, "Smart Config: WAIT");
+      break;
+    case SC_STATUS_FIND_CHANNEL:
+      ESP_LOGI(tag, "Smart Config: FIND_CHANNEL");
+      break;
+    case SC_STATUS_GETTING_SSID_PSWD:
+      ESP_LOGI(tag, "Smart Config: GETTING_SSID_PSWD");
+      break;
+    case SC_STATUS_LINK: 
+      {
+        ESP_LOGI(tag, "Smart Config: LINK");
+        auto wifi_config = (wifi_config_t*)pdata;
+        auto ssid = (char*)wifi_config->sta.ssid;
+        auto pwd = (char*)wifi_config->sta.password;
+        ESP_LOGI(tag, "SSID: %s", ssid);
+        ESP_LOGI(tag, "Password: %s", pwd);
+        _handler->onSmartConfig(string(ssid), string(pwd));
+      }
+      break;
+    case SC_STATUS_LINK_OVER:
+      ESP_LOGI(tag, "Smart Config: LINK_OVER");
+      if (pdata != NULL) {
+        uint8_t phone_ip[4] = { 0 };
+        memcpy(phone_ip, (uint8_t* )pdata, 4);
+        ESP_LOGI(tag, "Phone IP: %d.%d.%d.%d\n", phone_ip[0], phone_ip[1], phone_ip[2], phone_ip[3]);
+      }
+      ::esp_smartconfig_stop();
+      break;
+    default:
+      break;
+  }
 }

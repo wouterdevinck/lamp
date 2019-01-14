@@ -19,22 +19,24 @@ Lamp::Lamp(IPlatform* platform) {
   _upgrade = new UpgradeManager(updater, logger, httpclient);
   _httphandler = new HttpHandler(led, _upgrade, _manager);
   _wifihandler = new WiFiHandler(wifi, storage, httpserver, port, _httphandler);
+  wifi->setHandler(_wifihandler);
   #endif
 }
-
 
 void Lamp::start() const {
   #ifndef BASIC
   auto logger = _platform->getLogger();
   logger->logInfo("Lamp", "Lamp is starting");
   _upgrade->start();
-  
-  // TODO Load wifi settings from storage, 
-  //   if no wifi settings in storage, run smartconfig
-
   auto wifi = _platform->getWiFiClient();
-  wifi->connect("", "");
-
+  auto storage = _platform->getStorage();
+  auto ssid = storage->getValue(STORE_SSID);
+  auto pwd = storage->getValue(STORE_PWD);
+  if (ssid.empty() || pwd.empty()) {
+    wifi->startSmartConfig();
+  } else {
+    wifi->connect(ssid, pwd);
+  }
   #endif
   _manager->start();
   auto ir = _platform->getIrReceiver();

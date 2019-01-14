@@ -16,10 +16,10 @@ Storage::Storage() {
 string Storage::getValue(string key) {
   size_t required_size;
   auto err = ::nvs_get_str(_handle, key.c_str(), NULL, &required_size);
-  if (err != ESP_OK) return NULL;
+  if (err != ESP_OK) return string();
   char* val = (char*)malloc(required_size);
   err = ::nvs_get_str(_handle, key.c_str(), val, &required_size);
-  if (err != ESP_OK) return NULL;
+  if (err != ESP_OK) return string();
   return string(val);
 }
 

@@ -23,6 +23,7 @@ namespace lamp {
 
       void start() const;
       void changeColor(LampColor color) const;
+      void test() const;
 
     private:
       ILedBoardChain* _leds;

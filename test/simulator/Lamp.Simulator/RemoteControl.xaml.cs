@@ -12,6 +12,7 @@ namespace Lamp.Simulator {
             btnGreen.Click += (s, e) => { Send(0x0010); };
             btnBlue.Click += (s, e) => { Send(0x0050); };
             btnWhite.Click += (s, e) => { Send(0x00D0); };
+            btnFlash.Click += (s, e) => { Send(0x00F0); };
         }
 
         private void Send(short code) {

@@ -20,6 +20,9 @@ void IrHandler::handleIrCommand(uint16_t code) {
       _led->setLedColor({ 255, 255, 255 });
       _leds->changeColor(White);
       break;
+    case 0x00F0:
+      _leds->test();
+      break;
   }
 }
 

@@ -16,3 +16,9 @@ void LedsManager::start() const {
 void LedsManager::changeColor(LampColor color) const {
   _leds->setAllLeds(LampColors[color]);
 }
+
+void LedsManager::test() const {
+  for (uint16_t i = 0; i < 4096; i++) {
+    _leds->setAllLeds({i, 0, 0, 0});
+  }
+}

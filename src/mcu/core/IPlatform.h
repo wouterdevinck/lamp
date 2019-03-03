@@ -10,7 +10,7 @@
 #include "ILogger.h"
 #include "IHttpServer.h"
 #include "IHttpClient.h"
-#include "IStorage.h"
+#include "INvs.h"
 #endif
 
 namespace lamp {
@@ -29,7 +29,7 @@ namespace lamp {
     virtual ILogger* getLogger() = 0;
     virtual IHttpServer* getHttpServer() = 0;
     virtual IHttpClient* getHttpClient() = 0;
-    virtual IStorage* getStorage() = 0;
+    virtual INvs* getStorage() = 0;
     virtual int getHttpServerPort() = 0;
     #endif
 

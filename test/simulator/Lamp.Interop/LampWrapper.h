@@ -1,15 +1,8 @@
 #pragma once
 
 #include "Lamp.h"
-#include "AbstractHttpServer.h"
-#include "AbstractHttpClient.h"
-#include "AbstractRgbLed.h"
-#include "AbstractLedBoardChain.h"
-#include "AbstractUpdater.h"
-#include "AbstractLogger.h"
-#include "AbstractIrReceiver.h"
+#include "AbstractPlatform.h"
 
-using namespace System;
 using namespace lamp;
 
 namespace LampInterop {
@@ -18,27 +11,12 @@ namespace LampInterop {
 
 	public:
 		
-		LampWrapper(
-			AbstractUpdater^ updater,
-			AbstractLogger^ logger,
-			AbstractIrReceiver^ ir,
-			AbstractHttpServer^ httpserver, 
-			AbstractHttpClient^ httpclient, 
-			AbstractRgbLed^ led, 
-			AbstractLedBoardChain^ leds) {
-			m_Impl = new Lamp(
-				updater->Native(),
-				logger->Native(),
-				ir->Native(),
-				httpserver->Native(), 
-				httpclient->Native(), 
-				led->Native(), 
-				leds->Native()
-			);
+		LampWrapper(AbstractPlatform^ platform) {
+			m_Impl = new Lamp(platform->Native());
 		}
 		
-		void Start(int port) {
-			m_Impl->start(port);
+		void Start() {
+			m_Impl->start();
 		}
 
 	private:

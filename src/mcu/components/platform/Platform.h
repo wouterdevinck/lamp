@@ -29,7 +29,7 @@ namespace lamp {
       ILogger* getLogger() override;
       IHttpServer* getHttpServer() override;
       IHttpClient* getHttpClient() override;
-      IStorage* getStorage() override;
+      INvs* getStorage() override;
       int getHttpServerPort() override;
 
     private:

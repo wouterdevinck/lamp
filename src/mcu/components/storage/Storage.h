@@ -1,11 +1,11 @@
 #pragma once
 
-#include "IStorage.h"
+#include "INvs.h"
 #include "nvs_flash.h"
 
 namespace lamp {
 
-  class Storage : public IStorage {
+  class Storage : public INvs {
 
     public:
       explicit Storage();

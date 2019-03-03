@@ -50,7 +50,7 @@ IHttpClient* Platform::getHttpClient() {
   return _httpclient;
 }
 
-IStorage* Platform::getStorage() {
+INvs* Platform::getStorage() {
   return _storage;
 }
 

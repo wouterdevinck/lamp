@@ -1,6 +1,5 @@
 #pragma once
 
-#include <gcroot.h>
 #include <msclr\marshal_cppstd.h>
 
 #include <string>

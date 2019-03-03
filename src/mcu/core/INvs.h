@@ -9,9 +9,9 @@ using namespace std;
 
 namespace lamp {
 
-  struct IStorage {
+  struct INvs {
 
-    virtual ~IStorage() noexcept = default;
+    virtual ~INvs() noexcept = default;
 
     virtual string getValue(string key) = 0;
     virtual void setValue(string key, string value) = 0;

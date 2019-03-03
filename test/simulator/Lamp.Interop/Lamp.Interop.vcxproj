@@ -142,7 +142,10 @@
     <ClInclude Include="AbstractIrReceiver.h" />
     <ClInclude Include="AbstractLedBoardChain.h" />
     <ClInclude Include="AbstractLogger.h" />
+    <ClInclude Include="AbstractPlatform.h" />
+    <ClInclude Include="AbstractNvs.h" />
     <ClInclude Include="AbstractUpdater.h" />
+    <ClInclude Include="AbstractWiFiClient.h" />
     <ClInclude Include="HttpHandlerWrapper.h" />
     <ClInclude Include="AbstractHttpServer.h" />
     <ClInclude Include="AbstractRgbLed.h" />
@@ -151,13 +154,17 @@
     <ClInclude Include="MarshalHelper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="WiFiHandlerWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractHttpClient.cpp" />
     <ClCompile Include="AbstractIrReceiver.cpp" />
     <ClCompile Include="AbstractLedBoardChain.cpp" />
     <ClCompile Include="AbstractLogger.cpp" />
+    <ClCompile Include="AbstractPlatform.cpp" />
+    <ClCompile Include="AbstractNvs.cpp" />
     <ClCompile Include="AbstractUpdater.cpp" />
+    <ClCompile Include="AbstractWiFiClient.cpp" />
     <ClCompile Include="HttpHandlerWrapper.cpp" />
     <ClCompile Include="AbstractHttpServer.cpp" />
     <ClCompile Include="AbstractRgbLed.cpp" />
@@ -171,6 +178,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="WiFiHandlerWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

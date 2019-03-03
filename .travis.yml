@@ -14,6 +14,8 @@ deploy:
   file:
   - out/factory/bootloader.bin
   - out/factory/partitions.bin
+  - out/factory/ota_data_initial.bin
+  - out/factory/phy_init_data.bin
   - out/factory/lamp.bin
   - out/factory/lamp.hex
   - out/simulator/simulator.zip

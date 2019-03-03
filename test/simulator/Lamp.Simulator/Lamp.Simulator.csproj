@@ -85,11 +85,14 @@
       <DependentUpon>LedPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
+    <Compile Include="Nvs.cs" />
+    <Compile Include="Platform.cs" />
     <Compile Include="RemoteControl.xaml.cs">
       <DependentUpon>RemoteControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="RgbLed.cs" />
     <Compile Include="Updater.cs" />
+    <Compile Include="WiFiClient.cs" />
     <Page Include="LedDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

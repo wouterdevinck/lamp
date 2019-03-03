@@ -9,23 +9,14 @@ namespace Lamp.Simulator {
         public MainWindow() {
             InitializeComponent();
 
-            var updater = new Updater();
-            var logger = new Logger();
-            var ir = new IrReceiver();
-            var httpserver = new HttpServer();
-            var httpclient = new HttpClient();
-            var led = new RgbLed(ellipse);
-            var leds = new LedArray(ledDisplay);
-
-            var lamp = new LampWrapper(updater, logger, ir, httpserver, httpclient, led, leds);
-
-            remote.Ir = ir;
-
-            lamp.Start(Port);
+            var platform = new Platform(Port, ellipse, ledDisplay);
+            var lamp = new LampWrapper(platform);
+            remote.Ir = platform.IrReceiver;
+            lamp.Start();
 
             // Browser
             browser.Navigated += (s, e) => {
-                url.Text = browser.Source?.ToString();
+                url.Text = browser.Source.ToString();
                 btnBack.IsEnabled = browser.CanGoBack;
                 btnNext.IsEnabled = browser.CanGoForward;
             };
@@ -34,8 +25,8 @@ namespace Lamp.Simulator {
             btnNext.Click += (s, e) => browser.GoForward();
 
             // Logs
-            log.DataContext = logger;
-            logger.PropertyChanged += (s, e) =>
+            log.DataContext = platform.Logger;
+            platform.Logger.PropertyChanged += (s, e) =>
                 Dispatcher.Invoke(() => 
                     logscroll.ScrollToBottom());
 

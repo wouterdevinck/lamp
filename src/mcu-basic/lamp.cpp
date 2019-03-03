@@ -1,8 +1,6 @@
 #include "new.h"
 
-#include "IrReceiver.h"
-#include "RgbLed.h"
-#include "LedBoardChain.h"
+#include "Platform.h"
 #include "Lamp.h"
 
 #define BOARDS 2
@@ -14,12 +12,10 @@ extern "C" {
 }
 
 int main(void) {
-  auto ir = new IrReceiver();
-  auto led = new RgbLed();
-  auto leds = new LedBoardChain(BOARDS);
-  auto lamp = new Lamp(ir, led, leds);
-  lamp->start(0);
+  auto platform = new Platform(BOARDS);
+  auto lamp = new Lamp(platform);
+  lamp->start();
   while(1){
-    ir->loop();
+    platform->loop();
   }
 }

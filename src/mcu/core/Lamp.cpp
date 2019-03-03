@@ -2,50 +2,46 @@
 
 using namespace lamp;
 
-#ifndef BASIC
-Lamp::Lamp(
-  IUpdater* updater,
-  ILogger* logger,
-  IIrReceiver* ir,
-  IHttpServer* httpserver,
-  IHttpClient* httpclient,
-  IRgbLed* led,
-  ILedBoardChain* leds
-) {
-  _updater = updater;
-  _logger = logger;
-  _ir = ir;
-  _httpserver = httpserver;
-  _httpclient = httpclient;
-  _led = led;
-  _leds = leds;
-  _upgrade = new UpgradeManager(updater, logger, httpclient);
-  _manager = new LedsManager(leds);
-  _httphandler = new HttpHandler(led, _upgrade, _manager);
-  _irhandler = new IrHandler(led, _manager);
-}
-#else
-Lamp::Lamp(
-  IIrReceiver* ir,
-  IRgbLed* led,
-  ILedBoardChain* leds
-) {
-  _ir = ir;
-  _led = led;
-  _leds = leds;
+Lamp::Lamp(IPlatform* platform) {
+  _platform = platform;
+  auto leds = _platform->getLedBoardChain();
+  auto led = _platform->getRgbLed();
   _manager = new LedsManager(leds);
   _irhandler = new IrHandler(led, _manager);
-}
-#endif
-
-void Lamp::start(const int port) const {
   #ifndef BASIC
-  _logger->logInfo("Lamp", "Lamp is starting");
-  _httpserver->start(port, _httphandler);
+  auto updater = _platform->getUpdater();
+  auto logger = _platform->getLogger();
+  auto httpclient = _platform->getHttpClient();
+  auto httpserver = _platform->getHttpServer();
+  auto port = _platform->getHttpServerPort();
+  auto wifi = _platform->getWiFiClient();
+  auto storage = _platform->getStorage();
+  _upgrade = new UpgradeManager(updater, logger, httpclient);
+  _httphandler = new HttpHandler(led, _upgrade, _manager);
+  _wifihandler = new WiFiHandler(wifi, storage, httpserver, port, _httphandler);
+  wifi->setHandler(_wifihandler);
+  #endif
+}
+
+void Lamp::start() const {
+  #ifndef BASIC
+  auto logger = _platform->getLogger();
+  logger->logInfo("Lamp", "Lamp is starting");
   _upgrade->start();
+  auto wifi = _platform->getWiFiClient();
+  auto storage = _platform->getStorage();
+  auto ssid = storage->getValue(STORE_SSID);
+  auto pwd = storage->getValue(STORE_PWD);
+  if (ssid.empty() || pwd.empty()) {
+    wifi->startSmartConfig();
+  } else {
+    wifi->connect(ssid, pwd);
+  }
   #endif
   _manager->start();
-  _ir->start(_irhandler);
+  auto ir = _platform->getIrReceiver();
+  auto led = _platform->getRgbLed();  
+  ir->start(_irhandler);
   const RgbLedColor color = { 0, 0, 255 };
-  _led->setLedColor(color);
+  led->setLedColor(color);
 }

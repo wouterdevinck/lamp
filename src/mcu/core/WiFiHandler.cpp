@@ -6,6 +6,8 @@ using namespace lamp;
 	
 void WiFiHandler::onConnected() {
   _httpserver->start(_port, _httphandler);
+  auto client = _iot->connect(_iothandler);
+  // TODO
 }
 
 void WiFiHandler::onDisconnected() {

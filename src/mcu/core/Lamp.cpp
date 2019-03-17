@@ -13,12 +13,14 @@ Lamp::Lamp(IPlatform* platform) {
   auto logger = _platform->getLogger();
   auto httpclient = _platform->getHttpClient();
   auto httpserver = _platform->getHttpServer();
+  auto iot = _platform->getIotFramework();
   auto port = _platform->getHttpServerPort();
   auto wifi = _platform->getWiFiClient();
   auto storage = _platform->getStorage();
   _upgrade = new UpgradeManager(updater, logger, httpclient);
   _httphandler = new HttpHandler(led, _upgrade, _manager);
-  _wifihandler = new WiFiHandler(wifi, storage, httpserver, port, _httphandler);
+  _iothandler = new IotHandler();
+  _wifihandler = new WiFiHandler(wifi, storage, httpserver, port, _httphandler, iot, _iothandler);
   wifi->setHandler(_wifihandler);
   #endif
 }

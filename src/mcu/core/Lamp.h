@@ -7,6 +7,7 @@
 #ifndef BASIC
 #include "WiFiHandler.h"
 #include "HttpHandler.h"
+#include "IotHandler.h"
 #include "UpgradeManager.h"
 #endif
 
@@ -25,6 +26,7 @@ namespace lamp {
       #ifndef BASIC
       WiFiHandler* _wifihandler;
       HttpHandler* _httphandler;
+      IotHandler* _iothandler;
       UpgradeManager* _upgrade;
       #endif
 

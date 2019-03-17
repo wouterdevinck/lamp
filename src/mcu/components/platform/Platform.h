@@ -10,6 +10,7 @@
 #include "Logger.h"
 #include "HttpServer.h"
 #include "HttpClient.h"
+#include "AzureIot.h"
 #include "Storage.h"
 
 #include "SPI.h"
@@ -29,6 +30,7 @@ namespace lamp {
       ILogger* getLogger() override;
       IHttpServer* getHttpServer() override;
       IHttpClient* getHttpClient() override;
+      IIotFramework* getIotFramework() override;
       INvs* getStorage() override;
       int getHttpServerPort() override;
 
@@ -42,6 +44,7 @@ namespace lamp {
       Logger* _logger;
       HttpServer* _httpserver;
       HttpClient* _httpclient;
+      AzureIot* _iot;
       Storage* _storage;
 
   };

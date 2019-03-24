@@ -26,6 +26,8 @@ COMPONENT_ADD_INCLUDEDIRS := \
 	azure-iot-sdk-c/provisioning_client/adapters \
 	azure-iot-sdk-c/provisioning_client/deps/utpm/inc
 
+# Some of these may not be needed anymore
+
 COMPONENT_OBJS = \
 	azure-iot-sdk-c/c-utility/pal/freertos/lock.o \
 	azure-iot-sdk-c/c-utility/pal/dns_async.o \
@@ -36,6 +38,8 @@ COMPONENT_OBJS = \
 	port/agenttime_esp.o \
 	port/platform_esp.o \
 	port/tlsio_esp_tls.o \
+	port/hsm.o \
+	port/socketio.o \
 	azure-iot-sdk-c/c-utility/src/xlogging.o \
 	azure-iot-sdk-c/c-utility/src/singlylinkedlist.o \
 	azure-iot-sdk-c/c-utility/src/buffer.o \
@@ -45,6 +49,7 @@ COMPONENT_OBJS = \
 	azure-iot-sdk-c/c-utility/src/crt_abstractions.o \
 	azure-iot-sdk-c/c-utility/src/doublylinkedlist.o \
 	azure-iot-sdk-c/c-utility/src/gballoc.o \
+	azure-iot-sdk-c/c-utility/src/gb_rand.o \
 	azure-iot-sdk-c/c-utility/src/gb_stdio.o \
 	azure-iot-sdk-c/c-utility/src/gb_time.o \
 	azure-iot-sdk-c/c-utility/src/hmac.o \
@@ -62,7 +67,11 @@ COMPONENT_OBJS = \
 	azure-iot-sdk-c/c-utility/src/string_tokenizer.o \
 	azure-iot-sdk-c/c-utility/src/urlencode.o \
 	azure-iot-sdk-c/c-utility/src/usha.o \
+	azure-iot-sdk-c/c-utility/src/utf8_checker.o \
+	azure-iot-sdk-c/c-utility/src/uws_client.o \
+	azure-iot-sdk-c/c-utility/src/uws_frame_encoder.o \
 	azure-iot-sdk-c/c-utility/src/vector.o \
+	azure-iot-sdk-c/c-utility/src/wsio.o \
 	azure-iot-sdk-c/c-utility/src/xio.o \
 	azure-iot-sdk-c/c-utility/src/base64.o \
 	azure-iot-sdk-c/iothub_client/src/iothub_device_client_ll.o \
@@ -97,6 +106,7 @@ COMPONENT_OBJS = \
 	azure-iot-sdk-c/serializer/src/schemalib.o \
 	azure-iot-sdk-c/serializer/src/schemaserializer.o \
 	azure-iot-sdk-c/provisioning_client/src/prov_device_client.o \
+	azure-iot-sdk-c/provisioning_client/src/prov_transport_mqtt_ws_client.o \
 	azure-iot-sdk-c/provisioning_client/src/prov_transport_mqtt_client.o \
 	azure-iot-sdk-c/provisioning_client/src/prov_transport_mqtt_common.o \
 	azure-iot-sdk-c/provisioning_client/src/prov_security_factory.o \
@@ -114,8 +124,7 @@ COMPONENT_OBJS = \
 	azure-iot-sdk-c/iothub_client/src/iothub.o \
 	azure-iot-sdk-c/c-utility/src/http_proxy_io.o \
 	azure-iot-sdk-c/c-utility/src/base32.o \
-	hsm.o \
-	socketio.o \
+	DpsClient.o \
 	AzureIot.o \
 	AzureIotClient.o
 

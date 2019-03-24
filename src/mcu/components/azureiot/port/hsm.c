@@ -7,7 +7,7 @@
 #include <sdkconfig.h>
 #include "hsm_client_data.h"
 
-static const char* const COMMON_NAME = "testlamp";
+static const char* const COMMON_NAME = "testlamp"; // TODO get from cert?
 
 extern const uint8_t leaf_cert_pem_start[] asm("_binary_certificate_pem_start");
 extern const uint8_t leaf_pv_key_pem_start[] asm("_binary_key_pem_start");

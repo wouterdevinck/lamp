@@ -7,12 +7,17 @@ using namespace std;
 
 namespace lamp {
 
+  struct DpsResult {
+    string url;
+    string deviceid;
+  };
+
   class DpsClient {
 
     public:
       explicit DpsClient(ILogger* logger);
 
-      string Register(string idscope);
+      DpsResult* Register(string idscope);
       
     private:
       ILogger* _logger;
@@ -24,9 +29,9 @@ namespace lamp {
 
   struct DpsContext {
     DpsClient* dps;
-    string url;
-    string deviceid;
+    DpsResult* result;
     bool registered;
+    bool completed;
   };
 
 }

@@ -42,6 +42,6 @@ void Lamp::start() const {
   auto ir = _platform->getIrReceiver();
   auto led = _platform->getRgbLed();  
   ir->start(_irhandler);
-  const RgbLedColor color = { 0, 0, 255 };
+  const RgbLedColor color = { 255, 255, 255 };
   led->setLedColor(color);
 }

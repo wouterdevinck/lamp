@@ -26,5 +26,8 @@ void IrHandler::handleIrCommand(uint16_t code) {
       _led->setLedColor({ 255, 255, 255 });
       _leds->changeColor(LampColor::White);
       break;
+    case (uint16_t)IrCommand::Flash:
+      _leds->test();
+      break;
   }
 }

@@ -41,3 +41,46 @@ void LedsManager::decreaseBrightness() {
     _leds->setAllLeds(LampColors[(uint8_t)_color]);
   }
 } 
+
+void LedsManager::test() const {
+  const uint8_t step = 5;
+  for (uint16_t i = 0; i < 4096; i += step) {
+    _leds->setAllLeds({i,0,0,0});
+  }
+  for (uint16_t i = 0; i < 4096; i += step) {
+    _leds->setAllLeds({0,i,0,0});
+  }
+  for (uint16_t i = 0; i < 4096; i += step) {
+    _leds->setAllLeds({0,0,i,0});
+  }
+  for (uint16_t i = 0; i < 4096; i += step) {
+    _leds->setAllLeds({0,0,0,i});
+  }
+  auto groups = _leds->getChainInfo()->ledgroups;
+  auto leds = new LedValue[groups];
+  for (uint8_t g = 0; g < groups; g++) {
+    leds[g] = {0,0,0,0};
+  }
+  for (uint8_t g = 0; g < groups; g++) {
+    for (uint16_t i = 0; i < 4096; i += step) {
+      leds[g].r = i;
+      _leds->setAllLeds(leds);
+    }
+    leds[g].r = 0;
+    for (uint16_t i = 0; i < 4096; i += step) {
+      leds[g].g = i;
+      _leds->setAllLeds(leds);
+    }
+    leds[g].g = 0;
+    for (uint16_t i = 0; i < 4096; i += step) {
+      leds[g].b = i;
+      _leds->setAllLeds(leds);
+    }
+    leds[g].b = 0;
+    for (uint16_t i = 0; i < 4096; i += step) {
+      leds[g].w = i;
+      _leds->setAllLeds(leds);
+    }
+    leds[g].w = 0;
+  }
+}

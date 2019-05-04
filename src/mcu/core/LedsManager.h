@@ -31,6 +31,7 @@ namespace lamp {
       void changeColor(LampColor color);
       void increaseBrightness();
       void decreaseBrightness();
+      void test() const;
 
     private:
       ILedBoardChain* _leds;

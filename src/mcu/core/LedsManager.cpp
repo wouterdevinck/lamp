@@ -21,7 +21,10 @@ void LedsManager::changeColor(LampColor color) {
 
 void LedsManager::increaseBrightness() {
   if (_bri < BRIMAX) {
-    _bri++; // TODO steps
+    _bri += BRISTEP;
+    if (_bri > BRIMAX) {
+      _bri = BRIMAX;
+    }
     _leds->setBrightness(_bri);
     _leds->setAllLeds(LampColors[(uint8_t)_color]);
   }
@@ -29,7 +32,11 @@ void LedsManager::increaseBrightness() {
 
 void LedsManager::decreaseBrightness() {
   if (_bri > 0) {
-    _bri--;
+    if (_bri < BRISTEP) {
+      _bri = 0;
+    } else {
+      _bri -= BRISTEP;
+    }
     _leds->setBrightness(_bri);
     _leds->setAllLeds(LampColors[(uint8_t)_color]);
   }

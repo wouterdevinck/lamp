@@ -4,9 +4,11 @@
 
 #include "ILedBoardChain.h"
 
-#define BRIINIT 100
-#define LEDMAX 4095
+#define BRIINIT 10
+#define BRISTEP 5
 #define BRIMAX 127
+
+#define LEDMAX 4095
 
 namespace lamp {
 

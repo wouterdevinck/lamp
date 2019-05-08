@@ -1,14 +1,11 @@
-trigger:
-- master
+jobs:
 
-pool:
-  vmImage: 'ubuntu-latest'
+  - job: Firmware
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+      - script: make
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - job: Simulator
+    pool:
+      vmImage: 'vs2017-win2016'

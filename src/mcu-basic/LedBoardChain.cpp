@@ -41,11 +41,11 @@ void LedBoardChain::setAllLeds(LedValue values[], uint8_t(*index)(uint8_t)) {
   PORTD &= ~_BV(PD7); // LAT low
   uint8_t data[3];
   for(uint8_t l = 0; l < _info->ledgroups; l++) {
+    int8_t c = -((l % 4) * 2) + 3;
     for(uint8_t i = 0; i < 4; i++) {
-      uint16_t c = (l * 4) + i;
-      auto led = values[index(_info->ledgroups - 1 - l)];
+      auto led = values[index(_info->ledgroups - 1 - l - c)];
       uint16_t val = i == 0 ? led.b : (i == 1? led.w : (i == 2 ? led.r : led.g));
-      if (c & 1) {
+      if (i & 1) {
         data[0] = val >> 4;
         data[1] = ((uint8_t)(val << 4)) | (data[1] & 0x0F);
         for (uint8_t b = 0; b < 3; b++) {

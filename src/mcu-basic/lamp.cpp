@@ -3,7 +3,7 @@
 #include "Platform.h"
 #include "Lamp.h"
 
-#define BOARDS 2
+#define BOARDS 6
 
 using namespace lamp;
 

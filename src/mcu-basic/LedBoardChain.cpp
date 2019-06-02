@@ -11,8 +11,15 @@ LedBoardChain::LedBoardChain(uint8_t boards) {
   DDRB |= _BV(PB2);   // SS output
   DDRD |= _BV(PD7);   // LAT output 
   PORTB &= ~_BV(PB5); // SCK low
+  PORTD &= ~_BV(PD7); // LAT low
   SPSR = _BV(SPI2X);
   SPCR = _BV(SPE) | _BV(MSTR);
+  // for (uint16_t b = 0; b < _info->bytes; b++) {
+  //   SPDR = 0; 
+  //   while (!(SPSR & _BV(SPIF)));
+  // }
+  // PORTD |= _BV(PD7);  // LAT high
+  // PORTD &= ~_BV(PD7); // LAT low
 }
 
 void LedBoardChain::setAllLeds(LedValue color) {
@@ -42,8 +49,8 @@ void LedBoardChain::setAllLeds(LedValue values[], uint8_t(*index)(uint8_t)) {
   uint8_t data[3];
   for(uint8_t l = 0; l < _info->ledgroups; l++) {
     int8_t c = -((l % 4) * 2) + 3;
+    auto led = values[index(_info->ledgroups - 1 - l - c)];
     for(uint8_t i = 0; i < 4; i++) {
-      auto led = values[index(_info->ledgroups - 1 - l - c)];
       uint16_t val = i == 0 ? led.b : (i == 1? led.w : (i == 2 ? led.r : led.g));
       if (i & 1) {
         data[0] = val >> 4;
@@ -63,6 +70,11 @@ void LedBoardChain::setAllLeds(LedValue values[], uint8_t(*index)(uint8_t)) {
 }
 
 void LedBoardChain::setBrightness(uint8_t values[], uint8_t(*index)(uint8_t)) {
+  // Fill shift register with zeros to avoid random flashes
+  for (uint16_t b = 0; b < _info->bytes; b++) {
+    SPDR = 0; 
+    while (!(SPSR & _BV(SPIF)));
+  }
   SPCR |= _BV(CPOL);  // SCK high
   for (uint8_t i = 0; i < 4; i++) {
     PORTD |= _BV(PD7);  // LAT high

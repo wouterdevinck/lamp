@@ -14,10 +14,10 @@ const LedValue LedsManager::LampColors[4] = {
 
 void LedsManager::start() const {	
   _leds->setBrightness(_bri);
+  #ifdef BASIC
   // Animated fade in to _color
   auto fade = [](LedValue val, uint16_t step, uint16_t steps) -> LedValue { 
     assert(steps > 1);
-    assert(step >= 0);
     return {
       (unsigned int)(step * (val.r / steps)),
       (unsigned int)(step * (val.g / steps)),
@@ -39,6 +39,7 @@ void LedsManager::start() const {
     }
     _leds->setAllLeds(leds);
   }
+  #endif
 }
 
 void LedsManager::changeColor(LampColor color) {

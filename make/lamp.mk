@@ -83,6 +83,10 @@ monitor-mcu:
 flash-mcu-basic:
 	$(MAKE) -f $(SCRIPT_DIR)/mcu-basic.mk flash
 
+.PHONY: flash-fpga
+flash-fpga:
+	$(MAKE) -f $(SCRIPT_DIR)/fpga.mk flash
+
 .PHONY: menuconfig
 menuconfig:
 	docker run -it --rm -v $(PWD):/vol:Z -w /vol $(DOCKER_PREFIX)mcu $(MAKE) -f $(SCRIPT_DIR)/mcu.mk menuconfig

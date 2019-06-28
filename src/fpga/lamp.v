@@ -6,7 +6,7 @@
 `include "driver.v"
 
 module lamp #( 
-  parameter c_freq = 100000000 // 100 Mhz
+  parameter c_freq = 20000000 // 20 Mhz
 )(
 
   // Clock input

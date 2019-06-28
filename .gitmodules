@@ -1,3 +1,9 @@
 [submodule "src/mcu/components/azureiot/azure-iot-sdk-c"]
 	path = src/mcu/components/azureiot/azure-iot-sdk-c
 	url = https://github.com/Azure/azure-iot-sdk-c.git
+[submodule "src/mcu/components/cryptoauthlib/cryptoauthlib"]
+	path = src/mcu/components/cryptoauthlib/cryptoauthlib
+	url = https://github.com/MicrochipTech/cryptoauthlib.git
+[submodule "src/mcu/components/wolfssl/wolfssl"]
+	path = src/mcu/components/wolfssl/wolfssl
+	url = https://github.com/wolfSSL/wolfssl.git

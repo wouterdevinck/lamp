@@ -20,30 +20,34 @@ Lamp::Lamp(IPlatform* platform) {
   _upgrade = new UpgradeManager(updater, logger, httpclient);
   _httphandler = new HttpHandler(led, _upgrade, _manager);
   _iothandler = new IotHandler();
-  _wifihandler = new WiFiHandler(wifi, storage, httpserver, port, _httphandler, iot, _iothandler);
+  _wifihandler = new WiFiHandler(wifi, storage, httpserver, port, _httphandler, iot, _iothandler, led);
   wifi->setHandler(_wifihandler);
   #endif
 }
 
 void Lamp::start() const {
+  auto led = _platform->getRgbLed();  
   #ifndef BASIC
   auto logger = _platform->getLogger();
   logger->logInfo("Lamp", "Lamp is starting");
+  led->setLedColor({ 50, 0, 0 }); // Red = not connected
   _upgrade->start();
   auto wifi = _platform->getWiFiClient();
   auto storage = _platform->getStorage();
   auto ssid = storage->getValue(STORE_SSID);
   auto pwd = storage->getValue(STORE_PWD);
   if (ssid.empty() || pwd.empty()) {
+    led->setLedColor({ 50, 0, 50 }); // Purple = smartconfig
     wifi->startSmartConfig();
   } else {
+    led->setLedColor({ 50, 50, 0 }); // Yellow = connecting
     wifi->connect(ssid, pwd);
   }
   #endif
   _manager->start();
   auto ir = _platform->getIrReceiver();
-  auto led = _platform->getRgbLed();  
   ir->start(_irhandler);
-  const RgbLedColor color = { 255, 255, 255 };
-  led->setLedColor(color);
+  #ifdef BASIC
+  led->setLedColor({ 50, 50, 50 });
+  #endif
 }

@@ -7,7 +7,7 @@ namespace lamp {
   class Logger : public ILogger {
 
     public:
-      explicit Logger() {}
+      explicit Logger();
 
       void logError(string tag, string line) override;
       void logWarning(string tag, string line) override;

@@ -4,6 +4,7 @@ COMPONENT_EXTRA_INCLUDES += $(IDF_PATH)/components/freertos/include/freertos
 CFLAGS += -DWOLFSSL_USER_SETTINGS 
 #CFLAGS += -DWOLFSSL_ESPWROOM32SE
 #CFLAGS += -DNO_MAIN_DRIVER
+#CFLAGS += -DWOLFSSL_ATECC508A
 CFLAGS += -Wno-error=maybe-uninitialized
 
 COMPONENT_SRCDIRS := wolfssl/src \

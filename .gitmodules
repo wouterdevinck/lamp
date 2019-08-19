@@ -4,6 +4,4 @@
 [submodule "src/mcu/components/cryptoauthlib/cryptoauthlib"]
 	path = src/mcu/components/cryptoauthlib/cryptoauthlib
 	url = https://github.com/MicrochipTech/cryptoauthlib.git
-[submodule "src/mcu/components/wolfssl/wolfssl"]
-	path = src/mcu/components/wolfssl/wolfssl
-	url = https://github.com/wolfSSL/wolfssl.git
+

@@ -18,6 +18,7 @@ deploy:
   - out/factory/phy_init_data.bin
   - out/factory/lamp.bin
   - out/factory/lamp.hex
+  - out/tool/factory
   - out/simulator/simulator.zip
   skip_cleanup: true
   on:

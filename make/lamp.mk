@@ -2,6 +2,7 @@ DOCKER_PREFIX := wouterdevinck/lamp-buildenv-
 SCRIPT_DIR := make
 BUILD_DIR := build
 ARTIFACT_DIR := out
+MCU_TTY := /dev/ttyUSB1
 
 MAKE_IN_DOCKER := $(MAKE) docker
 
@@ -35,6 +36,10 @@ mcu: $(BUILD_DIR)/fpga/lamp.bin $(BUILD_DIR)/fpga/lamp.hash
 mcu-basic: 
 	$(MAKE_IN_DOCKER) mcu-basic
 
+.PHONY: tool
+tool: 
+	$(MAKE_IN_DOCKER) tool
+
 .PHONY: collect
 collect:
 	$(SCRIPT_DIR)/collect-artifacts.sh
@@ -53,7 +58,7 @@ clean:
 .PHONY: flash-mcu
 flash-mcu:
 	$(IDF_PATH)/components/esptool_py/esptool/esptool.py \
-	  --chip esp32 --port /dev/ttyUSB1 --baud 115200 \
+	  --chip esp32 --port $(MCU_TTY) --baud 115200 \
 	  --before default_reset --after hard_reset write_flash -z \
 	  --flash_mode dio --flash_freq 40m --flash_size detect \
 	  0x1000 $(ARTIFACT_DIR)/factory/bootloader.bin \
@@ -65,19 +70,19 @@ flash-mcu:
 .PHONY: reset-ota-mcu
 reset-ota-mcu:
 	$(IDF_PATH)/components/esptool_py/esptool/esptool.py \
-	  --chip esp32 --port /dev/ttyUSB1 --baud 115200 \
+	  --chip esp32 --port $(MCU_TTY) --baud 115200 \
 	  --after hard_reset erase_region 0xd000 0x2000
 
 .PHONY: reset-nvs-mcu
 reset-nvs-mcu:
 	$(IDF_PATH)/components/esptool_py/esptool/esptool.py \
-	  --chip esp32 --port /dev/ttyUSB1 --baud 115200 \
+	  --chip esp32 --port $(MCU_TTY) --baud 115200 \
 	  --after hard_reset erase_region 0x9000 0x4000
 
 .PHONY: monitor-mcu
 monitor-mcu:
 	$(IDF_PATH)/tools/idf_monitor.py \
-	  --port /dev/ttyUSB1 $(BUILD_DIR)/mcu/lamp.elf
+	  --port $(MCU_TTY) $(BUILD_DIR)/mcu/lamp.elf
 
 .PHONY: flash-mcu-basic
 flash-mcu-basic:

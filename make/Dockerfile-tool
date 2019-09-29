@@ -1,0 +1,3 @@
+FROM golang:1.13beta1-alpine3.10
+ENV GO111MODULE on
+RUN apk add make bash git

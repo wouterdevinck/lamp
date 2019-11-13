@@ -5,11 +5,11 @@
 #include "ILedBoardChain.h"
 
 #define BRISTEP  5
-#define BRIINIT  127
+#define BRIINIT  80
 #define BRIMAX   127
 #define LEDMAX   4095
 #define ANISTEPS 1365 
-#define ANISPEED 10
+#define ANISPEED 2
 #define TESTSTEP 5
 
 namespace lamp {

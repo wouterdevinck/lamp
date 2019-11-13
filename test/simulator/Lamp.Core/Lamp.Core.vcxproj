@@ -116,6 +116,9 @@
     <ClInclude Include="..\..\..\src\mcu\core\ILedBoardChain.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IHttpHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IHttpServer.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\IIotClient.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\IIotFramework.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\IIotHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IHttpClient.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IWiFiClient.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IIrReceiver.h" />
@@ -127,6 +130,7 @@
     <ClInclude Include="..\..\..\src\mcu\core\HttpHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IrHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\WiFiHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\IotHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\UpgradeManager.h" />
     <ClInclude Include="..\..\..\src\mcu\core\LedsManager.h" />
     <ClInclude Include="..\..\..\src\mcu\core\Lamp.h" />
@@ -135,6 +139,7 @@
     <ClCompile Include="..\..\..\src\mcu\core\HttpHandler.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\IrHandler.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\WiFiHandler.cpp" />
+    <ClCompile Include="..\..\..\src\mcu\core\IotHandler.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\UpgradeManager.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\LedsManager.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\Lamp.cpp" />

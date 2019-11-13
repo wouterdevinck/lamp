@@ -139,6 +139,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractHttpClient.h" />
+    <ClInclude Include="AbstractIotClient.h" />
+    <ClInclude Include="AbstractIotFramework.h" />
     <ClInclude Include="AbstractIrReceiver.h" />
     <ClInclude Include="AbstractLedBoardChain.h" />
     <ClInclude Include="AbstractLogger.h" />
@@ -149,6 +151,7 @@
     <ClInclude Include="HttpHandlerWrapper.h" />
     <ClInclude Include="AbstractHttpServer.h" />
     <ClInclude Include="AbstractRgbLed.h" />
+    <ClInclude Include="IotHandlerWrapper.h" />
     <ClInclude Include="IrHandlerWrapper.h" />
     <ClInclude Include="LampWrapper.h" />
     <ClInclude Include="MarshalHelper.h" />
@@ -158,6 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractHttpClient.cpp" />
+    <ClCompile Include="AbstractIotClient.cpp" />
+    <ClCompile Include="AbstractIotFramework.cpp" />
     <ClCompile Include="AbstractIrReceiver.cpp" />
     <ClCompile Include="AbstractLedBoardChain.cpp" />
     <ClCompile Include="AbstractLogger.cpp" />
@@ -169,6 +174,7 @@
     <ClCompile Include="AbstractHttpServer.cpp" />
     <ClCompile Include="AbstractRgbLed.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="IotHandlerWrapper.cpp" />
     <ClCompile Include="IrHandlerWrapper.cpp" />
     <ClCompile Include="LampWrapper.cpp" />
     <ClCompile Include="MarshalHelper.cpp" />

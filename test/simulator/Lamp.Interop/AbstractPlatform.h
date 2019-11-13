@@ -11,6 +11,7 @@
 #include "AbstractRgbLed.h"
 #include "AbstractNvs.h"
 #include "AbstractWiFiClient.h"
+#include "AbstractIotFramework.h"
 
 using namespace lamp;
 
@@ -32,6 +33,7 @@ namespace LampInterop {
 		ILogger* getLogger() override;
 		IHttpServer* getHttpServer() override;
 		IHttpClient* getHttpClient() override;
+		IIotFramework* getIotFramework() override;
 		INvs* getStorage() override;
 		int getHttpServerPort() override;
 
@@ -65,6 +67,7 @@ namespace LampInterop {
 		virtual AbstractLogger^ GetLogger() = 0;
 		virtual AbstractHttpServer^ GetHttpServer() = 0;
 		virtual AbstractHttpClient^ GetHttpClient() = 0;
+		virtual AbstractIotFramework^ GetIotFramework() = 0;
 		virtual AbstractNvs^ GetStorage() = 0;
 		virtual int GetHttpServerPort() = 0;
 
@@ -100,6 +103,10 @@ namespace LampInterop {
 		IHttpClient* CallGetHttpClient() {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractPlatform");
 			return GetHttpClient()->Native();
+		}
+		IIotFramework* CallGetIotFramework() {
+			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractPlatform");
+			return GetIotFramework()->Native();
 		}
 		INvs* CallGetStorage() {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("AbstractPlatform");

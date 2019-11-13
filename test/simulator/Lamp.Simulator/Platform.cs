@@ -11,6 +11,7 @@ namespace Lamp.Simulator {
         private IrReceiver _ir;
         private HttpServer _httpserver;
         private HttpClient _httpclient;
+        private IotFramework _iot;
         private RgbLed _led;
         private LedArray _leds;
         private WiFiClient _wifi;
@@ -26,6 +27,7 @@ namespace Lamp.Simulator {
             _ir = new IrReceiver();
             _httpserver = new HttpServer();
             _httpclient = new HttpClient();
+            _iot = new IotFramework();
             _led = new RgbLed(led);
             _leds = new LedArray(ledDisplay);
             _wifi = new WiFiClient();
@@ -63,6 +65,10 @@ namespace Lamp.Simulator {
 
         protected override AbstractHttpClient GetHttpClient() {
             return _httpclient;
+        }
+
+        protected override AbstractIotFramework GetIotFramework() {
+            return _iot;
         }
 
         protected override AbstractNvs GetStorage() {

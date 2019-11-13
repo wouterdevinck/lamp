@@ -10,8 +10,8 @@ using namespace lamp;
 using namespace std;
 
 namespace LampInterop {
+	
 	ref class WiFiHandlerWrapper;
-
 	ref class AbstractWiFiClient;
 
 	public class NativeWiFiClient : public IWiFiClient {

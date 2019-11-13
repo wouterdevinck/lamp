@@ -1,52 +1,65 @@
 package pki
 
-import "factory/helper"
-
-type CA int
-
-const (
-	Root         CA = 0
-	Intermediate    = 1
+import (
+	"factory/helper"
 )
 
-func (p *Pki) createCsr(keyPath string, csrPath string, subj string) error {
-	_, err := helper.RunCommand(
-		"openssl", "req",
+const hsmConf string = "./hsm.conf"
+
+func (p *Pki) createCsr(key *Key, csrPath string, subj string) error {
+	env := make(map[string]string)
+	params := []string{
+		"req",
 		"-sha256", "-new",
-		"-key", keyPath,
+		"-key", key.keyRef,
 		"-out", csrPath,
 		"-subj", subj,
-	)
+	}
+	if key.useHsm {
+		env["OPENSSL_CONF"] = hsmConf
+		env["HSM_PIN"] = p.hsmPin
+		params = append(params, "-engine", "pkcs11", "-keyform", "engine")
+	}
+	_, err := helper.RunCommand(env, "openssl", params...)
 	return err
 }
 
-func (p *Pki) signCertificate(csrPath string, cerPath string, ca CA) error {
-	_, err := helper.RunCommand(
-		"openssl", "ca", "-batch",
-		"-config", ca.conf(),
+func (p *Pki) signCertificate(csrPath string, cerPath string, ca *CA) error {
+	env := make(map[string]string)
+	params := []string{
+		"ca", "-batch",
+		"-config", ca.config,
 		"-notext",
 		"-in", csrPath,
 		"-out", cerPath,
-	)
+	}
+	env["CA_DIR"] = ca.dir
+	env["CA_KEY"] = ca.key.keyRef
+	if ca.key.useHsm {
+		env["OPENSSL_CONF"] = hsmConf
+		env["HSM_PIN"] = p.hsmPin
+		params = append(params, "-engine", "pkcs11", "-keyform", "engine")
+	}
+	_, err := helper.RunCommand(env, "openssl", params...)
 	return err
 }
 
-func (ca CA) conf() string {
-	conf := [...]string{
-		"root.conf",
-		"intermediate.conf"}
-	return conf[ca]
-}
-
-func (p *Pki) createCertificate(keyPath string, cerPath string, subj string) error {
-	_, err := helper.RunCommand(
-		"openssl", "req",
+func (p *Pki) createCertificate(key *Key, cerPath string, subj string) error {
+	env := make(map[string]string)
+	params := []string{
+		"req",
 		"-sha256", "-new",
 		"-x509",
 		"-days", "36500",
-		"-key", keyPath,
+		"-key", key.keyRef,
 		"-out", cerPath,
 		"-subj", subj,
-	)
+	}
+	if key.useHsm {
+		env["OPENSSL_CONF"] = hsmConf
+		env["HSM_PIN"] = p.hsmPin
+		params = append(params, "-engine", "pkcs11", "-keyform", "engine")
+	}
+	_, err := helper.RunCommand(env, "openssl", params...)
 	return err
 }

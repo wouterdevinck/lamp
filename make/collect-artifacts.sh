@@ -3,6 +3,7 @@ set -ex
 
 OUT_DIR="out"
 BLD_DIR="build"
+CNF_DIR="tool/config"
 
 rm -rf out
 
@@ -21,6 +22,8 @@ cp $BLD_DIR/mcu/bootloader/bootloader.bin $OUT_DIR/factory/bootloader.bin
 cp $BLD_DIR/mcu-basic/lamp.hex $OUT_DIR/factory/lamp.hex
 
 cp $BLD_DIR/tool/factory $OUT_DIR/tool/factory
+cp $CNF_DIR/* $OUT_DIR/tool/
+zip -r -j $OUT_DIR/tool/factory.zip $OUT_DIR/tool
 
 cp $BLD_DIR/mcu/lamp.bin $OUT_DIR/ota/lamp.bin
 

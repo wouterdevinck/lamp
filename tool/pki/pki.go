@@ -14,19 +14,60 @@ import (
 )
 
 const (
-	caDir  string = "ca"
-	icaDir        = "ica"
-	cerDir        = "certs"
-	subj          = "/C=BE/ST=West-Vlaanderen/L=Lauwe/O=Wouter Devinck/OU=IOT/CN="
+	caDir        string = "ca"
+	icaDir              = "ica"
+	cerDir              = "certs"
+	organization        = "Wouter IOT"
+	subj                = "/O=" + organization + "/CN="
 )
 
 type Pki struct {
 	baseDir string
+	hsmPin  string
+	RCA     *CA
+	ICAs    map[string]*CA
 }
 
-func CreatePki(baseDir string) *Pki {
-	p := &Pki{baseDir: baseDir}
+type CA struct {
+	dir    string
+	config string
+	key    *Key
+}
+
+type Key struct {
+	useHsm bool
+	keyRef string
+}
+
+func CreatePki(baseDir string, hsmPin string) *Pki {
+	// TODO Read the list of CAs from a file
+	p := &Pki{
+		baseDir: baseDir,
+		hsmPin:  hsmPin,
+		RCA: &CA{
+			dir:    path.Join(baseDir, caDir),
+			config: "root.conf",
+			key: &Key{
+				useHsm: true,
+				keyRef: "0:1",
+			},
+		},
+		ICAs: map[string]*CA{
+			"lamp": {
+				dir:    path.Join(baseDir, icaDir, "lamp"),
+				config: "intermediate.conf",
+				key: &Key{
+					useHsm: true,
+					keyRef: "0:2",
+				},
+			},
+		},
+	}
 	return p
+}
+
+func (p *Pki) GetOrganization() string {
+	return organization
 }
 
 func (p *Pki) Setup() error {
@@ -38,9 +79,11 @@ func (p *Pki) Setup() error {
 	if err != nil {
 		return err
 	}
-	err = p.createIntermediateCa()
-	if err != nil {
-		return err
+	for _, ica := range p.ICAs {
+		err = p.createIntermediateCa(ica)
+		if err != nil {
+			return err
+		}
 	}
 	err = os.Mkdir(path.Join(p.baseDir, cerDir), os.ModePerm)
 	if err != nil && !os.IsExist(err) {
@@ -49,7 +92,7 @@ func (p *Pki) Setup() error {
 	return nil
 }
 
-func (p *Pki) SignCertificate(csr string) (string, error) {
+func (p *Pki) SignCertificate(csr string, ica string) (string, error) {
 	cn, err := model.GetCnFromCsr(csr)
 	if err != nil {
 		return "", err
@@ -68,7 +111,7 @@ func (p *Pki) SignCertificate(csr string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	err = p.signCertificate(csrPath, cerPath, Intermediate)
+	err = p.signCertificate(csrPath, cerPath, p.ICAs[ica])
 	if err != nil {
 		return "", err
 	}
@@ -79,11 +122,14 @@ func (p *Pki) SignCertificate(csr string) (string, error) {
 	return pem, nil
 }
 
-func (p *Pki) CreateCertificate(cn string) (string, error) {
+func (p *Pki) CreateCertificate(cn string, ica string) (string, error) {
 	dir := path.Join(p.baseDir, cerDir, cn)
-	keyPath := path.Join(dir, "device.key")
 	csrPath := path.Join(dir, "device.csr")
 	cerPath := path.Join(dir, "device.cer")
+	key := &Key{
+		useHsm: false,
+		keyRef: path.Join(dir, "device.key"),
+	}
 	if _, err := os.Stat(cerPath); !os.IsNotExist(err) {
 		return "", errors.New("certificate already exists")
 	}
@@ -91,15 +137,15 @@ func (p *Pki) CreateCertificate(cn string) (string, error) {
 	if err != nil && !os.IsExist(err) {
 		return "", err
 	}
-	err = p.createKey(keyPath)
+	err = p.createKey(dir, key)
 	if err != nil {
 		return "", err
 	}
-	err = p.createCsr(keyPath, csrPath, subj+cn)
+	err = p.createCsr(key, csrPath, subj+cn)
 	if err != nil {
 		return "", err
 	}
-	err = p.signCertificate(csrPath, cerPath, Intermediate)
+	err = p.signCertificate(csrPath, cerPath, p.ICAs[ica])
 	if err != nil {
 		return "", err
 	}
@@ -124,49 +170,43 @@ func (p *Pki) GetCertificate(cn string) (string, error) {
 }
 
 func (p *Pki) createRootCa() error {
-	dir := path.Join(p.baseDir, caDir)
-	keyPath := path.Join(dir, "root.key")
+	dir := p.RCA.dir
 	cerPath := path.Join(dir, "root.cer")
 	err := p.createDb(dir)
 	if err != nil {
 		return err
 	}
-	err = p.createKey(keyPath)
+	err = p.createKey(dir, p.RCA.key)
 	if err != nil {
 		return err
 	}
-	return p.createCertificate(keyPath, cerPath, subj+"Root CA")
+	return p.createCertificate(p.RCA.key, cerPath, subj+"Root CA")
 }
 
-func (p *Pki) createIntermediateCa() error {
-	dir := path.Join(p.baseDir, icaDir)
-	keyPath := path.Join(dir, "intermediate.key")
+func (p *Pki) createIntermediateCa(ca *CA) error {
+	dir := ca.dir
 	csrPath := path.Join(dir, "intermediate.csr")
 	cerPath := path.Join(dir, "intermediate.cer")
 	err := p.createDb(dir)
 	if err != nil {
 		return err
 	}
-	err = p.createKey(keyPath)
+	err = p.createKey(dir, ca.key)
 	if err != nil {
 		return err
 	}
-	err = p.createCsr(keyPath, csrPath, subj+"Intermediate CA")
+	err = p.createCsr(ca.key, csrPath, subj+"Intermediate CA")
 	if err != nil {
 		return err
 	}
-	return p.signCertificate(csrPath, cerPath, Root)
+	return p.signCertificate(csrPath, cerPath, p.RCA)
 }
 
 func (p *Pki) createDb(dir string) error {
 	dbDir := path.Join(dir, "db")
 	serialPath := path.Join(dbDir, "certserial")
 	indexPath := path.Join(dbDir, "certindex")
-	err := os.Mkdir(dir, os.ModePerm)
-	if err != nil && !os.IsExist(err) {
-		return err
-	}
-	err = os.Mkdir(dbDir, os.ModePerm)
+	err := os.MkdirAll(dbDir, os.ModePerm)
 	if err != nil && !os.IsExist(err) {
 		return err
 	}
@@ -181,16 +221,22 @@ func (p *Pki) createDb(dir string) error {
 	return nil
 }
 
-func (p *Pki) createKey(path string) error {
-	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	if err != nil {
-		return err
+func (p *Pki) createKey(dir string, key *Key) error {
+	if !key.useHsm {
+		pk, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+		if err != nil {
+			return err
+		}
+		pem, err := p.pemEncodePrivateKey(pk)
+		if err != nil {
+			return err
+		}
+		err = helper.WriteFile(key.keyRef, pem)
+		if err != nil {
+			return err
+		}
 	}
-	pem, err := p.pemEncodePrivateKey(key)
-	if err != nil {
-		return err
-	}
-	return helper.WriteFile(path, pem)
+	return nil
 }
 
 func (p *Pki) pemEncodePrivateKey(privateKey *ecdsa.PrivateKey) (string, error) {

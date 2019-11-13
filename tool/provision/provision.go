@@ -9,16 +9,15 @@ import (
 	"github.com/tarm/serial"
 )
 
-const organization string = "Wouter IOT"
-
 type Context struct {
 	protocol   *protocol.Protocol
 	pki        *pki.Pki
+	ica        string
 	configPath string
 	serial     string
 }
 
-func Provision(port string, baud int, configPath string, pki *pki.Pki) error {
+func Provision(port string, baud int, configPath string, pki *pki.Pki, ica string) error {
 	c := &serial.Config{Name: port, Baud: baud}
 	s, err := serial.OpenPort(c)
 	if err != nil {
@@ -28,6 +27,8 @@ func Provision(port string, baud int, configPath string, pki *pki.Pki) error {
 	ctx := &Context{
 		protocol:   p,
 		configPath: configPath,
+		pki:        pki,
+		ica:        ica,
 	}
 	sequence := []func(*Context) error{
 		testConnectivity,

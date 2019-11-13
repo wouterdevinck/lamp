@@ -35,7 +35,8 @@ func certificate(ctx *Context) error {
 		}
 
 		// Create a template for the CSR
-		tmp, err := model.CreateCsrTemplate(organization, ctx.serial)
+		org := ctx.pki.GetOrganization()
+		tmp, err := model.CreateCsrTemplate(org, ctx.serial)
 		if err != nil {
 			return err
 		}
@@ -57,7 +58,7 @@ func certificate(ctx *Context) error {
 		fmt.Println(csr)
 
 		// Send the CSR to the PKI
-		cert, err = ctx.pki.SignCertificate(csr)
+		cert, err = ctx.pki.SignCertificate(csr, ctx.ica)
 		if err != nil {
 			return err
 		}
@@ -72,9 +73,9 @@ func certificate(ctx *Context) error {
 		// secure element. If the data zone is locked, but
 		// the device has still entered factory mode, this
 		// means the certificate in flash was lost and needs
-		// to be restored. No new keys are or certificates are
-		// generated, so this currently only works if the PKI
-		// still has the certificate in its database.
+		// to be restored. No new keys or certificates are
+		// generated, so this currently only works if the
+		// PKI still has the certificate in its database.
 
 		cert, err = ctx.pki.GetCertificate(ctx.serial)
 		if err != nil {

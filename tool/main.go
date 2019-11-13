@@ -16,6 +16,8 @@ func main() {
 	baud := flag.Int("baud", 115200, "baudrate of serial port")
 	config := flag.String("config", "config.json", "path to configuration file")
 	pkipath := flag.String("pkipath", "/var/lib/pki", "path to PKI database")
+	hsmpin := flag.String("hsmpin", "648219", "user PIN for Nitrokey HSM")
+	icaname := flag.String("icaname", "lamp", "name of the intermediate CA")
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, `Lamp factory tool
@@ -38,7 +40,7 @@ Options:
 	flag.Parse()
 	command := flag.Arg(0)
 
-	pki := pki.CreatePki(*pkipath)
+	pki := pki.CreatePki(*pkipath, *hsmpin)
 
 	var err error
 
@@ -52,7 +54,7 @@ Options:
 			err = pki.Setup()
 		case "verify":
 			cn := flag.Arg(2)
-			cer, err := pki.CreateCertificate(cn)
+			cer, err := pki.CreateCertificate(cn, *icaname)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -62,7 +64,7 @@ Options:
 			os.Exit(1)
 		}
 	case "provision":
-		err = provision.Provision(*port, *baud, *config, pki)
+		err = provision.Provision(*port, *baud, *config, pki, *icaname)
 	default:
 		flag.Usage()
 		os.Exit(1)

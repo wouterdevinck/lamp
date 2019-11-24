@@ -1,19 +1,28 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
+
+#define BUF_SIZE (1024)
+#define UART UART_NUM_0
+#define NVS_NAMESPACE "factory"
+#define NVS_KEY "certificate"
+
+using namespace std;
 
 namespace lamp {
 
   class Factory {
 
     public:
-      explicit Factory() {}
+      explicit Factory();
 
       bool isProvisioned();
       void provision();
 
     private:
-      uint8_t init();
+      void process(string line);
+      static void restartHandler(void* parameters);
 
   };
 

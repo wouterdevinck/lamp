@@ -1,13 +1,10 @@
-# Temporary for testing - to be replaced with ATECC508
-COMPONENT_EMBED_TXTFILES := certs/key.pem certs/certificate.pem
-
 CFLAGS += -Wno-unused-function 
 CFLAGS += -Wno-missing-braces 
 CFLAGS += -Wno-missing-field-initializers 
 CFLAGS += -DUSE_LWIP_SOCKET_FOR_AZURE_IOT
-CFLAGS += -DHSM_TYPE_X509 
-# CFLAGS += -DHSM_TYPE_SAS_TOKEN
+CFLAGS += -DHSM_TYPE_X509
 CFLAGS += -DUSE_PROV_MODULE
+CFLAGS += -DESP_TLS_ATCA
 
 COMPONENT_ADD_INCLUDEDIRS := \
     . \
@@ -26,7 +23,7 @@ COMPONENT_ADD_INCLUDEDIRS := \
 	azure-iot-sdk-c/provisioning_client/adapters \
 	azure-iot-sdk-c/provisioning_client/deps/utpm/inc
 
-# Some of these may not be needed anymore
+# TODO Some of these may not be needed anymore
 
 COMPONENT_OBJS = \
 	azure-iot-sdk-c/c-utility/pal/freertos/lock.o \
@@ -37,7 +34,7 @@ COMPONENT_OBJS = \
 	azure-iot-sdk-c/c-utility/pal/tlsio_options.o \
 	port/agenttime_esp.o \
 	port/platform_esp.o \
-	port/tlsio_esp_tls.o \
+	port/tlsio_esp_atca.o \
 	port/hsm.o \
 	port/socketio.o \
 	azure-iot-sdk-c/c-utility/src/xlogging.o \

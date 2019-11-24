@@ -1,3 +1,6 @@
+// TODO adapted from
+// TODO cleanup
+
 /*
  * Copyright 2018 Espressif Systems (Shanghai) PTE LTD
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -137,7 +140,7 @@ ATCA_STATUS hal_i2c_send(ATCAIface iface, uint8_t *txdata, int txlength)
     txdata[0] = 0x03;              //Word Address value, Command Token as per datasheet of ATECC508A
     txlength++;
     ESP_LOGV(TAG, "txdata: %p , txlength: %d", txdata, txlength);
-    ESP_LOG_BUFFER_HEXDUMP(TAG, txdata, txlength, ESP_LOG_VERBOSE);
+    //ESP_LOG_BUFFER_HEXDUMP("I2C_TX", txdata, txlength, ESP_LOG_INFO); // TODO VERBOSE & tag
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     (void)i2c_master_start(cmd);
@@ -199,7 +202,9 @@ ATCA_STATUS hal_i2c_receive(ATCAIface iface, uint8_t *rxdata, uint16_t *rxlength
         (void)i2c_cmd_link_delete(cmd);
     }
 
-    ESP_LOG_BUFFER_HEX_LEVEL(TAG, rxdata, *rxlength, ESP_LOG_VERBOSE);
+
+    //ESP_LOGI(TAG, "rxdata, rxlength: %d", *rxlength);// TODO remove
+    //ESP_LOG_BUFFER_HEX_LEVEL("I2C_RX", rxdata, *rxlength, ESP_LOG_INFO); // TODO VERBOSE & tag
 
     if (ESP_OK != rc)
     {

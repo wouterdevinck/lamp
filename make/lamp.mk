@@ -11,6 +11,7 @@ all:
 	$(MAKE) fpga
 	$(MAKE) mcu
 	$(MAKE) mcu-basic
+	$(MAKE) tool
 	$(MAKE) collect
 
 $(BUILD_DIR)/fpga/lamp.bin:

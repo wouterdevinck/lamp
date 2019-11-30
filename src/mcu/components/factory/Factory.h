@@ -2,11 +2,10 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #define BUF_SIZE (1024)
 #define UART UART_NUM_0
-#define NVS_NAMESPACE "factory"
-#define NVS_KEY "certificate"
 
 using namespace std;
 
@@ -22,6 +21,8 @@ namespace lamp {
 
     private:
       void process(string line);
+      string bin2hex(uint8_t* data, uint8_t len);
+      vector<char> hex2bin(string hex);
       static void restartHandler(void* parameters);
 
   };

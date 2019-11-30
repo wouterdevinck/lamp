@@ -328,34 +328,7 @@ static int tlsio_esp_tls_open_async(CONCRETE_IO_HANDLE tls_io,
                     }
                     else
                     {
-
-  
-    ATCAIfaceCfg cfg;
-  cfg.iface_type             = ATCA_I2C_IFACE;
-  cfg.devtype                = ATECC608A;
-  cfg.atcai2c.slave_address  = 0XC0;
-  cfg.atcai2c.bus            = 0;
-  cfg.wake_delay             = 1500;
-  cfg.rx_retries             = 20;
-
-  if (atcab_init(&cfg) != ATCA_SUCCESS) {
-    ESP_LOGE("tlsio", "Failed to init ATECC608A!");
-  }
-
-  uint8_t pubk[ATCA_PUB_KEY_SIZE];
-  if (atcab_get_pubkey(1, pubk) == ATCA_SUCCESS) {
-    ESP_LOG_BUFFER_HEX("PUBLIC", pubk, ATCA_PUB_KEY_SIZE);
-  } else {
-    ESP_LOGE("PUBLIC", "atcab_get_pubkey fail");
-  }
-
-  uint8_t config[128];
-  if (atcab_read_config_zone(config) == ATCA_SUCCESS) {
-    ESP_LOG_BUFFER_HEX("CONFIG", config, 128);
-  } else {
-    ESP_LOGE("CONFIG", "atcab_read_config_zone fail");
-  }
-                     
+         
   //ESP_LOGE("TLS", "atca_mbedtls_pk_init will be called now");
                         mbedtls_pk_context pkey;
                         if (atca_mbedtls_pk_init(&pkey, 1) != 0) {

@@ -29,55 +29,17 @@ using namespace lamp;
 using namespace std;
 
 Factory::Factory() {
-  uint8_t rev[4];
   ATCAIfaceCfg cfg;
-  cfg.iface_type             = ATCA_I2C_IFACE;
-  cfg.devtype                = ATECC608A;
-  cfg.atcai2c.slave_address  = 0XC0;
-  cfg.atcai2c.bus            = 0;
-  cfg.wake_delay             = 1500;
-  cfg.rx_retries             = 20;
-  if (::atcab_init(&cfg) != ATCA_SUCCESS) {
-    ESP_LOGE(tag, "atcab_init failed");
-    return;
-  }
-  // TODO remove?
-  if (::atcab_info(rev) != ATCA_SUCCESS) {
-    ESP_LOGE(tag, "atcab_info failed");
-    return;
+  cfg.iface_type = ATCA_I2C_IFACE;
+  cfg.devtype = ATECC608A;
+  cfg.wake_delay = 1500;
+  cfg.rx_retries = 20;
+  if (atcab_init(&cfg) != ATCA_SUCCESS) {
+    ESP_LOGE(tag, "Failed to init ATECC608A!");
   }
 }
 
 bool Factory::isProvisioned() {
-
-
-  // TODO centralize
-  /*uint8_t rev[4];
-  ATCAIfaceCfg cfg;
-  cfg.iface_type             = ATCA_I2C_IFACE;
-  cfg.devtype                = ATECC608A;
-  cfg.atcai2c.slave_address  = 0XC0;
-  cfg.atcai2c.bus            = 0;
-  cfg.wake_delay             = 1500;
-  cfg.rx_retries             = 20;
-  if (::atcab_init(&cfg) != ATCA_SUCCESS) {
-    ESP_LOGE(tag, "atcab_init failed");
-    return;
-  }*/
-
-
-  // TODO deduplicate
-  auto bin2hex = [](uint8_t* data, uint8_t len) -> string {
-    stringstream ss;
-    ss << hex;
-    for(uint32_t i = 0; i < len; ++i) {
-      ss << setw(2) << setfill('0') << (int)data[i];
-    }
-    return ss.str();
-  };
-
-
-
   // 1. Check if the config zone is locked
   bool configLocked;
   auto status = ::atcab_is_locked(LOCK_ZONE_CONFIG, &configLocked);
@@ -103,40 +65,23 @@ bool Factory::isProvisioned() {
     return false;
   }
   auto ser = bin2hex(serData, sizeof(serData));
+  ESP_LOGI(tag, "serial = %s", ser.c_str());
   auto cn = ::readNvsCn();  
   if (cn == NULL) {
     ESP_LOGI(tag, "CN from NVS is NULL - no certificate provisioned?");
   } else {
+    ESP_LOGI(tag, "cn = %s", cn);
     auto res = ::strcmp(ser.c_str(), cn);
     if (res == 0) {
       cnCorrect = true;
     }
   }
-  ESP_LOGI(tag, "cnCorrect = %s - serial = %s - cn = %s", cnCorrect ? "yes" : "no", ser.c_str(), cn);
+  ESP_LOGI(tag, "cnCorrect = %s", cnCorrect ? "yes" : "no");
   // Return true only if all checks have passed
   return configLocked && dataLocked && cnCorrect;
 }
 
 void Factory::provision() {
-
-  // TODO - Centralize config
-  uint8_t rev[4];
-  ATCAIfaceCfg cfg;
-  cfg.iface_type             = ATCA_I2C_IFACE;
-  cfg.devtype                = ATECC608A;
-  cfg.atcai2c.slave_address  = 0XC0;
-  cfg.atcai2c.bus            = 0;
-  cfg.wake_delay             = 1500;
-  cfg.rx_retries             = 20;
-  if (::atcab_init(&cfg) != ATCA_SUCCESS) {
-    ESP_LOGE(tag, "atcab_init failed");
-    return;
-  }
-  if (::atcab_info(rev) != ATCA_SUCCESS) {
-    ESP_LOGE(tag, "atcab_info failed");
-    return;
-  }
-
   ::esp_log_level_set("*", ESP_LOG_NONE); // Disable most logs
   printf(" === FACTORY PROVISIONING MODE ===\n");
   ::uart_driver_install(UART, BUF_SIZE * 2, 0, 0, NULL, 0);
@@ -159,23 +104,6 @@ void Factory::provision() {
 }
 
 void Factory::process(string line) {
-  auto bin2hex = [](uint8_t* data, uint8_t len) -> string {
-    stringstream ss;
-    ss << hex;
-    for(uint32_t i = 0; i < len; ++i) {
-      ss << setw(2) << setfill('0') << (int)data[i];
-    }
-    return ss.str();
-  };
-  auto hex2bin = [](string hex) -> vector<char> {
-    vector<char> bytes;
-    for (unsigned int i = 0; i < hex.length(); i += 2) {
-      string byteString = hex.substr(i, 2);
-      char byte = (char)strtol(byteString.c_str(), NULL, 16);
-      bytes.push_back(byte);
-    }
-    return bytes;
-  };
   istringstream iss(line);
   vector<string> parts(istream_iterator<string>{iss}, istream_iterator<string>());
   string cmd = parts[0];
@@ -319,7 +247,7 @@ void Factory::process(string line) {
     } else {
       auto certData = hex2bin(parts[1]);
       auto ret = ::writeNvsCertDer(&certData[0], certData.size());
-      if (ret == 0) {
+      if (ret != 0) {
         resp << "fail " << ret;
       } else {
         resp << "ok";
@@ -352,4 +280,23 @@ void Factory::process(string line) {
 
 void Factory::restartHandler(void* parameters) {
   ::esp_restart(); 
+}
+
+string Factory::bin2hex(uint8_t* data, uint8_t len) {
+  stringstream ss;
+  ss << hex;
+  for(uint32_t i = 0; i < len; ++i) {
+    ss << setw(2) << setfill('0') << (int)data[i];
+  }
+  return ss.str();
+}
+
+vector<char> Factory::hex2bin(string hex) {
+  vector<char> bytes;
+  for (unsigned int i = 0; i < hex.length(); i += 2) {
+    string byteString = hex.substr(i, 2);
+    char byte = (char)strtol(byteString.c_str(), NULL, 16);
+    bytes.push_back(byte);
+  }
+  return bytes;
 }

@@ -33,7 +33,7 @@ func configure(ctx *Context) error {
 	}
 
 	// Compare actual and desired configuration
-	configured := !bytes.Equal(actConf[16:], desConf)
+	configured := bytes.Equal(actConf[16:], desConf)
 
 	if locked {
 		if configured {
@@ -46,6 +46,9 @@ func configure(ctx *Context) error {
 			if err != nil {
 				fmt.Println("Failed to write configuration to file")
 			}
+			fmt.Printf("Desired configuration = \n%s\n", hex.Dump(desConf))
+			fmt.Printf("Actual configuration = \n%s\n", hex.Dump(actConf[16:]))
+			fmt.Printf("Actual configuration written to file %s\n", path)
 			return errors.New("configuration is locked but incorrect")
 		}
 	} else {

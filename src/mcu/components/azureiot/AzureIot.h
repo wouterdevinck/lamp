@@ -15,10 +15,12 @@ namespace lamp {
 
     private:
       ILogger* _logger;
-      DpsClient* _dps;      
+      DpsClient* _dps;
       
-      const string _idscope = "0ne00094B68";
       const string _tag = "AzureIot";
+
+      const string _dpsUrl = "global.azure-devices-provisioning.net";
+      const string _dpsIdScope = "0ne00094B68";
 
   };
 

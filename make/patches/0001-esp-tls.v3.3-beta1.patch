@@ -1,0 +1,42 @@
+diff --git a/components/esp-tls/esp_tls.c b/components/esp-tls/esp_tls.c
+index 002306dbe..dd0ef623c 100644
+--- a/components/esp-tls/esp_tls.c
++++ b/components/esp-tls/esp_tls.c
+@@ -302,9 +302,21 @@ static int create_ssl_handle(esp_tls_t *tls, const char *hostname, size_t hostle
+             ESP_LOGE(TAG, "mbedtls_ssl_conf_own_cert returned -0x%x\n\n", -ret);
+             goto exit;
+         }
+-    } else if (cfg->clientcert_pem_buf != NULL || cfg->clientkey_pem_buf != NULL) {
+-        ESP_LOGE(TAG, "You have to provide both clientcert_pem_buf and clientkey_pem_buf for mutual authentication\n\n");
+-        goto exit;
++    } else if (cfg->clientcert_pem_buf != NULL) {
++        mbedtls_x509_crt_init(&tls->clientcert);
++        mbedtls_pk_init(&tls->clientkey);
++        ret = mbedtls_x509_crt_parse(&tls->clientcert, cfg->clientcert_pem_buf, cfg->clientcert_pem_bytes);
++        if (ret < 0) {
++            ESP_LOGE(TAG, "mbedtls_x509_crt_parse returned -0x%x\n\n", -ret);
++            ESP_LOG_BUFFER_HEX(TAG, cfg->clientcert_pem_buf, cfg->clientcert_pem_bytes);
++            goto exit;
++        }
++        tls->clientkey = cfg->clientkey;
++        ret = mbedtls_ssl_conf_own_cert(&tls->conf, &tls->clientcert, &tls->clientkey);
++        if (ret < 0) {
++            ESP_LOGE(TAG, "mbedtls_ssl_conf_own_cert returned -0x%x\n\n", -ret);
++            goto exit;
++        }
+     }
+ 
+     mbedtls_ssl_conf_rng(&tls->conf, mbedtls_ctr_drbg_random, &tls->ctr_drbg);
+diff --git a/components/esp-tls/esp_tls.h b/components/esp-tls/esp_tls.h
+index 15830d5a3..a4fd66be2 100644
+--- a/components/esp-tls/esp_tls.h
++++ b/components/esp-tls/esp_tls.h
+@@ -66,6 +66,8 @@ typedef struct esp_tls_cfg {
+     unsigned int clientcert_pem_bytes;      /*!< Size of client certificate pointed to by
+                                                  clientcert_pem_buf */
+ 
++    mbedtls_pk_context clientkey;
++
+     const unsigned char *clientkey_pem_buf; /*!< Client key in a buffer */
+ 
+     unsigned int clientkey_pem_bytes;       /*!< Size of client key pointed to by

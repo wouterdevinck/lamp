@@ -1,2 +1,3 @@
 *
 !install-fpga-tools.sh
+!patches/*

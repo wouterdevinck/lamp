@@ -8,7 +8,6 @@ static char tag[] = "SPI";
 SPI::SPI(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int pinClk, int pinCs) {
   _handle = nullptr;
   _host = host;
-  return; // TODO remove
   ESP_LOGD(tag, "mosi=%d, miso=%d, clk=%d, cs=%d", pinMosi, pinMiso, pinClk, pinCs);
   spi_bus_config_t bus_config;
   bus_config.sclk_io_num     = pinClk;
@@ -17,6 +16,7 @@ SPI::SPI(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int p
   bus_config.quadwp_io_num   = -1;
   bus_config.quadhd_io_num   = -1;
   bus_config.max_transfer_sz = 0;
+  bus_config.intr_flags      = 0;
   ESP_LOGI(tag, "Initializing bus - host=%d", host);
   esp_err_t errRc = ::spi_bus_initialize(host, &bus_config, dmaChannel);
   if (errRc != ESP_OK) {

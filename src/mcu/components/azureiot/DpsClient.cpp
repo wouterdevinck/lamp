@@ -64,5 +64,5 @@ DpsContext* DpsClient::Register(string url, string idscope) {
     _logger->logError(_tag, "Registration failed!");
   }
   ::prov_dev_security_deinit();
-  return ctx; // FIXME
+  return ctx;
 }

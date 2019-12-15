@@ -163,8 +163,9 @@ type KeyConfig struct {
 type KeyType string
 
 const (
-	KeyTypeECC    KeyType = "ECC"
-	KeyTypeNonECC         = "NonECC"
+	KeyTypeECC KeyType = "ECC"    // 0x4 = P256 NIST ECC key
+	KeyTypeAES         = "AES"    // 0x6 = AES key
+	KeyTypeSHA         = "NonECC" // 0x7 = SHA key or other data
 )
 
 func parseSlotConfig(num int, scv uint16, kc *KeyConfig) SlotConfig {
@@ -222,8 +223,10 @@ func parseKeyConfig(num int, kcv uint16) (*KeyConfig, error) {
 func parseKeyType(b uint8) (KeyType, error) {
 	if b == 4 {
 		return KeyTypeECC, nil
+	} else if b == 6 {
+		return KeyTypeAES, nil
 	} else if b == 7 {
-		return KeyTypeNonECC, nil
+		return KeyTypeSHA, nil
 	} else {
 		return "", errors.New("unknown key type")
 	}
@@ -396,7 +399,9 @@ func writeKeyConfig(cb *bytes.Buffer, si SlotInfo) error {
 	switch kc.KeyType {
 	case KeyTypeECC:
 		kcv |= (uint16(4) << 2)
-	case KeyTypeNonECC:
+	case KeyTypeAES:
+		kcv |= (uint16(6) << 2)
+	case KeyTypeSHA:
 		kcv |= (uint16(7) << 2)
 	default:
 		return errors.New("unknown key type")

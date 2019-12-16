@@ -47,7 +47,7 @@
         "PrivateKeySlotConfig": {
           "ExtSignEnable": true,
           "IntSignEnable": true,
-          "ECDHEnable": true,
+          "ECDHEnable": false,
           "ECDHToNextSlot": false
         },
         "NoMAC": false,
@@ -55,7 +55,7 @@
         "EncryptRead": false,
         "IsSecret": true,
         "WriteKey": 0,
-        "WriteConfig": 2
+        "WriteConfig": 8
       },
       "KeyConfig": {
         "Private": true,
@@ -428,12 +428,12 @@
   "SlotLocked": 65535,
   "ChipOptions": {
     "PowerOnSelfTest": false,
-    "IoProtectionKeyEnable": false,
+    "IoProtectionKeyEnable": true,
     "KdfAesEnable": false,
     "AutoClearFirstFail": false,
     "EcdhProtectionBits": 0,
     "KdfProtectionBits": 0,
-    "IoProtectionKey": 0
+    "IoProtectionKey": 4
   },
   "X509Format": [
     {

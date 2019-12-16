@@ -1,0 +1,17 @@
+#pragma once
+
+// This "IO Protection Key" is written to the ATECC608A
+// secure element during provisioning, where it is used 
+// to encrypt the result of ECDH before sending it over
+// the I2C bus to the microcontroller.
+
+// Note: it would be even more secure to generate this 
+// key randomly during provisioning and to store it in 
+// flash, rather than hard coding it here.
+
+static const uint8_t atca_io_protection_key[32] = {
+  0x37, 0x80, 0xe6, 0x3d, 0x49, 0x68, 0xad, 0xe5,
+  0xd8, 0x22, 0xc0, 0x13, 0xfc, 0xc3, 0x23, 0x84,
+  0x5d, 0x1b, 0x56, 0x9f, 0xe7, 0x05, 0xb6, 0x00,
+  0x06, 0xfe, 0xec, 0x14, 0x5a, 0x0d, 0xb1, 0xe3
+};

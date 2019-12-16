@@ -22,26 +22,20 @@
 #include "cryptoauthlib.h"
 #include "mbedtls/atca_mbedtls_wrap.h"
 #include "esp_tls.h"
+#include "constants.h"
+#include "iokey.h"
 
 #define MAX_VALID_PORT 0xffff
 #define TLSIO_RECEIVE_BUFFER_SIZE 64
 
-/*uint8_t atca_io_protection_key[32] = {
-    0x37, 0x80, 0xe6, 0x3d, 0x49, 0x68, 0xad, 0xe5,
-    0xd8, 0x22, 0xc0, 0x13, 0xfc, 0xc3, 0x23, 0x84,
-    0x5d, 0x1b, 0x56, 0x9f, 0xe7, 0x05, 0xb6, 0x00,
-    0x06, 0xfe, 0xec, 0x14, 0x5a, 0x0d, 0xb1, 0xe3
-};*/
-
 int atca_mbedtls_ecdh_slot_cb(void) {
   // ESP_LOGI("tlsio", "atca_mbedtls_ecdh_slot_cb");
-  // return 0xFFFF; // TODO Use tempkey slot
-  return 2;
+  return 0xFFFF; // TempKey
 }
 
 int atca_mbedtls_ecdh_ioprot_cb(uint8_t secret[32]) {
   // ESP_LOGI("tlsio", "atca_mbedtls_ecdh_ioprot_cb");
-  // memcpy(secret, atca_io_protection_key, 32);
+  memcpy(secret, atca_io_protection_key, 32);
   return 0;
 }
 
@@ -222,7 +216,7 @@ static int tlsio_esp_tls_open_async(CONCRETE_IO_HANDLE tls_io,
           } else {
             // Note: modified here to pass ATECC608 context as private key
             mbedtls_pk_context pkey;
-            if (atca_mbedtls_pk_init(&pkey, 1) != 0) {
+            if (atca_mbedtls_pk_init(&pkey, IOT_HSM_KID) != 0) {
               LogError("Failed to get key from ATCA device.");
               result = __FAILURE__;
             } else {

@@ -13,6 +13,8 @@
 #include "atcacert/atcacert_def.h"
 
 #include "nvscrt.h"
+#include "constants.h"
+#include "iokey.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -172,11 +174,18 @@ void Factory::process(string line) {
     }
   } else if(cmd.compare("genkey") == 0) {
     uint8_t data[ATCA_PUB_KEY_SIZE];
-    auto status = ::atcab_genkey(1, data);
+    auto status = ::atcab_genkey(IOT_HSM_KID, data);
     if (status != ATCA_SUCCESS) {
       resp << "fail " << (unsigned)status;
     } else {
       resp << "ok " << bin2hex(data, sizeof(data));
+    }
+  } else if(cmd.compare("iokey") == 0) {
+    auto status = ::atcab_write_zone(ATCA_ZONE_DATA, IOT_HSM_IOKID, 0, 0, atca_io_protection_key, ATCA_BLOCK_SIZE);
+    if (status != ATCA_SUCCESS) {
+      resp << "fail " << (unsigned)status;
+    } else {
+      resp << "ok";
     }
   } else if(cmd.compare("signcsr") == 0) {
     if (parts.size() != 8) {

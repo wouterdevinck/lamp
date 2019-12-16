@@ -1,4 +1,5 @@
 // Helper library to work with certificates stored in NVS
+#pragma once
 
 #include "nvs.h"
 #include "nvs_flash.h"
@@ -6,9 +7,10 @@
 #include "mbedtls/x509_crt.h"
 #include "mbedtls/oid.h"
 #include "mbedtls/pem.h"
+#include "constants.h"
 
-#define NVS_NAMESPACE "factory"
-#define NVS_KEY "certificate"
+#define NVS_NAMESPACE NVS_NS_IOT
+#define NVS_KEY IOT_NVS_KEY
 
 static const char* TAG = "nvscrt.h";
 

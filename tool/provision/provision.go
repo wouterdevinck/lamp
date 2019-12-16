@@ -34,8 +34,8 @@ func Provision(port string, baud int, configPath string, pki *pki.Pki, ica strin
 		testConnectivity,
 		checkRevision,
 		getSerial,
-		configure,
-		certificate,
+		writeConfigZone,
+		writeDataZone,
 		restart,
 	}
 	for _, step := range sequence {

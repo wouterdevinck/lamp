@@ -67,6 +67,11 @@ func (p *Protocol) GenKey() (string, error) {
 	return p.getString("genkey")
 }
 
+func (p *Protocol) WriteIoProtectionKey() error {
+	_, e := p.runCommand("iokey")
+	return e
+}
+
 func (p *Protocol) SignCsr(template *model.CsrTemplate) (string, error) {
 	return p.getString("signcsr", template.ToString())
 }

@@ -11,7 +11,7 @@ import (
 	"math/big"
 )
 
-func certificate(ctx *Context) error {
+func writeDataZone(ctx *Context) error {
 
 	// Check if the data zone is locked
 	locked, err := ctx.protocol.IsDataLocked()
@@ -22,6 +22,13 @@ func certificate(ctx *Context) error {
 	var cert string
 
 	if !locked {
+
+		// Write IO Protection Key
+		err := ctx.protocol.WriteIoProtectionKey()
+		if err != nil {
+			return err
+		}
+		fmt.Println("\nIO Protection Key written\n")
 
 		// Generate a new keypair
 		key, err := ctx.protocol.GenKey()

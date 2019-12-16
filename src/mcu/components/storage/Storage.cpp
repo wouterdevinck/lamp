@@ -1,4 +1,5 @@
 #include "Storage.h"
+#include "constants.h"
 
 using namespace lamp;
 using namespace std;
@@ -10,7 +11,7 @@ Storage::Storage() {
     ret = ::nvs_flash_init();
   }
   ESP_ERROR_CHECK(ret);
-  ESP_ERROR_CHECK(::nvs_open("storage", NVS_READWRITE, &_handle));
+  ESP_ERROR_CHECK(::nvs_open(NVS_NS_STORE, NVS_READWRITE, &_handle));
 }
 
 string Storage::getValue(string key) {

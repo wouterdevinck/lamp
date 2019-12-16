@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func configure(ctx *Context) error {
+func writeConfigZone(ctx *Context) error {
 
 	// Check if config is locked
 	locked, err := ctx.protocol.IsConfigLocked()

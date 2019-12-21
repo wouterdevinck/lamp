@@ -16,6 +16,7 @@ SPI::SPI(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int p
   bus_config.quadwp_io_num   = -1;
   bus_config.quadhd_io_num   = -1;
   bus_config.max_transfer_sz = 0;
+  bus_config.intr_flags      = 0;
   ESP_LOGI(tag, "Initializing bus - host=%d", host);
   esp_err_t errRc = ::spi_bus_initialize(host, &bus_config, dmaChannel);
   if (errRc != ESP_OK) {

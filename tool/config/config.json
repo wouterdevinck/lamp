@@ -1,0 +1,456 @@
+{
+  "I2CAddress": 192,
+  "Reserved17": 0,
+  "CountMatch": {
+    "CountMatchEnable": false,
+    "Reserved": 0,
+    "CountMatchKey": 0
+  },
+  "ChipMode": {
+    "SelectorWriteOnce": false,
+    "TTLEnable": false,
+    "WatchDogDuration": "1s",
+    "ClockDivider": 0
+  },
+  "SlotInfo": [
+    {
+      "Num": 0,
+      "SlotConfig": {
+        "PrivateKeySlotConfig": {
+          "ExtSignEnable": true,
+          "IntSignEnable": true,
+          "ECDHEnable": false,
+          "ECDHToNextSlot": false
+        },
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": true,
+        "WriteKey": 0,
+        "WriteConfig": 2
+      },
+      "KeyConfig": {
+        "Private": true,
+        "PubInfo": true,
+        "KeyType": "ECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 1,
+      "SlotConfig": {
+        "PrivateKeySlotConfig": {
+          "ExtSignEnable": true,
+          "IntSignEnable": true,
+          "ECDHEnable": false,
+          "ECDHToNextSlot": false
+        },
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": true,
+        "WriteKey": 0,
+        "WriteConfig": 2
+      },
+      "KeyConfig": {
+        "Private": true,
+        "PubInfo": true,
+        "KeyType": "ECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 2,
+      "SlotConfig": {
+        "PrivateKeySlotConfig": {
+          "ExtSignEnable": true,
+          "IntSignEnable": true,
+          "ECDHEnable": true,
+          "ECDHToNextSlot": true
+        },
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": true,
+        "WriteKey": 0,
+        "WriteConfig": 2
+      },
+      "KeyConfig": {
+        "Private": true,
+        "PubInfo": true,
+        "KeyType": "ECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 3,
+      "SlotConfig": {
+        "ReadKey": 4,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": true,
+        "IsSecret": true,
+        "WriteKey": 15,
+        "WriteConfig": 8
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": false,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 4,
+      "SlotConfig": {
+        "ReadKey": 15,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": true,
+        "WriteKey": 15,
+        "WriteConfig": 0
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": true,
+        "ReqRandom": true,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },    
+    {
+      "Num": 5,
+      "SlotConfig": {
+        "ReadKey": 15,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": true,
+        "WriteKey": 15,
+        "WriteConfig": 8
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": false,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 6,
+      "SlotConfig": {
+        "ReadKey": 15,
+        "NoMAC": true,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": true,
+        "WriteKey": 15,
+        "WriteConfig": 8
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": false,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 7,
+      "SlotConfig": {
+        "ReadKey": 15,
+        "NoMAC": false,
+        "LimitedUse": true,
+        "EncryptRead": false,
+        "IsSecret": true,
+        "WriteKey": 15,
+        "WriteConfig": 8
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": false,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 8,
+      "SlotConfig": {
+        "ReadKey": 0,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": false,
+        "WriteKey": 0,
+        "WriteConfig": 0
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 9,
+      "SlotConfig": {
+        "ReadKey": 0,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": false,
+        "WriteKey": 0,
+        "WriteConfig": 0
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 10,
+      "SlotConfig": {
+        "ReadKey": 0,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": false,
+        "WriteKey": 0,
+        "WriteConfig": 0
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 11,
+      "SlotConfig": {
+        "ReadKey": 0,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": false,
+        "WriteKey": 0,
+        "WriteConfig": 0
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 12,
+      "SlotConfig": {
+        "ReadKey": 0,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": false,
+        "WriteKey": 0,
+        "WriteConfig": 0
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 13,
+      "SlotConfig": {
+        "ReadKey": 0,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": false,
+        "WriteKey": 0,
+        "WriteConfig": 0
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 14,
+      "SlotConfig": {
+        "ReadKey": 0,
+        "NoMAC": false,
+        "LimitedUse": false,
+        "EncryptRead": false,
+        "IsSecret": false,
+        "WriteKey": 0,
+        "WriteConfig": 0
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": true,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    },
+    {
+      "Num": 15,
+      "SlotConfig": {
+        "ReadKey": 15,
+        "NoMAC": false,
+        "LimitedUse": true,
+        "EncryptRead": false,
+        "IsSecret": true,
+        "WriteKey": 15,
+        "WriteConfig": 8
+      },
+      "KeyConfig": {
+        "Private": false,
+        "PubInfo": false,
+        "KeyType": "NonECC",
+        "Lockable": false,
+        "ReqRandom": false,
+        "ReqAuth": false,
+        "AuthKey": 0,
+        "IntrusionDisable": false,
+        "X509ID": 0
+      }
+    }
+  ],
+  "Counter0": 18446744069414584320,
+  "Counter1": 18446744069414584320,
+  "UseLock": {
+    "UseLockEnable": 0,
+    "UseLockKey": 0
+  },
+  "VolatileKeyPermission": {
+    "VolatileKeyPermitSlot": 0,
+    "Reserved": 0,
+    "VolatileKeyPermitEnable": false
+  },
+  "SecureBoot": {
+    "SecureBootMode": 0,
+    "SecureBootPersistentEnable": false,
+    "SecureBootRandNonce": false,
+    "SecureBootSigDig": 0,
+    "SecureBootPubKey": 0,
+    "Reserved0": false,
+    "Reserved1": 0
+  },
+  "KdfIvLoc": 0,
+  "KdfIvStr": 0,
+  "Reserved68": 0,
+  "Reserved68b": 0,
+  "UserExtra": 0,
+  "UserExtraAdd": 0,
+  "LockValue": "Locked",
+  "LockConfig": "Locked",
+  "SlotLocked": 65535,
+  "ChipOptions": {
+    "PowerOnSelfTest": false,
+    "IoProtectionKeyEnable": true,
+    "KdfAesEnable": false,
+    "AutoClearFirstFail": false,
+    "EcdhProtectionBits": 0,
+    "KdfProtectionBits": 0,
+    "IoProtectionKey": 4
+  },
+  "X509Format": [
+    {
+      "PublicPosition": 0,
+      "TemplateLength": 0
+    },
+    {
+      "PublicPosition": 0,
+      "TemplateLength": 0
+    },
+    {
+      "PublicPosition": 0,
+      "TemplateLength": 0
+    },
+    {
+      "PublicPosition": 0,
+      "TemplateLength": 0
+    }
+  ]
+}

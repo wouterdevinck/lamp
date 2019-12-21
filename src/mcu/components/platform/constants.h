@@ -24,3 +24,17 @@
 #define SPI2_MISO_PIN (19)
 #define SPI2_CLK_PIN  (18)
 #define SPI2_CS_PIN   (5)
+
+#define I2C_SDA_PIN   (21)
+#define I2C_SCL_PIN   (22)
+
+#define NVS_NS_IOT    "factory"
+#define NVS_NS_STORE  "storage"
+
+#define IOT_HSM_KID   (1)
+#define IOT_HSM_IOKID (4)
+#define IOT_DPS_URL   "global.azure-devices-provisioning.net"
+#define IOT_DPS_IDS   "0ne00094B68"
+#define IOT_NVS_KEY   "certificate"
+
+#define NTP_SERVER    "pool.ntp.org"

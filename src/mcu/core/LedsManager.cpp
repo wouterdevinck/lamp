@@ -40,6 +40,7 @@ void LedsManager::start() const {
     _leds->setAllLeds(leds);
   }
   #endif
+  // _leds->setAllLeds(LampColors[(uint8_t)_color]);
 }
 
 void LedsManager::changeColor(LampColor color) {

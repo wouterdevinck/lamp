@@ -16,6 +16,7 @@ Platform::Platform() {
   _logger = new Logger();
   _httpserver = new HttpServer();
   _httpclient = new HttpClient(CHUNK_SIZE);
+  _iot = new AzureIot(_logger);
 }
 
 IIrReceiver* Platform::getIrReceiver() {
@@ -48,6 +49,10 @@ IHttpServer* Platform::getHttpServer() {
 
 IHttpClient* Platform::getHttpClient() {
   return _httpclient;
+}
+
+IIotFramework* Platform::getIotFramework() {
+  return _iot;
 }
 
 INvs* Platform::getStorage() {

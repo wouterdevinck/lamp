@@ -3,6 +3,10 @@
 
 using namespace lamp;
 
+Logger::Logger() {
+  ::esp_log_level_set("phy_init", ESP_LOG_INFO); 
+}
+
 void Logger::logError(string tag, string line) {
   esp_log_write(ESP_LOG_ERROR, tag.c_str(), LOG_COLOR_E "E (%d) %s: %s" LOG_RESET_COLOR "\n", esp_log_timestamp(), tag.c_str(), line.c_str());
 }

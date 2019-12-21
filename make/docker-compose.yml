@@ -15,3 +15,8 @@ services:
       context: .
       dockerfile: Dockerfile-fpga
     image: wouterdevinck/lamp-buildenv-fpga
+  tool:
+    build:
+      context: .
+      dockerfile: Dockerfile-tool
+    image: wouterdevinck/lamp-buildenv-tool

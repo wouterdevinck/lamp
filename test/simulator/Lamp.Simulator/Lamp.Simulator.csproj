@@ -73,6 +73,8 @@
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpServer.cs" />
     <Compile Include="HttpWebRequestExt.cs" />
+    <Compile Include="IotClient.cs" />
+    <Compile Include="IotFramework.cs" />
     <Compile Include="IrReceiver.cs" />
     <Compile Include="LedArray.cs" />
     <Compile Include="LedDisplay.xaml.cs">

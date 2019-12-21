@@ -35,6 +35,10 @@ IHttpClient* NativePlatform::getHttpClient() {
 	return m_owner->CallGetHttpClient();
 }
 
+IIotFramework * NativePlatform::getIotFramework() {
+	return m_owner->CallGetIotFramework();
+}
+
 INvs* NativePlatform::getStorage() {
 	return m_owner->CallGetStorage();
 }

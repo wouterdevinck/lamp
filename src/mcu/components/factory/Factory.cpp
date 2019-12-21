@@ -31,12 +31,12 @@ using namespace lamp;
 using namespace std;
 
 Factory::Factory() {
-  ATCAIfaceCfg cfg;
-  cfg.iface_type = ATCA_I2C_IFACE;
-  cfg.devtype = ATECC608A;
-  cfg.wake_delay = 1500;
-  cfg.rx_retries = 20;
-  if (atcab_init(&cfg) != ATCA_SUCCESS) {
+  ATCAIfaceCfg *cfg = (ATCAIfaceCfg*)malloc(sizeof(ATCAIfaceCfg));
+  cfg->iface_type = ATCA_I2C_IFACE;
+  cfg->devtype = ATECC608A;
+  cfg->wake_delay = 1500;
+  cfg->rx_retries = 20;
+  if (::atcab_init(cfg) != ATCA_SUCCESS) {
     ESP_LOGE(tag, "Failed to init ATECC608A!");
   }
 }
@@ -158,7 +158,8 @@ void Factory::process(string line) {
       resp << "fail input";
     } else {
       auto config = hex2bin(parts[1]);
-      auto status = ::atcab_write_bytes_zone(ATCA_ZONE_CONFIG, 0, 16, &config[0], (uint16_t)config.size());
+      auto status = ::atcab_write_bytes_zone(ATCA_ZONE_CONFIG, 0, 16, 
+        (const uint8_t*)&config[0], (uint16_t)config.size());
       if (status != ATCA_SUCCESS) {
         resp << "fail " << (unsigned)status;
       } else {

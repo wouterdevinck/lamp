@@ -12,7 +12,7 @@
 #define NVS_NAMESPACE NVS_NS_IOT
 #define NVS_KEY IOT_NVS_KEY
 
-static const char* TAG = "nvscrt.h";
+static const char* NVS_CRT_TAG = "nvscrt.h";
 
 typedef struct NvsCertDers {
   char* data;
@@ -48,31 +48,31 @@ int readNvsCertDer(NvsCertDer* der) {
   der->size = 0;
   err = nvs_flash_init();
   if (err != ESP_OK) {
-    ESP_LOGE(TAG, "Failed to init NVS");
+    ESP_LOGE(NVS_CRT_TAG, "Failed to init NVS");
     return 1;
   }
   err = nvs_open(NVS_NAMESPACE, NVS_READWRITE, &handle);
   if (err != ESP_OK) {
-    ESP_LOGE(TAG, "Failed to open NVS");
+    ESP_LOGE(NVS_CRT_TAG, "Failed to open NVS");
     return 2;
   }
   err = nvs_get_blob(handle, NVS_KEY, NULL, &der->size);
   if (err != ESP_OK) {
-    ESP_LOGE(TAG, "Failed to get NVS blob size");
+    ESP_LOGE(NVS_CRT_TAG, "Failed to get NVS blob size");
     return 3;
   }
   der->data = (char*)malloc(der->size + sizeof(char));
   if (der->data == NULL) {
-    ESP_LOGE(TAG, "Failed allocating certData");
+    ESP_LOGE(NVS_CRT_TAG, "Failed allocating certData");
     return 4;
   } 
   err = nvs_get_blob(handle, NVS_KEY, der->data, &der->size);
   if (err != ESP_OK) {
-    ESP_LOGE(TAG, "Failed to read NVS blob");
+    ESP_LOGE(NVS_CRT_TAG, "Failed to read NVS blob");
     return 5;
   }
   nvs_close(handle);
-  // ESP_LOG_BUFFER_HEX(TAG, der->data, der->size);
+  // ESP_LOG_BUFFER_HEX(NVS_CRT_TAG, der->data, der->size);
   return 0;
 }
 
@@ -92,7 +92,7 @@ char* readNvsCertPem() {
     buf, 1024, &olen);
   free(der);
   if (ret != 0) {
-    ESP_LOGE(TAG, "Failed to write PEM certificate");
+    ESP_LOGE(NVS_CRT_TAG, "Failed to write PEM certificate");
     return NULL;
   }
   buf[olen] = 0;
@@ -114,7 +114,7 @@ char* readNvsCn() {
   mbedtls_x509_crt_init(&crt);
   ret = mbedtls_x509_crt_parse_der(&crt, (const unsigned char*)der->data, der->size);
   if (ret != 0) {
-    ESP_LOGE(TAG, "Failed to parse DER certificate data");
+    ESP_LOGE(NVS_CRT_TAG, "Failed to parse DER certificate data");
     return NULL;
   }
   for (const mbedtls_x509_name *n = &crt.subject; n != NULL; n = n->next) {
@@ -127,7 +127,7 @@ char* readNvsCn() {
   }
   free(der);
   if (!gotcn) {
-    ESP_LOGE(TAG, "Failed to get CN from certificate");
+    ESP_LOGE(NVS_CRT_TAG, "Failed to get CN from certificate");
     return NULL;
   }
   return cn;

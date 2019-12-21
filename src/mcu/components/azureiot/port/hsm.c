@@ -3,6 +3,8 @@
 #include "esp_log.h"
 #include "nvscrt.h"
 
+static const char* TAG = "HSM";
+
 typedef struct CUSTOM_HSM_INFO_TAG {
   const char* certificate;
   const char* common_name;
@@ -18,7 +20,7 @@ void hsm_client_x509_deinit() {}
 HSM_CLIENT_HANDLE custom_hsm_create() {
   CUSTOM_HSM_INFO* info = malloc(sizeof(CUSTOM_HSM_INFO));
   if (info == NULL) {
-    printf("HSM: Failed allocating info\n");
+    ESP_LOGE(TAG, "Failed allocating info");
     return NULL;
   }
 
@@ -28,7 +30,7 @@ HSM_CLIENT_HANDLE custom_hsm_create() {
   // Certificate - get from NVS in flash
   char* pem = readNvsCertPem();
   if (pem == NULL) {
-    printf("HSM: Failed getting PEM certificate from NVS\n");
+    ESP_LOGE(TAG, "Failed getting PEM certificate from NVS");
     return NULL;
   }
   info->certificate = pem;
@@ -36,7 +38,7 @@ HSM_CLIENT_HANDLE custom_hsm_create() {
   // CN - read from certificate
   char* cn = readNvsCn();
   if (cn == NULL) {
-    printf("HSM: Failed getting CN\n");
+    ESP_LOGE(TAG, "Failed getting CN");
     return NULL;
   }
   info->common_name = cn;
@@ -54,13 +56,13 @@ void custom_hsm_destroy(HSM_CLIENT_HANDLE handle) {
 char* custom_hsm_get_certificate(HSM_CLIENT_HANDLE handle) {
   char* result;
   if (handle == NULL)     {
-    printf("HSM: Invalid handle value specified\n");
+    ESP_LOGE(TAG, "Invalid handle value specified");
     result = NULL;
   } else {
     CUSTOM_HSM_INFO* info = (CUSTOM_HSM_INFO*)handle;
     size_t len = strlen(info->certificate);
     if ((result = (char*)malloc(len + 1)) == NULL) {
-      printf("HSM: Failure allocating certificate\n");
+      ESP_LOGE(TAG, "Failure allocating certificate");
       result = NULL;
     } else {
       strcpy(result, info->certificate);
@@ -72,13 +74,13 @@ char* custom_hsm_get_certificate(HSM_CLIENT_HANDLE handle) {
 char* custom_hsm_get_key(HSM_CLIENT_HANDLE handle) {
   char* result;
   if (handle == NULL) {
-    printf("HSM: Invalid handle value specified\n");
+    ESP_LOGE(TAG, "Invalid handle value specified");
     result = NULL;
   } else {
     CUSTOM_HSM_INFO* info = (CUSTOM_HSM_INFO*)handle;
     size_t len = strlen(info->key);
     if ((result = (char*)malloc(len + 1)) == NULL) {
-      printf("HSM: Failure allocating certificate\r\n");
+      ESP_LOGE(TAG, "Failure allocating certificate");
       result = NULL;
     } else {
       strcpy(result, info->key);
@@ -90,13 +92,13 @@ char* custom_hsm_get_key(HSM_CLIENT_HANDLE handle) {
 char* custom_hsm_get_common_name(HSM_CLIENT_HANDLE handle) {
   char* result;
   if (handle == NULL)   {
-    printf("HSM: Invalid handle value specified\n");
+    ESP_LOGE(TAG, "Invalid handle value specified");
     result = NULL;
   } else {
     CUSTOM_HSM_INFO* info = (CUSTOM_HSM_INFO*)handle;
     size_t len = strlen(info->common_name);
     if ((result = (char*)malloc(len + 1)) == NULL) {
-      printf("HSM: Failure allocating certificate\n");
+      ESP_LOGE(TAG, "Failure allocating certificate");
       result = NULL;
     } else {
       strcpy(result, info->common_name);

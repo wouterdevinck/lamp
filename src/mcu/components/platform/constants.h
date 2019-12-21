@@ -36,3 +36,5 @@
 #define IOT_DPS_URL   "global.azure-devices-provisioning.net"
 #define IOT_DPS_IDS   "0ne00094B68"
 #define IOT_NVS_KEY   "certificate"
+
+#define NTP_SERVER    "pool.ntp.org"

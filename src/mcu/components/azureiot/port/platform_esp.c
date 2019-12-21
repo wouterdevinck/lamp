@@ -14,14 +14,14 @@
 
 #include "lwip/apps/sntp.h"
 
-static const char* TAG = "platform";
+static const char* TAG = "IOT platform";
 
 time_t sntp_get_current_timestamp();
 void initialize_sntp(void);
 
 int platform_init(void) {
   initialize_sntp();
-  printf("ESP platform sntp inited!\n");
+  ESP_LOGI(TAG, "ESP platform SNTP initialized!");
   time_t now = sntp_get_current_timestamp();
   char strftime_buf[64];
   struct tm timeinfo;

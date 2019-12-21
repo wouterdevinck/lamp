@@ -155,7 +155,7 @@ type KeyConfig struct {
 	ReqRandom        bool    // 6
 	ReqAuth          bool    // 7
 	AuthKey          uint8   // 8,9,10,11
-	IntrusionDisable bool    // 12
+	IntrusionDisable bool    // 12 = PersistentDisable on 608
 	// 13 - Reserved
 	X509ID uint8 // 14,15
 }

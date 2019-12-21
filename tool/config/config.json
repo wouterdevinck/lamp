@@ -55,7 +55,7 @@
         "EncryptRead": false,
         "IsSecret": true,
         "WriteKey": 0,
-        "WriteConfig": 8
+        "WriteConfig": 2
       },
       "KeyConfig": {
         "Private": true,
@@ -129,20 +129,20 @@
         "EncryptRead": false,
         "IsSecret": true,
         "WriteKey": 15,
-        "WriteConfig": 8
+        "WriteConfig": 0
       },
       "KeyConfig": {
         "Private": false,
         "PubInfo": false,
         "KeyType": "NonECC",
-        "Lockable": false,
-        "ReqRandom": false,
+        "Lockable": true,
+        "ReqRandom": true,
         "ReqAuth": false,
         "AuthKey": 0,
         "IntrusionDisable": false,
         "X509ID": 0
       }
-    },
+    },    
     {
       "Num": 5,
       "SlotConfig": {

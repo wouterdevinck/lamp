@@ -1,8 +1,8 @@
 diff --git a/components/esp-tls/esp_tls.c b/components/esp-tls/esp_tls.c
-index 861861d5d..93d3328b3 100644
+index 4e6b0b7e5..fe2333a48 100644
 --- a/components/esp-tls/esp_tls.c
 +++ b/components/esp-tls/esp_tls.c
-@@ -313,9 +313,21 @@ static int create_ssl_handle(esp_tls_t *tls, const char *hostname, size_t hostle
+@@ -321,9 +321,21 @@ static int create_ssl_handle(esp_tls_t *tls, const char *hostname, size_t hostle
              ESP_LOGE(TAG, "mbedtls_ssl_conf_own_cert returned -0x%x\n\n", -ret);
              goto exit;
          }
@@ -28,15 +28,15 @@ index 861861d5d..93d3328b3 100644
  
      mbedtls_ssl_conf_rng(&tls->conf, mbedtls_ctr_drbg_random, &tls->ctr_drbg);
 diff --git a/components/esp-tls/esp_tls.h b/components/esp-tls/esp_tls.h
-index 38538ed0a..031e7b986 100644
+index a1cceabe8..da24dbac2 100644
 --- a/components/esp-tls/esp_tls.h
 +++ b/components/esp-tls/esp_tls.h
-@@ -66,6 +66,8 @@ typedef struct esp_tls_cfg {
+@@ -69,6 +69,8 @@ typedef struct esp_tls_cfg {
      unsigned int clientcert_pem_bytes;      /*!< Size of client certificate pointed to by
                                                   clientcert_pem_buf */
  
 +    mbedtls_pk_context clientkey;
 +
-     const unsigned char *clientkey_pem_buf; /*!< Client key in a buffer */
+     const unsigned char *clientkey_pem_buf; /*!< Client key in a buffer
+                                                  This buffer should be NULL terminated */
  
-     unsigned int clientkey_pem_bytes;       /*!< Size of client key pointed to by

@@ -1,6 +1,7 @@
 #include "DpsClient.h"
 
 #include <sstream>
+#include <cstdlib>
 
 #include "azure_c_shared_utility/threadapi.h"
 #include "azure_c_shared_utility/crt_abstractions.h"
@@ -50,6 +51,10 @@ DpsContext* DpsClient::Register(string url, string idscope) {
   if ((handle = ::Prov_Device_LL_Create(url.c_str(), idscope.c_str(), ::Prov_Device_MQTT_Protocol)) == NULL) {
     _logger->logError(_tag, "Failed calling Prov_Device_LL_Create");
   } else {
+
+    bool traceOn = true;
+    ::Prov_Device_LL_SetOption(handle, PROV_OPTION_LOG_TRACE, &traceOn);
+
     if (::Prov_Device_LL_Register_Device(handle, registerCallback, ctx, statusCallback, ctx) != PROV_DEVICE_RESULT_OK) {
       _logger->logError(_tag, "Failed calling Prov_Device_LL_Register_Device");
     } else {

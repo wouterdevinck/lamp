@@ -195,30 +195,30 @@ static int tlsio_esp_tls_open_async(CONCRETE_IO_HANDLE tls_io,
   int result;
   if (on_io_open_complete == NULL) {
     LogError("Required parameter on_io_open_complete is NULL");
-    result = __FAILURE__;
+    result = MU_FAILURE;
   } else {
     if (tls_io == NULL) {
-      result = __FAILURE__;
+      result = MU_FAILURE;
       LogError("NULL tlsio");
     } else {
       if (on_bytes_received == NULL) {
         LogError("Required parameter on_bytes_received is NULL");
-        result = __FAILURE__;
+        result = MU_FAILURE;
       } else {
         if (on_io_error == NULL) {
           LogError("Required parameter on_io_error is NULL");
-          result = __FAILURE__;
+          result = MU_FAILURE;
         } else {
           TLS_IO_INSTANCE* tls_io_instance = (TLS_IO_INSTANCE*)tls_io;
           if (tls_io_instance->tlsio_state != TLSIO_STATE_CLOSED) {
             LogError("Invalid tlsio_state. Expected state is TLSIO_STATE_CLOSED.");
-            result = __FAILURE__;
+            result = MU_FAILURE;
           } else {
             // Note: modified here to pass ATECC608 context as private key
             mbedtls_pk_context pkey;
             if (atca_mbedtls_pk_init(&pkey, IOT_HSM_KID) != 0) {
               LogError("Failed to get key from ATCA device.");
-              result = __FAILURE__;
+              result = MU_FAILURE;
             } else {
               tls_io_instance->on_bytes_received = on_bytes_received;
               tls_io_instance->on_bytes_received_context = on_bytes_received_context;
@@ -251,11 +251,11 @@ static int tlsio_esp_tls_close_async(CONCRETE_IO_HANDLE tls_io, ON_IO_CLOSE_COMP
   int result;
   if (tls_io == NULL) {
     LogError("NULL tlsio");
-    result = __FAILURE__;
+    result = MU_FAILURE;
   } else {
     if (on_io_close_complete == NULL) {
       LogError("NULL on_io_close_complete");
-      result = __FAILURE__;
+      result = MU_FAILURE;
     } else {
       TLS_IO_INSTANCE* tls_io_instance = (TLS_IO_INSTANCE*)tls_io;
       if (tls_io_instance->tlsio_state != TLSIO_STATE_OPEN && tls_io_instance->tlsio_state != TLSIO_STATE_ERROR) {
@@ -343,36 +343,36 @@ static void tlsio_esp_tls_dowork(CONCRETE_IO_HANDLE tls_io) {
 static int tlsio_esp_tls_send_async(CONCRETE_IO_HANDLE tls_io, const void* buffer, size_t size, ON_SEND_COMPLETE on_send_complete, void* callback_context) {
   int result;
   if (on_send_complete == NULL) {
-    result = __FAILURE__;
+    result = MU_FAILURE;
     LogError("NULL on_send_complete");
   } else {
     if (tls_io == NULL) {
-      result = __FAILURE__;
+      result = MU_FAILURE;
       LogError("NULL tlsio");
     } else {
       if (buffer == NULL) {
-        result = __FAILURE__;
+        result = MU_FAILURE;
         LogError("NULL buffer");
       } else {
         if (size == 0) {
-          result = __FAILURE__;
+          result = MU_FAILURE;
           LogError("0 size");
         } else {
           TLS_IO_INSTANCE* tls_io_instance = (TLS_IO_INSTANCE*)tls_io;
           if (tls_io_instance->tlsio_state != TLSIO_STATE_OPEN) {
-            result = __FAILURE__;
+            result = MU_FAILURE;
             LogError("tlsio_esp_tls_send_async without a prior successful open");
           } else {
             PENDING_TRANSMISSION* pending_transmission = (PENDING_TRANSMISSION*)malloc(sizeof(PENDING_TRANSMISSION));
             if (pending_transmission == NULL) {
-              result = __FAILURE__;
+              result = MU_FAILURE;
               LogError("malloc failed");
             } else {
               pending_transmission->bytes = (unsigned char*)malloc(size);
               if (pending_transmission->bytes == NULL) {
                 LogError("malloc failed");
                 free(pending_transmission);
-                result = __FAILURE__;
+                result = MU_FAILURE;
               } else {
                 pending_transmission->size = size;
                 pending_transmission->unsent_size = size;
@@ -383,7 +383,7 @@ static int tlsio_esp_tls_send_async(CONCRETE_IO_HANDLE tls_io, const void* buffe
                   LogError("Unable to add socket to pending list.");
                   free(pending_transmission->bytes);
                   free(pending_transmission);
-                  result = __FAILURE__;
+                  result = MU_FAILURE;
                 } else {
                   dowork_send(tls_io_instance);
                   result = 0;
@@ -403,12 +403,12 @@ static int tlsio_esp_tls_setoption(CONCRETE_IO_HANDLE tls_io, const char* option
   int result;
   if (tls_io_instance == NULL) {
     LogError("NULL tlsio");
-    result = __FAILURE__;
+    result = MU_FAILURE;
   } else {
     TLSIO_OPTIONS_RESULT options_result = tlsio_options_set(&tls_io_instance->options, optionName, value);
     if (options_result != TLSIO_OPTIONS_RESULT_SUCCESS) {
       LogError("Failed tlsio_options_set");
-      result = __FAILURE__;
+      result = MU_FAILURE;
     } else {
       result = 0;
     }

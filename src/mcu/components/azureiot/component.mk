@@ -1,10 +1,6 @@
-CFLAGS += -Wno-unused-function 
-CFLAGS += -Wno-missing-braces 
-CFLAGS += -Wno-missing-field-initializers 
 CFLAGS += -DUSE_LWIP_SOCKET_FOR_AZURE_IOT
 CFLAGS += -DHSM_TYPE_X509
 CFLAGS += -DUSE_PROV_MODULE
-CFLAGS += -DESP_TLS_ATCA
 
 COMPONENT_ADD_INCLUDEDIRS := \
     . \
@@ -22,25 +18,22 @@ COMPONENT_ADD_INCLUDEDIRS := \
 	azure-iot-sdk-c/umqtt/inc/azure_umqtt_c \
 	azure-iot-sdk-c/deps/parson \
 	azure-iot-sdk-c/provisioning_client/inc \
-	azure-iot-sdk-c/provisioning_client/adapters \
-	azure-iot-sdk-c/provisioning_client/deps/utpm/inc
-
-# TODO Some of these may not be needed anymore
-
-	#azure-iot-sdk-c/c-utility/pal/dns_async.o 
-
+	azure-iot-sdk-c/provisioning_client/adapters 
 
 COMPONENT_OBJS = \
-	azure-iot-sdk-c/c-utility/pal/freertos/lock.o \
-	azure-iot-sdk-c/c-utility/pal/socket_async.o \
-	azure-iot-sdk-c/c-utility/pal/freertos/threadapi.o \
-	azure-iot-sdk-c/c-utility/pal/freertos/tickcounter.o \
-	azure-iot-sdk-c/c-utility/pal/tlsio_options.o \
+	DpsClient.o \
+	AzureIot.o \
+	AzureIotClient.o \
 	port/agenttime_esp.o \
 	port/platform_esp.o \
 	port/tlsio_esp_atca.o \
 	port/hsm.o \
 	port/socketio.o \
+	azure-iot-sdk-c/c-utility/pal/freertos/lock.o \
+	azure-iot-sdk-c/c-utility/pal/socket_async.o \
+	azure-iot-sdk-c/c-utility/pal/freertos/threadapi.o \
+	azure-iot-sdk-c/c-utility/pal/freertos/tickcounter.o \
+	azure-iot-sdk-c/c-utility/pal/tlsio_options.o \
 	azure-iot-sdk-c/c-utility/src/xlogging.o \
 	azure-iot-sdk-c/c-utility/src/singlylinkedlist.o \
 	azure-iot-sdk-c/c-utility/src/buffer.o \
@@ -114,20 +107,11 @@ COMPONENT_OBJS = \
 	azure-iot-sdk-c/provisioning_client/src/iothub_auth_client.o \
 	azure-iot-sdk-c/provisioning_client/src/iothub_security_factory.o \
 	azure-iot-sdk-c/provisioning_client/adapters/hsm_client_data.o \
-	azure-iot-sdk-c/provisioning_client/adapters/hsm_client_tpm.o \
 	azure-iot-sdk-c/provisioning_client/src/prov_auth_client.o \
-	azure-iot-sdk-c/provisioning_client/deps/utpm/src/tpm_codec.o \
-	azure-iot-sdk-c/provisioning_client/deps/utpm/src/Marshal.o \
-	azure-iot-sdk-c/provisioning_client/deps/utpm/src/tpm_comm_emulator.o \
-	azure-iot-sdk-c/provisioning_client/deps/utpm/src/Memory.o \
-	azure-iot-sdk-c/provisioning_client/deps/utpm/src/tpm_socket_comm.o \
 	azure-iot-sdk-c/iothub_client/src/iothub.o \
 	azure-iot-sdk-c/c-utility/src/http_proxy_io.o \
 	azure-iot-sdk-c/c-utility/src/azure_base64.o \
-	azure-iot-sdk-c/c-utility/src/azure_base32.o \
-	DpsClient.o \
-	AzureIot.o \
-	AzureIotClient.o
+	azure-iot-sdk-c/c-utility/src/azure_base32.o 
 
 COMPONENT_SRCDIRS := \
 	. \
@@ -143,7 +127,5 @@ COMPONENT_SRCDIRS := \
 	azure-iot-sdk-c/deps/parson \
 	azure-iot-sdk-c/prov_device_client/src \
 	azure-iot-sdk-c/iothub_client_mqtt_transport \
-	azure-iot-sdk-c/iothub_client_amqp_transport \
 	azure-iot-sdk-c/provisioning_client/src \
-	azure-iot-sdk-c/provisioning_client/adapters \
-	azure-iot-sdk-c/provisioning_client/deps/utpm/src 
+	azure-iot-sdk-c/provisioning_client/adapters 

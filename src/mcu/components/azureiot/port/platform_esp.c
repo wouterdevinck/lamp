@@ -15,19 +15,23 @@
 #include "lwip/apps/sntp.h"
 
 static const char* TAG = "IOT platform";
+static bool inited = false;
 
 time_t sntp_get_current_timestamp();
 void initialize_sntp(void);
 
 int platform_init(void) {
-  initialize_sntp();
-  ESP_LOGI(TAG, "ESP platform SNTP initialized!");
-  time_t now = sntp_get_current_timestamp();
-  char strftime_buf[64];
-  struct tm timeinfo;
-  localtime_r(&now, &timeinfo);
-  strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
-  ESP_LOGI(TAG, "The current date/time is: %s", strftime_buf);
+  if(!inited) {
+    inited = true;
+    initialize_sntp();
+    ESP_LOGI(TAG, "ESP platform SNTP initialized!");
+    time_t now = sntp_get_current_timestamp();
+    char strftime_buf[64];
+    struct tm timeinfo;
+    localtime_r(&now, &timeinfo);
+    strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
+    ESP_LOGI(TAG, "The current date/time is: %s", strftime_buf);
+  }
   return 0;
 }
 

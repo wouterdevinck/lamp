@@ -22,6 +22,7 @@ AzureIotClient::AzureIotClient(string hubUrl, string deviceId, IIotHandler* hand
   } else {
     ::IoTHubDeviceClient_LL_SetConnectionStatusCallback(_ctx->handle, &statusCallback, (void*)_ctx);
     ::IoTHubDeviceClient_LL_SetMessageCallback(_ctx->handle, &messageCallback, (void*)_ctx);
+    ::IoTHubDeviceClient_LL_SetDeviceMethodCallback(_ctx->handle, &dmCallback, (void*)_ctx);
     if (::xTaskCreate(&doWork, "doIotWork", 5 * 1024, (void*)_ctx, 5, NULL) != pdPASS) {
       logger->logError(_tag, "Create task failed");
     }
@@ -40,7 +41,9 @@ void AzureIotClient::statusCallback(IOTHUB_CLIENT_CONNECTION_STATUS result, IOTH
   (void)reason;
   auto that = (IotContext*)ctx;
   if (result == IOTHUB_CLIENT_CONNECTION_AUTHENTICATED) {
-    that->logger->logInfo(that->tag, "IOTHUB_CLIENT_CONNECTION_AUTHENTICATED");
+    that->logger->logInfo(that->tag, "Connected to IoT Hub");
+  } else {
+    that->logger->logError(that->tag, "Disconnected from IoT Hub");
   }
 }
 
@@ -48,7 +51,21 @@ IOTHUBMESSAGE_DISPOSITION_RESULT AzureIotClient::messageCallback(IOTHUB_MESSAGE_
   (void)message;
   auto that = (IotContext*)ctx;
   that->logger->logInfo(that->tag, "Message received");
+  // TODO
   return IOTHUBMESSAGE_ACCEPTED;
+}
+
+int AzureIotClient::dmCallback(const char* method, const unsigned char* payload, size_t size, unsigned char** response, size_t* response_size, void* ctx) {
+  auto that = (IotContext*)ctx;
+  string m(method);
+  string p((const char*)payload, size);
+  that->logger->logInfo(that->tag, "DM received: " + m);
+  string resp = that->handler->handleDirectMethod(m, p);
+  // that->logger->logInfo(that->tag, "Resp: " + resp);
+  *response_size = resp.length();
+  *response = (unsigned char*)malloc(*response_size);
+  memcpy(*response, resp.c_str(), *response_size );
+  return 200;
 }
 
 // IOTHUB_MESSAGE_HANDLE msg_handle = ::IoTHubMessage_CreateFromByteArray((const unsigned char*)msgText, strlen(msgText));

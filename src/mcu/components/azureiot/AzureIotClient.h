@@ -31,7 +31,8 @@ namespace lamp {
       static void doWork(void* ctx);
       static void statusCallback(IOTHUB_CLIENT_CONNECTION_STATUS result, IOTHUB_CLIENT_CONNECTION_STATUS_REASON reason, void* ctx);
       static IOTHUBMESSAGE_DISPOSITION_RESULT messageCallback(IOTHUB_MESSAGE_HANDLE message, void* ctx);
-      
+      static int dmCallback(const char* method, const unsigned char* payload, size_t size, unsigned char** response, size_t* response_size, void* ctx);
+
       const string _tag = "AzureIot.AzureIotClient";
 
   };

@@ -12,10 +12,7 @@ IIotClient* AzureIot::connect(IIotHandler* handler) {
   auto reg = _dps->Register(_dpsUrl, _dpsIdScope);
   if (reg->registered) {
     _logger->logInfo(_tag, "IoTHub URL: " + reg->result->url);
-    auto client = new AzureIotClient(reg->result->url, reg->result->deviceid, handler, _logger);
-    client->connect();
-    return client;
+    return new AzureIotClient(reg->result->url, reg->result->deviceid, handler, _logger);
   }
   return NULL;
-
 }

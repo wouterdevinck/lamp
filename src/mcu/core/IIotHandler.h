@@ -8,7 +8,7 @@ struct IIotHandler {
 
   virtual ~IIotHandler() noexcept = default;
 
-  virtual string handleDirectMethod(string method, string payload) = 0;
+  virtual string handleDirectMethod(string method, string payload) = 0; // also return int?
   // handle cloud to device message
   // handle twin desired property
 

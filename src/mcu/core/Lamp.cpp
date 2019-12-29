@@ -19,7 +19,7 @@ Lamp::Lamp(IPlatform* platform) {
   auto storage = _platform->getStorage();
   _upgrade = new UpgradeManager(updater, logger, httpclient);
   _httphandler = new HttpHandler(led, _upgrade, _manager);
-  _iothandler = new IotHandler();
+  _iothandler = new IotHandler(led);
   _wifihandler = new WiFiHandler(wifi, storage, httpserver, port, _httphandler, iot, _iothandler, led);
   wifi->setHandler(_wifihandler);
   #endif

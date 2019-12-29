@@ -2,6 +2,9 @@
 
 #include <string>
 
+#include "iothub_device_client_ll.h"
+#include "iothub_message.h"
+
 #include "IIotClient.h"
 #include "IIotHandler.h"
 #include "ILogger.h"
@@ -10,19 +13,26 @@ using namespace std;
 
 namespace lamp {
 
+  struct IotContext {
+    ILogger* logger;
+    string tag;
+    IIotHandler* handler;
+    IOTHUB_DEVICE_CLIENT_LL_HANDLE handle;
+  };
+
   class AzureIotClient : public IIotClient {
 
     public:
       explicit AzureIotClient(string hubUrl, string deviceId, IIotHandler* handler, ILogger* logger);
 
-      void connect();
-
     private:
-      string _hubUrl;
-      string _deviceId;
-      IIotHandler* _handler;
-      ILogger* _logger;
-      
+      IotContext* _ctx;
+
+      static void doWork(void* ctx);
+      static void statusCallback(IOTHUB_CLIENT_CONNECTION_STATUS result, IOTHUB_CLIENT_CONNECTION_STATUS_REASON reason, void* ctx);
+      static IOTHUBMESSAGE_DISPOSITION_RESULT messageCallback(IOTHUB_MESSAGE_HANDLE message, void* ctx);
+      static int dmCallback(const char* method, const unsigned char* payload, size_t size, unsigned char** response, size_t* response_size, void* ctx);
+
       const string _tag = "AzureIot.AzureIotClient";
 
   };

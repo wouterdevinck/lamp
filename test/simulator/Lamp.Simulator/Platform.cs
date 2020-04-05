@@ -16,6 +16,7 @@ namespace Lamp.Simulator {
         private LedArray _leds;
         private WiFiClient _wifi;
         private Nvs _nvs;
+        private LightSensor _lux;
         private int _port;
 
         public IrReceiver IrReceiver => _ir;
@@ -32,6 +33,7 @@ namespace Lamp.Simulator {
             _leds = new LedArray(ledDisplay);
             _wifi = new WiFiClient();
             _nvs = new Nvs();
+            _lux = new LightSensor();
             _port = port;
         }
 
@@ -73,6 +75,10 @@ namespace Lamp.Simulator {
 
         protected override AbstractNvs GetStorage() {
             return _nvs;
+        }
+
+        protected override AbstractLightSensor GetLightSensor() {
+            return _lux;
         }
 
         protected override int GetHttpServerPort() {

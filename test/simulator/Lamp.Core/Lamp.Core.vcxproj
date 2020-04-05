@@ -127,6 +127,7 @@
     <ClInclude Include="..\..\..\src\mcu\core\ILogger.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IRgbLed.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IUpdater.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\ILightSensor.h" />
     <ClInclude Include="..\..\..\src\mcu\core\HttpHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\IrHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\WiFiHandler.h" />

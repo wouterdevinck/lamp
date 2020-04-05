@@ -12,6 +12,7 @@ Platform::Platform() {
   _leds = new LedBoardChain(_spi1, PIN_LED_INT);
   _storage = new Storage();
   _wifi = new WiFiClient(_storage);
+  _lux = new LightSensor();
   _updater = new Updater(CHUNK_SIZE);
   _logger = new Logger();
   _httpserver = new HttpServer();
@@ -33,6 +34,10 @@ ILedBoardChain* Platform::getLedBoardChain() {
 
 IWiFiClient* Platform::getWiFiClient() {
   return _wifi;
+}
+
+ILightSensor* Platform::getLightSensor() {
+  return _lux;
 }
 
 IUpdater* Platform::getUpdater() {

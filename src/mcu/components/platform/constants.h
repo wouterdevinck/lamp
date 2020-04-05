@@ -25,8 +25,12 @@
 #define SPI2_CLK_PIN  (18)
 #define SPI2_CS_PIN   (5)
 
+#define I2C_BUS       I2C_NUM_0
 #define I2C_SDA_PIN   (21)
 #define I2C_SCL_PIN   (22)
+#define I2C_SPEED     100000
+#define I2C_ADDR_ATCA 0XC0 >> 1
+#define I2C_ADDR_TSL  0X29
 
 #define NVS_NS_IOT    "factory"
 #define NVS_NS_STORE  "storage"

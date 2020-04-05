@@ -6,6 +6,7 @@
 
 #ifndef BASIC
 #include "IWiFiClient.h"
+#include "ILightSensor.h"
 #include "IUpdater.h"
 #include "ILogger.h"
 #include "IHttpServer.h"
@@ -26,6 +27,7 @@ namespace lamp {
 
     #ifndef BASIC
     virtual IWiFiClient* getWiFiClient() = 0;
+    virtual ILightSensor* getLightSensor() = 0;
     virtual IUpdater* getUpdater() = 0;
     virtual ILogger* getLogger() = 0;
     virtual IHttpServer* getHttpServer() = 0;

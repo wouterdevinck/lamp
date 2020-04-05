@@ -6,6 +6,7 @@
 #include "RgbLed.h"
 #include "LedBoardChain.h"
 #include "WiFiClient.h"
+#include "LightSensor.h"
 #include "Updater.h"
 #include "Logger.h"
 #include "HttpServer.h"
@@ -26,6 +27,7 @@ namespace lamp {
       IRgbLed* getRgbLed() override;
       ILedBoardChain* getLedBoardChain() override;
       IWiFiClient* getWiFiClient() override;
+      ILightSensor* getLightSensor() override;
       IUpdater* getUpdater() override;
       ILogger* getLogger() override;
       IHttpServer* getHttpServer() override;
@@ -40,6 +42,7 @@ namespace lamp {
       RgbLed* _led;
       LedBoardChain* _leds;
       WiFiClient* _wifi;
+      LightSensor* _lux;
       Updater* _updater;
       Logger* _logger;
       HttpServer* _httpserver;

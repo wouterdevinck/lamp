@@ -43,6 +43,10 @@ INvs* NativePlatform::getStorage() {
 	return m_owner->CallGetStorage();
 }
 
+ILightSensor* NativePlatform::getLightSensor() {
+	return m_owner->CallGetLightSensor();
+}
+
 int NativePlatform::getHttpServerPort() {
 	return m_owner->CallGetHttpServerPort();
 }

@@ -148,6 +148,7 @@
     <ClInclude Include="AbstractNvs.h" />
     <ClInclude Include="AbstractUpdater.h" />
     <ClInclude Include="AbstractWiFiClient.h" />
+    <ClInclude Include="AbstractLightSensor.h" />
     <ClInclude Include="HttpHandlerWrapper.h" />
     <ClInclude Include="AbstractHttpServer.h" />
     <ClInclude Include="AbstractRgbLed.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="AbstractNvs.cpp" />
     <ClCompile Include="AbstractUpdater.cpp" />
     <ClCompile Include="AbstractWiFiClient.cpp" />
+    <ClCompile Include="AbstractLightSensor.cpp" />
     <ClCompile Include="HttpHandlerWrapper.cpp" />
     <ClCompile Include="AbstractHttpServer.cpp" />
     <ClCompile Include="AbstractRgbLed.cpp" />

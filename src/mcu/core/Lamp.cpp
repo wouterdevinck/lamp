@@ -1,5 +1,9 @@
 #include "Lamp.h"
 
+#ifndef BASIC
+#include <sstream>
+#endif
+
 using namespace lamp;
 
 Lamp::Lamp(IPlatform* platform) {
@@ -43,6 +47,10 @@ void Lamp::start() const {
     led->setLedColor({ 50, 50, 0 }); // Yellow = connecting
     wifi->connect(ssid, pwd);
   }
+  auto sensor = _platform->getLightSensor();
+  ostringstream log;
+  log << "Light sensor: " << sensor->getIlluminanceInLux() << " lux";
+  logger->logInfo("Lamp", log.str());
   #endif
   _manager->start();
   auto ir = _platform->getIrReceiver();

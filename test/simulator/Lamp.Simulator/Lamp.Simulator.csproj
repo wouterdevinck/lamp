@@ -95,6 +95,7 @@
     <Compile Include="RgbLed.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="WiFiClient.cs" />
+    <Compile Include="LightSensor.cs" />
     <Page Include="LedDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

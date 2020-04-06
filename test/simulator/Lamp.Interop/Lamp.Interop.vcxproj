@@ -115,7 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../../src/mcu/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src/mcu/core;../../../src/mcu/core/pal;../../../src/mcu/core/handler;../../../src/mcu/core/pal/handler;../../../src/mcu/core/pal/platform</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />

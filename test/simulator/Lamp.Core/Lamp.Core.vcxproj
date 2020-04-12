@@ -21,33 +21,33 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{139F21CB-AD6E-45CC-84A8-B1B6290B4E5E}</ProjectGuid>
     <RootNamespace>LampCore</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
     <ProjectName>Lamp.Core</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -69,7 +69,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>..\..\..\src\mcu\core\pal;..\..\..\src\mcu\core;C:\projects\lamp\src\mcu\core\pal\handler;..\..\..\src\mcu\core\pal\platform;..\..\..\src\mcu\core\handler;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>..\..\..\src\mcu\core\pal;..\..\..\src\mcu\core;C:\projects\lamp\src\mcu\core\pal\handler;..\..\..\src\mcu\core\pal\platform;..\..\..\src\mcu\core\handler;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -111,36 +116,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\mcu\core\IPlatform.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\INvs.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\ILedBoardChain.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IHttpHandler.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IHttpServer.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IIotClient.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IIotFramework.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IIotHandler.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IHttpClient.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IWiFiClient.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IIrReceiver.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IIrHandler.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IWiFiHandler.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\ILogger.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IRgbLed.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IUpdater.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\ILightSensor.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\HttpHandler.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IrHandler.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\WiFiHandler.h" />
-    <ClInclude Include="..\..\..\src\mcu\core\IotHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\IPlatform.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\handler\IHttpHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\handler\IIotHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\handler\IIrHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\handler\IWiFiHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\INvs.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\ILedBoardChain.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\IHttpServer.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\IIotClient.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\IIotFramework.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\IHttpClient.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\IWiFiClient.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\IIrReceiver.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\ILogger.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\IRgbLed.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\IUpdater.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\pal\platform\ILightSensor.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\handler\HttpHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\handler\IrHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\handler\WiFiHandler.h" />
+    <ClInclude Include="..\..\..\src\mcu\core\handler\IotHandler.h" />
     <ClInclude Include="..\..\..\src\mcu\core\UpgradeManager.h" />
     <ClInclude Include="..\..\..\src\mcu\core\LedsManager.h" />
     <ClInclude Include="..\..\..\src\mcu\core\Lamp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\mcu\core\HttpHandler.cpp" />
-    <ClCompile Include="..\..\..\src\mcu\core\IrHandler.cpp" />
-    <ClCompile Include="..\..\..\src\mcu\core\WiFiHandler.cpp" />
-    <ClCompile Include="..\..\..\src\mcu\core\IotHandler.cpp" />
+    <ClCompile Include="..\..\..\src\mcu\core\handler\HttpHandler.cpp" />
+    <ClCompile Include="..\..\..\src\mcu\core\handler\IrHandler.cpp" />
+    <ClCompile Include="..\..\..\src\mcu\core\handler\WiFiHandler.cpp" />
+    <ClCompile Include="..\..\..\src\mcu\core\handler\IotHandler.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\UpgradeManager.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\LedsManager.cpp" />
     <ClCompile Include="..\..\..\src\mcu\core\Lamp.cpp" />

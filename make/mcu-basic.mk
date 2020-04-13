@@ -23,11 +23,16 @@ C++FLAGS += -DBASIC
 C++FLAGS += -mmcu=$(DEVICE)
 C++FLAGS += -I$(STLDIR)
 C++FLAGS += -I$(COREDIR)
+C++FLAGS += -I$(COREDIR)pal
+C++FLAGS += -I$(COREDIR)pal/handler
+C++FLAGS += -I$(COREDIR)pal/platform
+C++FLAGS += -I$(COREDIR)handler
 C++FLAGS += -fno-exceptions
 
 OBJECTS = \
 	$(patsubst $(SRCDIR)%.cpp,$(OUTDIR)%.o,$(wildcard $(SRCDIR)*.cpp)) \
-	$(patsubst $(COREDIR)%.cpp,$(OUTDIR)%.o,$(wildcard $(COREDIR)*.cpp))
+	$(patsubst $(COREDIR)%.cpp,$(OUTDIR)%.o,$(wildcard $(COREDIR)*.cpp)) \
+	$(patsubst $(COREDIR)handler/%.cpp,$(OUTDIR)handler/%.o,$(wildcard $(COREDIR)handler/*.cpp))
 
 .PHONY: all
 all: $(OUTDIR)$(PROJ).hex
@@ -40,7 +45,7 @@ $(OUTDIR)%.elf: $(OBJECTS)
 	$(SIZE) --format=avr --mcu=$(DEVICE) $@
 
 $(OUTDIR)%.o: $(SRCDIR)%.cpp
-	mkdir -p $(OUTDIR)
+	mkdir -p $(OUTDIR)handler/
 	$(G++) $< $(C++FLAGS) -c -o $@
 
 $(OUTDIR)%.o: $(COREDIR)%.cpp

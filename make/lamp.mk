@@ -30,8 +30,7 @@ fpga:
 .PHONY: mcu
 mcu: $(BUILD_DIR)/fpga/lamp.bin $(BUILD_DIR)/fpga/lamp.hash
 	$(MAKE_IN_DOCKER) mcu clean-version
-	$(MAKE_IN_DOCKER) mcu defconfig
-	$(MAKE_IN_DOCKER) mcu
+	$(MAKE_IN_DOCKER) mcu build
 
 .PHONY: mcu-basic
 mcu-basic: 

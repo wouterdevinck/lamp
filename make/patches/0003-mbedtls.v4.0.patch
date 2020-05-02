@@ -1,0 +1,11 @@
+diff --git a/components/mbedtls/CMakeLists.txt b/components/mbedtls/CMakeLists.txt
+index 20e0a38..02f69f5 100644
+--- a/components/mbedtls/CMakeLists.txt
++++ b/components/mbedtls/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ idf_component_register(INCLUDE_DIRS "port/include" "mbedtls/include"
+-                    REQUIRES lwip)
++                    REQUIRES lwip cryptoauthlib)
+ 
+ # Only build mbedtls libraries
+ set(ENABLE_TESTING CACHE BOOL OFF)

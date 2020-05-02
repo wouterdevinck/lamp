@@ -3,8 +3,7 @@
 #include "IWiFiClient.h"
 #include "IWiFiHandler.h"
 #include "Storage.h"
-#include "esp_event_loop.h"
-#include "esp_smartconfig.h"
+#include "esp_event.h"
 
 namespace lamp {
 
@@ -20,8 +19,7 @@ namespace lamp {
 
     private:
       static IWiFiHandler* _handler;
-      static esp_err_t eventHandler(void *ctx, system_event_t *event);
-      static void smartConfigCallback(smartconfig_status_t status, void *pdata);
+      static void eventHandler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data);
 
   };
 

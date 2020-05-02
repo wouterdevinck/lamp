@@ -1,7 +1,9 @@
 #include "WiFiClient.h"
 #include "esp_log.h"
 #include "esp_wifi.h"
+#include "esp_smartconfig.h"
 #include "string.h"
+#include "stdlib.h"
 
 static char tag[] = "WiFiClient";
 
@@ -12,9 +14,12 @@ IWiFiHandler* WiFiClient::_handler = NULL;
 
 WiFiClient::WiFiClient(Storage* _) {
   ::tcpip_adapter_init();
-  ESP_ERROR_CHECK(::esp_event_loop_init(&eventHandler, NULL));
+  ESP_ERROR_CHECK(::esp_event_loop_create_default());
   wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
   ESP_ERROR_CHECK(::esp_wifi_init(&cfg));
+  ESP_ERROR_CHECK(::esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &eventHandler, NULL));
+  ESP_ERROR_CHECK(::esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &eventHandler, NULL));
+  ESP_ERROR_CHECK(::esp_event_handler_register(SC_EVENT, ESP_EVENT_ANY_ID, &eventHandler, NULL));
   ESP_ERROR_CHECK(::esp_wifi_set_mode(WIFI_MODE_STA));
 }
 
@@ -39,63 +44,37 @@ void WiFiClient::reconnect() {
 void WiFiClient::startSmartConfig() {
   ::esp_wifi_start();
   ::esp_smartconfig_set_type(SC_TYPE_ESPTOUCH);
-  ::esp_smartconfig_start(&smartConfigCallback);
+  smartconfig_start_config_t cfg = SMARTCONFIG_START_CONFIG_DEFAULT();
+  ::esp_smartconfig_start(&cfg);
 }
 
-esp_err_t WiFiClient::eventHandler(void *ctx, system_event_t *event) {
-  switch(event->event_id) {
-    case SYSTEM_EVENT_STA_START:
-      ::esp_wifi_connect();
-      break;
-    case SYSTEM_EVENT_STA_GOT_IP:
-      ESP_LOGI(tag, "Got ip: %s", ::ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
-      _handler->onConnected();
-      break;
-    case SYSTEM_EVENT_STA_DISCONNECTED:
-      ESP_LOGI(tag, "WiFi disconnected\n");
-      _handler->onDisconnected();
-      break;
-    case SYSTEM_EVENT_STA_CONNECTED:
-      ESP_LOGI(tag, "WiFi connected\n");
-      break;
-    default:
-      break;
-  }
-  return ESP_OK;
-}
-
-void WiFiClient::smartConfigCallback(smartconfig_status_t status, void *pdata) {
-  switch (status) {
-    case SC_STATUS_WAIT:
-      ESP_LOGI(tag, "Smart Config: WAIT");
-      break;
-    case SC_STATUS_FIND_CHANNEL:
-      ESP_LOGI(tag, "Smart Config: FIND_CHANNEL");
-      break;
-    case SC_STATUS_GETTING_SSID_PSWD:
-      ESP_LOGI(tag, "Smart Config: GETTING_SSID_PSWD");
-      break;
-    case SC_STATUS_LINK: 
-      {
-        ESP_LOGI(tag, "Smart Config: LINK");
-        auto wifi_config = (wifi_config_t*)pdata;
-        auto ssid = (char*)wifi_config->sta.ssid;
-        auto pwd = (char*)wifi_config->sta.password;
-        ESP_LOGI(tag, "SSID: %s", ssid);
-        ESP_LOGI(tag, "Password: %s", pwd);
-        _handler->onSmartConfig(string(ssid), string(pwd));
-      }
-      break;
-    case SC_STATUS_LINK_OVER:
-      ESP_LOGI(tag, "Smart Config: LINK_OVER");
-      if (pdata != NULL) {
-        uint8_t phone_ip[4] = { 0 };
-        memcpy(phone_ip, (uint8_t* )pdata, 4);
-        ESP_LOGI(tag, "Phone IP: %d.%d.%d.%d\n", phone_ip[0], phone_ip[1], phone_ip[2], phone_ip[3]);
-      }
-      ::esp_smartconfig_stop();
-      break;
-    default:
-      break;
+void WiFiClient::eventHandler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
+  if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+    ::esp_wifi_connect();
+  } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+    ESP_LOGI(tag, "WiFi disconnected\n");
+    _handler->onDisconnected();
+  } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_CONNECTED) {
+    ESP_LOGI(tag, "WiFi connected\n");
+  } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
+    ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
+    ESP_LOGI(tag, "Got ip: " IPSTR, IP2STR(&event->ip_info.ip));
+    _handler->onConnected();
+  } else if (event_base == SC_EVENT && event_id == SC_EVENT_SCAN_DONE) {
+    ESP_LOGI(tag, "Smart Config: SC_EVENT_SCAN_DONE");
+  } else if (event_base == SC_EVENT && event_id == SC_EVENT_FOUND_CHANNEL) {
+    ESP_LOGI(tag, "Smart Config: SC_EVENT_FOUND_CHANNEL");
+  } else if (event_base == SC_EVENT && event_id == SC_EVENT_GOT_SSID_PSWD) {
+    ESP_LOGI(tag, "Smart Config: SC_EVENT_GOT_SSID_PSWD");
+    smartconfig_event_got_ssid_pswd_t *evt = (smartconfig_event_got_ssid_pswd_t *)event_data;
+    uint8_t ssid[33] = { 0 };
+    uint8_t password[65] = { 0 };
+    ::memcpy(ssid, evt->ssid, sizeof(evt->ssid));
+    ::memcpy(password, evt->password, sizeof(evt->password));
+    ESP_LOGI(tag, "SSID: %s", ssid);
+    ESP_LOGI(tag, "Password: %s", password);
+    _handler->onSmartConfig(string(ssid, ssid + sizeof(ssid)), string(password, password + sizeof(password)));
+  } else if (event_base == SC_EVENT && event_id == SC_EVENT_SEND_ACK_DONE) {
+    ESP_LOGI(tag, "Smart Config: SC_EVENT_SEND_ACK_DONE");
   }
 }

@@ -1,2 +1,0 @@
-COMPONENT_ADD_INCLUDEDIRS := ../../core ../../core/handler ../../core/pal ../../core/pal/handler ../../core/pal/platform
-COMPONENT_SRCDIRS := ../../core ../../core/handler ../../core/pal ../../core/pal/handler ../../core/pal/platform

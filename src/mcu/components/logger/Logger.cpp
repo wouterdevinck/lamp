@@ -4,7 +4,7 @@
 using namespace lamp;
 
 Logger::Logger() {
-  ::esp_log_level_set("phy_init", ESP_LOG_INFO); 
+  ::esp_log_level_set("wpa", ESP_LOG_INFO); 
 }
 
 void Logger::logError(string tag, string line) {

@@ -1,41 +1,32 @@
 FROM ubuntu:19.10
-ARG ESPIDF_VERSION=v3.3.1
-ARG TOOLCHAIN_VERSION=1.22.0-80-g6c4433a-5.2.0
+ARG ESPIDF_VERSION=v4.0
 ENV ESPIDF_VERSION ${ESPIDF_VERSION}
-ENV TOOLCHAIN_VERSION ${TOOLCHAIN_VERSION}
+ENV IDF_PATH=/esp/esp-idf
+ENV IDF_TOOLS_PATH=/esp
+ENV DEBIAN_FRONTEND=noninteractive
 COPY patches /patches/
 RUN apt-get update && \ 
     apt-get install -y --no-install-recommends \
-      gcc \
-      git \
-      make \
-      patch \
-      wget \
-      libncurses-dev \
-      flex \
-      bison \
-      gperf \
-      python-pip \
-      python-setuptools \
-      python-serial \
-      python-cryptography \
-      python-future \
-      python-pyparsing \
+      git wget libncurses-dev flex gcc \
+      bison gperf python3 python3-pip \
+      python3-setuptools cmake ninja-build \
+      ccache libffi-dev libssl-dev \
+      make patch libusb-1.0-0-dev \
       ca-certificates && \
     apt-get autoremove -yqq && \
     apt-get autoclean -yqq && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/apt && \ 
     mkdir -p /esp && \
     cd /esp && \ 
-    wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-$TOOLCHAIN_VERSION.tar.gz && \
-    tar -xzf xtensa-esp32-elf-linux64-$TOOLCHAIN_VERSION.tar.gz && \ 
-    rm xtensa-esp32-elf-linux64-$TOOLCHAIN_VERSION.tar.gz && \
     git clone --depth 1 --recursive -b $ESPIDF_VERSION https://github.com/espressif/esp-idf.git && \ 
     cd esp-idf && \
     for i in /patches/*.$ESPIDF_VERSION.patch; do patch -p1 < $i; done && \
-    cd .. && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3 10 && \
+    python -m pip install wheel && \
+    python -m pip install --upgrade pip virtualenv && \
     python -m pip install --user -r /esp/esp-idf/requirements.txt && \
-    rm -rf esp-idf/.git && \
-    rm -rf /patches
-ENV PATH /esp/xtensa-esp32-elf/bin:$PATH
-ENV IDF_PATH /esp/esp-idf
+    /esp/esp-idf/install.sh && \
+    rm -rf /patches && \
+    rm -rf $IDF_TOOLS_PATH/dist
+COPY mcu-entrypoint.sh /esp/entrypoint.sh
+ENTRYPOINT [ "/esp/entrypoint.sh" ]

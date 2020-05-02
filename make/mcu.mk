@@ -1,20 +1,25 @@
 PROJECT_NAME := lamp
 
 PWD := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-PROJECT_PATH := $(abspath $(PWD)../src/mcu)
-BUILD_DIR_BASE := $(abspath $(PWD)../build/mcu)
-BUILD_DIR_CORE := $(abspath $(PWD)../build/core)
+SRCDIR := $(abspath $(PWD)../src/mcu)
+OUTDIR := $(abspath $(PWD)../build/mcu)
+FPGADIR := $(abspath $(PWD)../build/fpga)
 
-export PWD
-export PROJECT_PATH
+export PROJECT_NAME
 
-include $(IDF_PATH)/make/project.mk
+.PHONY: build
+build:
+	$(PWD)build-mcu.sh reconfigure $(SRCDIR) $(OUTDIR)
+	$(PWD)build-mcu.sh build $(SRCDIR) $(OUTDIR)
+
+.PHONY: menuconfig
+menuconfig:
+	$(PWD)build-mcu.sh menuconfig $(SRCDIR) $(OUTDIR)
 
 .PHONY: clean-dir
 clean-dir:
-	rm -rf $(BUILD_DIR_BASE)
-	rm -rf $(BUILD_DIR_CORE)
+	rm -rf $(OUTDIR)
 
 .PHONY: clean-version
 clean-version:
-	rm -rf $(BUILD_DIR_BASE)/updater/version.h
+	rm -rf $(OUTDIR)/esp-idf/updater/version.h

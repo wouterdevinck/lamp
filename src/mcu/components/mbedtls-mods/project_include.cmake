@@ -3,9 +3,9 @@
 # rather than the built-in sofware implementations.
 
 # Diffie-Hellman
-CPPFLAGS += -DMBEDTLS_ECDH_GEN_PUBLIC_ALT
-CPPFLAGS += -DMBEDTLS_ECDH_COMPUTE_SHARED_ALT
+add_definitions(-DMBEDTLS_ECDH_GEN_PUBLIC_ALT)
+add_definitions(-DMBEDTLS_ECDH_COMPUTE_SHARED_ALT)
 
 # Signatures
-CPPFLAGS += -DMBEDTLS_ECDSA_SIGN_ALT
-CPPFLAGS += -DMBEDTLS_ECDSA_VERIFY_ALT
+add_definitions(-DMBEDTLS_ECDSA_SIGN_ALT)
+add_definitions(-DMBEDTLS_ECDSA_VERIFY_ALT)

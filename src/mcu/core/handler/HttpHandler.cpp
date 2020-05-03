@@ -4,7 +4,7 @@
 
 using namespace lamp;
 	
-string HttpHandler::handleHttpRequest(string method, string path) {
+string HttpHandler::handleHttpRequest(string method, string path, string query, string body) {
   if (method == "GET") {
     if (path == "/r") {
       const RgbLedColor color = { 255, 0, 0 };
@@ -22,7 +22,7 @@ string HttpHandler::handleHttpRequest(string method, string path) {
   }
   if (method == "POST") {
     if (path == "/upgrade") {
-      auto url = "https://github.com/wouterdevinck/lamp/releases/download/0.7.0/lamp.bin"; // TODO get from form
+      auto url = urlDecode(body.substr(4));
       if (_upgrade->upgrade(url)) {
         return "Upgrade completed";
       } else {
@@ -45,7 +45,7 @@ string HttpHandler::handleHttpRequest(string method, string path) {
     "  <a href=\"/b\">BLUE</a>\n"
     "  <h1>Upgrade</h1>\n"
     "  <form action=\"upgrade\" method=\"POST\">\n"
-    "    <input type=\"text\" name=\"url\" disabled value=\"https://github.com/wouterdevinck/lamp/releases/download/0.7.0/lamp.bin\" size=\"60\"><br />\n"
+    "    <input type=\"text\" name=\"url\" value=\"https://github.com/wouterdevinck/lamp/releases/download/0.8.1/lamp.bin\" size=\"60\"><br />\n"
     "    <input type=\"submit\" value=\"Upgrade\">\n"
     "  </form>\n"
     "  <footer>\n"
@@ -53,6 +53,27 @@ string HttpHandler::handleHttpRequest(string method, string path) {
     "  </footer>\n"
     "</body>\n"
     "</html>\n";
+}
+
+string HttpHandler::urlDecode(string str){
+  string ret;
+  char ch;
+  int i, ii, len = str.length();
+  for (i=0; i < len; i++) {
+    if(str[i] != '%') {
+      if(str[i] == '+') {
+        ret += ' ';
+      } else {
+        ret += str[i];
+      }
+    } else {
+      sscanf(str.substr(i + 1, 2).c_str(), "%x", &ii);
+      ch = static_cast<char>(ii);
+      ret += ch;
+      i = i + 2;
+    }
+  }
+  return ret;
 }
 
 #endif

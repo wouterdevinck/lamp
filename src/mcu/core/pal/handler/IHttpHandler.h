@@ -10,7 +10,7 @@ namespace lamp {
 
     virtual ~IHttpHandler() noexcept = default;
 
-    virtual string handleHttpRequest(string method, string path) = 0;
+    virtual string handleHttpRequest(string method, string path, string query, string body) = 0;
 
   };
 

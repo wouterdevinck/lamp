@@ -54,7 +54,9 @@ void HttpServer::mongooseEventHandler(struct mg_connection* nc, int ev, void* ev
       auto message = (struct http_message*)evData;
       string path(message->uri.p, message->uri.len);
       string method(message->method.p, message->method.len);
-      auto resp = _handler->handleHttpRequest(method, path); 
+      string query(message->query_string.p, message->query_string.len);
+      string body(message->body.p, message->body.len);
+      auto resp = _handler->handleHttpRequest(method, path, query, body); 
       ::mg_send_head(nc, 200, resp.length(), "Content-Type: text/html");
       ::mg_printf(nc, "%s", resp.c_str());
       nc->flags |= MG_F_SEND_AND_CLOSE;

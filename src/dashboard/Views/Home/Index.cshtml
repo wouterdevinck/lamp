@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+@ViewBag.User
+
+@await foreach (var device in (IAsyncEnumerable<string>)ViewBag.Devices) {
+    <p>@device - @Html.ActionLink("red", "Color", "Home", new { id = device, color = "red" }, null) - @Html.ActionLink("green", "Color", "Home", new { id = device, color = "green" }, null) - @Html.ActionLink("blue", "Color", "Home", new { id = device, color = "blue" }, null)</p>
+}

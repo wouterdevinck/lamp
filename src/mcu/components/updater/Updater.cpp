@@ -11,7 +11,8 @@ static char tag[] = "Updater";
 using namespace lamp;
 using namespace std;
 
-Updater::Updater(uint16_t chunkSize) {
+Updater::Updater(SpiFlash* spi, uint16_t chunkSize) {
+  _spi = spi;
   _chunkSize = chunkSize;
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
   ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);

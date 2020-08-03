@@ -8,11 +8,13 @@
 using namespace lamp;
 
 void UpgradeManager::start() const {
-  // TODO logs
   auto running = _updater->getRunningFpgaHash();
   auto installed = _updater->getInstalledFpgaHash();
   if (running != installed) {
+    _logger->logInfo(_tag, "FPGA update available - flashing bitstream");
     _updater->flashFpga();
+  } else {
+    _logger->logDebug(_tag, "FPGA is up to date");
   }
 }
 

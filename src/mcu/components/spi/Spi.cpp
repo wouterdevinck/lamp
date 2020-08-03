@@ -1,11 +1,11 @@
 // Inspired by: https://github.com/nkolban/esp32-snippets/tree/master/cpp_utils/SPI.cpp
 
-#include "SPI.h"
+#include "Spi.h"
 #include <esp_log.h>
 
-static char tag[] = "SPI";
+static char tag[] = "Spi";
 
-SPI::SPI(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int pinClk, int pinCs) {
+Spi::Spi(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int pinClk, int pinCs) {
   _handle = nullptr;
   _host = host;
   ESP_LOGD(tag, "mosi=%d, miso=%d, clk=%d, cs=%d", pinMosi, pinMiso, pinClk, pinCs);
@@ -25,19 +25,19 @@ SPI::SPI(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int p
   	abort();
   }
   spi_device_interface_config_t dev_config;
-  dev_config.address_bits     = 0;
-  dev_config.command_bits     = 0;
-  dev_config.dummy_bits       = 0;
+  // dev_config.address_bits     = 0;
+  // dev_config.command_bits     = 0;
+  // dev_config.dummy_bits       = 0;
   dev_config.mode             = 0;
-  dev_config.duty_cycle_pos   = 0;
-  dev_config.cs_ena_posttrans = 0;
-  dev_config.cs_ena_pretrans  = 0;
-  dev_config.clock_speed_hz   = 100000;
+  // dev_config.duty_cycle_pos   = 0;
+  // dev_config.cs_ena_posttrans = 0;
+  // dev_config.cs_ena_pretrans  = 0;
+  dev_config.clock_speed_hz   = 10 * 1000 * 1000; // 10 MHz
   dev_config.spics_io_num     = pinCs;
-  dev_config.flags            = SPI_DEVICE_HALFDUPLEX; // TODO
+  // dev_config.flags            = SPI_DEVICE_HALFDUPLEX; // TODO
   dev_config.queue_size       = 1;
   dev_config.pre_cb           = NULL;
-  dev_config.post_cb          = NULL;
+  // dev_config.post_cb          = NULL;
   ESP_LOGI(tag, "Adding device bus");
   errRc = ::spi_bus_add_device(host, &dev_config, &_handle);
   if (errRc != ESP_OK) {
@@ -46,14 +46,14 @@ SPI::SPI(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int p
   }
 }
 
-SPI::~SPI() {
+Spi::~Spi() {
   ESP_LOGI(tag, "Removing device");
   ESP_ERROR_CHECK(::spi_bus_remove_device(_handle));
   ESP_LOGI(tag, "Freeing bus");
   ESP_ERROR_CHECK(::spi_bus_free(_host));
 }
 
-void SPI::transfer(uint8_t* data, size_t dataLen) {
+void Spi::transfer(uint8_t* data, size_t dataLen) {
   assert(data != nullptr);
   assert(dataLen > 0);
   spi_transaction_t trans_desc;
@@ -70,7 +70,7 @@ void SPI::transfer(uint8_t* data, size_t dataLen) {
   }
 }
 
-uint8_t SPI::transferByte(uint8_t value) {
+uint8_t Spi::transferByte(uint8_t value) {
   transfer(&value, 1);
   return value;
 } 

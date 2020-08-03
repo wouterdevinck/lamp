@@ -14,7 +14,8 @@
 #include "AzureIot.h"
 #include "Storage.h"
 
-#include "SPI.h"
+#include "Spi.h"
+#include "SpiFlash.h"
 
 namespace lamp {
 
@@ -37,7 +38,8 @@ namespace lamp {
       int getHttpServerPort() override;
 
     private:
-      SPI* _spi1;
+      Spi* _spi1;
+      SpiFlash* _spi2;
       IrReceiver* _ir;
       RgbLed* _led;
       LedBoardChain* _leds;

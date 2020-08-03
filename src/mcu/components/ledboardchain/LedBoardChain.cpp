@@ -11,7 +11,7 @@ static char tag[] = "LedBoardChain";
 
 using namespace lamp;
 
-LedBoardChain::LedBoardChain(SPI* spi, int pinInt) {
+LedBoardChain::LedBoardChain(Spi* spi, int pinInt) {
   _spi = spi;
   _ready = true;
   _info = new ChainInfo(0); // TODO

@@ -1,5 +1,6 @@
 #include "Updater.h"
 #include "version.h"
+#include "constants.h"
 #include "esp_log.h"
 #include "esp_system.h"
 
@@ -11,8 +12,9 @@ static char tag[] = "Updater";
 using namespace lamp;
 using namespace std;
 
-Updater::Updater(SpiFlash* flash, uint16_t chunkSize) {
+Updater::Updater(SpiFlash* flash, Storage* storage, uint16_t chunkSize) {
   _flash = flash;
+  _storage = storage;
   _chunkSize = chunkSize;
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
   ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);
@@ -33,8 +35,7 @@ string Updater::getRunningVersion() {
 }
 
 string Updater::getRunningFpgaHash() {
-  // TODO
-  return "";
+  return _storage->getValue(FPGA_NVS_KEY);
 }
 
 string Updater::getInstalledFpgaHash() {
@@ -105,6 +106,7 @@ bool Updater::flashFpga() {
   }
   // TODO Release FPGA reset
   ESP_LOGD(tag, "Completed flashing FPGA");
+  _storage->setValue(FPGA_NVS_KEY, FPGA_HASH);
   return true;
 }
 

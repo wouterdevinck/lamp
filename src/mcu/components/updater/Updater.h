@@ -2,6 +2,7 @@
 
 #include "IUpdater.h"
 #include "SpiFlash.h"
+#include "Storage.h"
 #include "esp_ota_ops.h"
 #include <cstdint>
 
@@ -14,7 +15,7 @@ namespace lamp {
   class Updater : public IUpdater {
 
     public:
-      explicit Updater(SpiFlash* flash, uint16_t chunkSize);
+      explicit Updater(SpiFlash* flash, Storage* storage, uint16_t chunkSize);
 
       string getRunningVersion() override;
       string getRunningFpgaHash() override;
@@ -30,6 +31,7 @@ namespace lamp {
 
     private:
       SpiFlash* _flash;
+      Storage* _storage;
       uint16_t _chunkSize;
       esp_ota_handle_t _otaHandle;
       const esp_partition_t* _otaTarget;

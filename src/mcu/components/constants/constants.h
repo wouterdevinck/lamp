@@ -58,3 +58,6 @@
 
 // NTP server
 #define NTP_SERVER     "pool.ntp.org"
+
+// Upgrade
+#define FPGA_NVS_KEY   "fpgahash"

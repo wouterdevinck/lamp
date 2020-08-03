@@ -14,7 +14,7 @@ Platform::Platform() {
   _storage = new Storage();
   _wifi = new WiFiClient(_storage);
   _lux = new LightSensor();
-  _updater = new Updater(_spi2, CHUNK_SIZE);
+  _updater = new Updater(_spi2, _storage, CHUNK_SIZE);
   _logger = new Logger();
   _httpserver = new HttpServer();
   _httpclient = new HttpClient(CHUNK_SIZE);

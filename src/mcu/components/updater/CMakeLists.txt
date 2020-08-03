@@ -1,6 +1,6 @@
 idf_component_register(SRCS "Updater.cpp"
     INCLUDE_DIRS "." "${CMAKE_CURRENT_BINARY_DIR}"
-    REQUIRES lamp-core app_update spi
+    REQUIRES lamp-core app_update spi storage
     EMBED_FILES ${COMPONENT_DIR}/../../../../build/fpga/lamp.bin)
 
 get_filename_component(version_header

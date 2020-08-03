@@ -3,6 +3,7 @@
 #include "constants.h"
 #include "esp_log.h"
 #include "esp_system.h"
+#include "driver/gpio.h"
 
 // #include <iomanip>
 // #include <sstream>
@@ -16,6 +17,9 @@ Updater::Updater(SpiFlash* flash, Storage* storage, uint16_t chunkSize) {
   _flash = flash;
   _storage = storage;
   _chunkSize = chunkSize;
+  ::gpio_reset_pin((gpio_num_t)PIN_FPGA_RESET);
+  ::gpio_set_direction((gpio_num_t)PIN_FPGA_RESET, GPIO_MODE_OUTPUT);
+  ::gpio_set_level((gpio_num_t)PIN_FPGA_RESET, 1);
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
   ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);
   /* ostringstream dbg;
@@ -90,7 +94,7 @@ bool Updater::completeUpgrade() {
 
 bool Updater::flashFpga() {
   ESP_LOGD(tag, "Flashing FPGA...");
-  // TODO Hold FPGA in reset
+  ::gpio_set_level((gpio_num_t)PIN_FPGA_RESET, 0);
   bool res = _flash->init();
   if (!res) {
     return false;
@@ -104,7 +108,7 @@ bool Updater::flashFpga() {
   if (!res) {
     return false;
   }
-  // TODO Release FPGA reset
+  ::gpio_set_level((gpio_num_t)PIN_FPGA_RESET, 1);
   ESP_LOGD(tag, "Completed flashing FPGA");
   _storage->setValue(FPGA_NVS_KEY, FPGA_HASH);
   return true;

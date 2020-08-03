@@ -11,8 +11,8 @@ static char tag[] = "Updater";
 using namespace lamp;
 using namespace std;
 
-Updater::Updater(SpiFlash* spi, uint16_t chunkSize) {
-  _spi = spi;
+Updater::Updater(SpiFlash* flash, uint16_t chunkSize) {
+  _flash = flash;
   _chunkSize = chunkSize;
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
   ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);
@@ -88,10 +88,33 @@ bool Updater::completeUpgrade() {
 }
 
 bool Updater::flashFpga() {
-  // TODO
+  ESP_LOGD(tag, "Flashing FPGA...");
+  // TODO Hold FPGA in reset
+  bool res = _flash->init();
+  if (!res) {
+    return false;
+  }
+  uint len = fpga_image_end - fpga_image_start;
+  res = _flash->erase(0, roundUp(len * 2, 4096));
+  if (!res) {
+    return false;
+  }
+  res = _flash->write(fpga_image_start, 0, len);
+  if (!res) {
+    return false;
+  }
+  // TODO Release FPGA reset
+  ESP_LOGD(tag, "Completed flashing FPGA");
   return true;
 }
 
 uint16_t Updater::getPreferredChunkSize() {
   return _chunkSize;
+}
+
+int Updater::roundUp(int numToRound, int multiple) {
+  if (multiple == 0) return numToRound;
+  int remainder = numToRound % multiple;
+  if (remainder == 0) return numToRound;
+  return numToRound + multiple - remainder;
 }

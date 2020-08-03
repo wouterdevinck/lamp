@@ -14,7 +14,7 @@ namespace lamp {
   class Updater : public IUpdater {
 
     public:
-      explicit Updater(SpiFlash* spi, uint16_t chunkSize);
+      explicit Updater(SpiFlash* flash, uint16_t chunkSize);
 
       string getRunningVersion() override;
       string getRunningFpgaHash() override;
@@ -29,10 +29,11 @@ namespace lamp {
       uint16_t getPreferredChunkSize() override;
 
     private:
-      SpiFlash* _spi;
+      SpiFlash* _flash;
       uint16_t _chunkSize;
       esp_ota_handle_t _otaHandle;
       const esp_partition_t* _otaTarget;
+      int roundUp(int numToRound, int multiple);
 
   };
 

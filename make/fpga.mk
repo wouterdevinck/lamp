@@ -18,15 +18,15 @@ $(OUTDIR)%.asc: $(SRCDIR)%.pcf $(OUTDIR)%.blif
 $(OUTDIR)%.bin: $(OUTDIR)%.asc
 	icepack $< $@
 
-$(OUTDIR)%.vvp: $(SIMDIR)%_tb.v
+$(OUTDIR)%.vvp: $(SIMDIR)%_tb.v $(SRCDIR)*.v
 	mkdir -p $(OUTDIR)
 	iverilog -I $(SRCDIR) -o $@ $<
 
 $(OUTDIR)%.vcd: $(OUTDIR)%.vvp
 	vvp $< -n
 
-$(OUTDIR)$(PROJ).hash:
-	cat $(SRCDIR)* | sha256sum | head -c 64 > $@
+$(OUTDIR)$(PROJ).hash: $(SRCDIR)*.v  $(SRCDIR)*.pcf
+	cat $^ | sha256sum | head -c 64 > $@
 
 .PHONY: lint
 lint: 

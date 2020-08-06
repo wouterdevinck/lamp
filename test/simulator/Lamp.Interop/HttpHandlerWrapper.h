@@ -24,11 +24,13 @@ namespace LampInterop {
 		}
 		IHttpHandler* Native() { return pUnmanaged; }
 
-		String^ HandleHttpRequest(String^ method, String^ path) {
+		String^ HandleHttpRequest(String^ method, String^ path, String^ query, String^ body) {
 			if (!pUnmanaged) throw gcnew ObjectDisposedException("HttpHandlerWrapper");
 			string m = MarshalHelper::Convert(method);
 			string p = MarshalHelper::Convert(path);
-			string r = pUnmanaged->handleHttpRequest(m, p);
+			string q = MarshalHelper::Convert(query);
+			string b = MarshalHelper::Convert(body);
+			string r = pUnmanaged->handleHttpRequest(m, p, q, b);
 			return MarshalHelper::Convert(r);
 		} 
 

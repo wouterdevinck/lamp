@@ -6,7 +6,7 @@ os:
 - linux
 script:
 - make
-- "./make/get-simulator-from-appveyor.sh $APPVEYOR_TOKEN `git describe --tags --dirty`"
+- "./make/get-simulator-from-appveyor.sh $APPVEYOR_TOKEN `git describe --tags`"
 deploy:
   provider: releases
   api_key:

@@ -6,14 +6,15 @@ using namespace lamp;
 
 Platform::Platform() {
   MemMon memmon(MEMMON_PERIOD);
-  _spi1 = new SPI(SPI1_HOST, SPI1_DMA_CH, SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_CLK_PIN, SPI1_CS_PIN);
+  _spi1 = new Spi(SPI1_ESP_HOST, SPI1_DMA_CH, SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_CLK_PIN, SPI1_CS_PIN);
+  _spi2 = new SpiFlash(SPI2_ESP_HOST, SPI2_DMA_CH, SPI2_MOSI_PIN, SPI2_MISO_PIN, SPI2_CLK_PIN, SPI2_CS_PIN);
   _ir = new IrReceiver();
   _led = new RgbLed(PIN_RGB_RED, PIN_RGB_GREEN, PIN_RGB_BLUE);
   _leds = new LedBoardChain(_spi1, PIN_LED_INT);
   _storage = new Storage();
   _wifi = new WiFiClient(_storage);
   _lux = new LightSensor();
-  _updater = new Updater(CHUNK_SIZE);
+  _updater = new Updater(_spi2, _storage, CHUNK_SIZE);
   _logger = new Logger();
   _httpserver = new HttpServer();
   _httpclient = new HttpClient(CHUNK_SIZE);

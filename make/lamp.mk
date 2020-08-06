@@ -14,12 +14,6 @@ all:
 	$(MAKE) tool
 	$(MAKE) collect
 
-$(BUILD_DIR)/fpga/lamp.bin:
-	$(MAKE) fpga
-
-$(BUILD_DIR)/fpga/lamp.hash:
-	$(MAKE) fpga
-
 .PHONY: fpga
 fpga:
 	$(MAKE_IN_DOCKER) fpga lint
@@ -28,7 +22,9 @@ fpga:
 	$(MAKE_IN_DOCKER) fpga
 
 .PHONY: mcu
-mcu: $(BUILD_DIR)/fpga/lamp.bin $(BUILD_DIR)/fpga/lamp.hash
+mcu:
+	$(MAKE_IN_DOCKER) fpga hash
+	$(MAKE_IN_DOCKER) fpga
 	$(MAKE_IN_DOCKER) mcu clean-version
 	$(MAKE_IN_DOCKER) mcu build
 
@@ -57,6 +53,7 @@ clean:
 
 .PHONY: flash-mcu
 flash-mcu:
+	$(MAKE) collect
 	$(IDF_PATH)/components/esptool_py/esptool/esptool.py \
 	  --chip esp32 --port $(MCU_TTY) --baud 115200 \
 	  --before default_reset --after hard_reset write_flash -z \

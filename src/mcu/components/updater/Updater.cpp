@@ -1,7 +1,10 @@
 #include "Updater.h"
 #include "version.h"
+#include "constants.h"
 #include "esp_log.h"
 #include "esp_system.h"
+#include "driver/gpio.h"
+#include "freertos/task.h"
 
 // #include <iomanip>
 // #include <sstream>
@@ -11,7 +14,9 @@ static char tag[] = "Updater";
 using namespace lamp;
 using namespace std;
 
-Updater::Updater(uint16_t chunkSize) {
+Updater::Updater(SpiFlash* flash, Storage* storage, uint16_t chunkSize) {
+  _flash = flash;
+  _storage = storage;
   _chunkSize = chunkSize;
   ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
   ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);
@@ -32,8 +37,7 @@ string Updater::getRunningVersion() {
 }
 
 string Updater::getRunningFpgaHash() {
-  // TODO
-  return "";
+  return _storage->getValue(FPGA_NVS_KEY);
 }
 
 string Updater::getInstalledFpgaHash() {
@@ -87,10 +91,38 @@ bool Updater::completeUpgrade() {
 }
 
 bool Updater::flashFpga() {
-  // TODO
+  ESP_LOGD(tag, "Flashing FPGA...");
+  ::gpio_reset_pin((gpio_num_t)PIN_FPGA_RESET);
+  ::gpio_set_direction((gpio_num_t)PIN_FPGA_RESET, GPIO_MODE_OUTPUT);
+  ::gpio_set_level((gpio_num_t)PIN_FPGA_RESET, 1);
+  ::vTaskDelay(30 / portTICK_PERIOD_MS);
+  ::gpio_set_level((gpio_num_t)PIN_FPGA_RESET, 0);
+  bool res = _flash->init();
+  if (!res) {
+    return false;
+  }
+  uint len = fpga_image_end - fpga_image_start;
+  res = _flash->erase(0, roundUp(len * 2, 4096));
+  if (!res) {
+    return false;
+  }
+  res = _flash->write(fpga_image_start, 0, len);
+  if (!res) {
+    return false;
+  }
+  ::gpio_set_level((gpio_num_t)PIN_FPGA_RESET, 1);
+  ESP_LOGD(tag, "Completed flashing FPGA");
+  _storage->setValue(FPGA_NVS_KEY, FPGA_HASH);
   return true;
 }
 
 uint16_t Updater::getPreferredChunkSize() {
   return _chunkSize;
+}
+
+int Updater::roundUp(int numToRound, int multiple) {
+  if (multiple == 0) return numToRound;
+  int remainder = numToRound % multiple;
+  if (remainder == 0) return numToRound;
+  return numToRound + multiple - remainder;
 }

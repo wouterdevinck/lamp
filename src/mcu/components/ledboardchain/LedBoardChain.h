@@ -3,7 +3,7 @@
 #include <queue>
 
 #include "ILedBoardChain.h"
-#include "SPI.h"
+#include "Spi.h"
 
 #define FRAMERATE (120)
 
@@ -16,7 +16,7 @@ namespace lamp {
   class LedBoardChain : public ILedBoardChain {
 
     public:
-      explicit LedBoardChain(SPI* spi, int pinInt);
+      explicit LedBoardChain(Spi* spi, int pinInt);
 
       void addKeyframe(KeyFrame keyframe) override;
       void setAllLeds(LedValue color) override;
@@ -26,7 +26,7 @@ namespace lamp {
       ChainInfo* getChainInfo() override;
 
     private:
-      SPI* _spi;
+      Spi* _spi;
       queue<KeyFrame> _frames;
       bool _ready;
       ChainInfo* _info;

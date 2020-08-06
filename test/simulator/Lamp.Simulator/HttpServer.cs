@@ -29,7 +29,13 @@ namespace Lamp.Simulator {
                         ThreadPool.QueueUserWorkItem(c => {
                             if (!(c is HttpListenerContext ctx)) return;
                             try {
-                                var rstr = handler.HandleHttpRequest(ctx.Request.HttpMethod, ctx.Request.RawUrl);
+                                // TODO: pass query string and body
+                                var rstr = handler.HandleHttpRequest(
+                                    ctx.Request.HttpMethod, 
+                                    ctx.Request.RawUrl,
+                                    "TODO",
+                                    "TODO"
+                                );
                                 var buf = Encoding.UTF8.GetBytes(rstr);
                                 ctx.Response.ContentLength64 = buf.Length;
                                 ctx.Response.OutputStream.Write(buf, 0, buf.Length);

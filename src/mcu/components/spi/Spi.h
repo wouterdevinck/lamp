@@ -5,11 +5,11 @@
 #include <driver/spi_master.h>
 #include <driver/gpio.h>
 
-class SPI {
+class Spi {
 
   public:
-    SPI(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int pinClk, int pinCs);
-    virtual ~SPI();
+    Spi(spi_host_device_t host, int dmaChannel, int pinMosi, int pinMiso, int pinClk, int pinCs);
+    virtual ~Spi();
     void transfer(uint8_t *data, size_t dataLen);
     uint8_t transferByte(uint8_t value);
 

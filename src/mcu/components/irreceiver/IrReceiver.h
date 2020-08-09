@@ -11,6 +11,10 @@ namespace lamp {
 
       void start(IIrHandler* handler) override;
 
+    private:
+      static void rxTask(void* parameters);
+
+
   };
 
 }

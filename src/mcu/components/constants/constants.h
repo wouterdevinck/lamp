@@ -14,6 +14,9 @@
 #define PIN_RGB_GREEN  (32)
 #define PIN_RGB_RED    (25)
 
+// IR receiver
+#define PIN_IR_RX      (34)
+
 // Interrupt from FPGA to request data
 #define PIN_LED_INT    (39)
 

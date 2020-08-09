@@ -18,8 +18,11 @@ Updater::Updater(SpiFlash* flash, Storage* storage, uint16_t chunkSize) {
   _flash = flash;
   _storage = storage;
   _chunkSize = chunkSize;
-  ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
+  ::gpio_reset_pin((gpio_num_t)PIN_FPGA_CDONE);
+  ::gpio_set_direction((gpio_num_t)PIN_FPGA_CDONE, GPIO_MODE_INPUT);
   ESP_LOGD(tag, "Lamp version: %s", LAMP_VERSION);
+  ESP_LOGD(tag, "FPGA version: %s", FPGA_HASH);
+  ESP_LOGD(tag, "FPGA CDONE: %s", ::gpio_get_level((gpio_num_t)PIN_FPGA_CDONE) ? "true" : "false");
   /* ostringstream dbg;
   dbg << endl;
   for (int i = 0; i < fpga_image_end - fpga_image_start; ++i) {

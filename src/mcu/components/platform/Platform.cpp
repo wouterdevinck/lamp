@@ -6,6 +6,7 @@ using namespace lamp;
 
 Platform::Platform() {
   MemMon memmon(MEMMON_PERIOD);
+  // TODO Consistency: sometimes pins are passed, sometimes not
   _spi1 = new Spi(SPI1_ESP_HOST, SPI1_DMA_CH, SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_CLK_PIN, SPI1_CS_PIN);
   _spi2 = new SpiFlash(SPI2_ESP_HOST, SPI2_DMA_CH, SPI2_MOSI_PIN, SPI2_MISO_PIN, SPI2_CLK_PIN, SPI2_CS_PIN);
   _ir = new IrReceiver();
@@ -19,6 +20,7 @@ Platform::Platform() {
   _httpserver = new HttpServer();
   _httpclient = new HttpClient(CHUNK_SIZE);
   _iot = new AzureIot(_logger);
+  _microphone = new Microphone();
 }
 
 IIrReceiver* Platform::getIrReceiver() {

@@ -13,6 +13,7 @@
 #include "HttpClient.h"
 #include "AzureIot.h"
 #include "Storage.h"
+#include "Microphone.h"
 
 #include "Spi.h"
 #include "SpiFlash.h"
@@ -35,6 +36,7 @@ namespace lamp {
       IHttpClient* getHttpClient() override;
       IIotFramework* getIotFramework() override;
       INvs* getStorage() override;
+      // IMicrophone* getMicrophone() override; // TODO
       int getHttpServerPort() override;
 
     private:
@@ -51,6 +53,7 @@ namespace lamp {
       HttpClient* _httpclient;
       AzureIot* _iot;
       Storage* _storage;
+      Microphone* _microphone;
 
   };
 

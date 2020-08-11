@@ -1,5 +1,4 @@
 PROJ = lamp
-DEVICE = -d 5k -P sg48
 
 SRCDIR = src/fpga/
 SIMDIR = test/fpga/
@@ -8,12 +7,12 @@ OUTDIR = build/fpga/
 .PHONY: all
 all: $(OUTDIR)$(PROJ).bin
 
-$(OUTDIR)%.blif: $(SRCDIR)%.v
+$(OUTDIR)%.json: $(SRCDIR)%.v
 	mkdir -p $(OUTDIR)
-	yosys -v 3 -p 'synth_ice40 -top $(PROJ) -blif $@' $<
+	yosys -v 3 -p 'synth_ice40 -top $(PROJ) -json $@ -dsp' $<
 
-$(OUTDIR)%.asc: $(SRCDIR)%.pcf $(OUTDIR)%.blif
-	arachne-pnr -o $@ -p $^ $(DEVICE)
+$(OUTDIR)%.asc: $(SRCDIR)%.pcf $(OUTDIR)%.json
+	nextpnr-ice40 --up5k --package sg48 --json $(word 2,$^) --pcf $< --asc $@ --freq 2
 
 $(OUTDIR)%.bin: $(OUTDIR)%.asc
 	icepack $< $@
